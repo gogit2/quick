@@ -1,0 +1,47 @@
+{
+  "$comment": "Headless permissions for plan-spec.sh (new spec from --input / --story).",
+  "permissions": {
+    "allow": [
+      "Read",
+      "Glob",
+      "Grep",
+      "Edit",
+      "Write",
+      "TodoWrite",
+      "Skill",
+      "Bash(.specify/scripts/bash/*)",
+      "Bash(bash .specify/scripts/bash/*)",
+      "Bash(ls:*)",
+      "Bash(cat:*)",
+      "Bash(mkdir:*)",
+      "Bash(cp:*)",
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(git branch:*)",
+      "Bash(git rev-parse:*)",
+      "Bash(jq:*)",
+      "Bash(grep:*)",
+      "Bash(find:*)",
+      "Bash(head:*)",
+      "Bash(wc:*)"
+    ],
+    "deny": [
+      "Edit(backend/**)",
+      "Write(backend/**)",
+      "Edit(frontend/**)",
+      "Write(frontend/**)",
+      "Edit(scripts/**)",
+      "Write(scripts/**)",
+      "Edit(loops/**)",
+      "Write(loops/**)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(git checkout:*)",
+      "Bash(git reset:*)",
+      "WebFetch",
+      "WebSearch"
+    ],
+    "defaultMode": "acceptEdits"
+  }
+}

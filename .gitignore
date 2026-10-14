@@ -1,0 +1,20 @@
+# dependencies / builds
+node_modules/
+tools/.browsers/
+backend/target/
+backend/data/
+frontend/dist/
+frontend/.angular/
+
+# runtime
+run-artifacts/pids/
+run-artifacts/backend-latest.jar
+run-artifacts/logs/servers/
+*.lock
+.specify/feature.json
+
+# local
+.claude/settings.local.json
+.idea/
+.vscode/
+*.log
