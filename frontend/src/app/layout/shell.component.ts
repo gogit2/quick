@@ -1,8 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
+
+import { NotificationService } from '../core/notification.service';
 
 interface NavItem {
   label: string;
@@ -14,11 +17,22 @@ interface NavItem {
 @Component({
   selector: 'qf-shell',
   standalone: true,
-  imports: [RouterLink, RouterLinkActive, RouterOutlet, MatListModule, MatSidenavModule, MatToolbarModule],
+  imports: [
+    RouterLink,
+    RouterLinkActive,
+    RouterOutlet,
+    MatButtonModule,
+    MatListModule,
+    MatSidenavModule,
+    MatToolbarModule,
+  ],
   templateUrl: './shell.component.html',
   styleUrl: './shell.component.scss',
 })
 export class ShellComponent {
+  // Created with the shell, so the start notice runs from app start.
+  readonly notifications = inject(NotificationService);
+
   readonly navItems: NavItem[] = [
     { label: 'Dashboard', path: '/dashboard', testId: 'nav-dashboard' },
     { label: 'Tasks', path: '/tasks', testId: 'nav-tasks' },

@@ -39,6 +39,7 @@ export class PlansApi {
 
   // Idempotent. Returns the plan with startNotified=true.
   acknowledgeStart(planId: number): Observable<Plan> {
-    return this.http.post<Plan>(`${this.url}/${planId}/acknowledge-start`, {});
+    // The contract declares no request body; a JSON body makes the server answer 415.
+    return this.http.post<Plan>(`${this.url}/${planId}/acknowledge-start`, null);
   }
 }

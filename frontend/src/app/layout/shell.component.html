@@ -2,6 +2,15 @@
   <span>QuickFlow</span>
 </mat-toolbar>
 
+@if (notifications.banner(); as notice) {
+  <div class="start-banner" role="status" data-testid="plans-start-banner">
+    <span>Plan {{ notice.title }} has started</span>
+    <button mat-button type="button" data-testid="plans-start-banner-dismiss" (click)="notifications.dismiss()">
+      Dismiss
+    </button>
+  </div>
+}
+
 <mat-sidenav-container class="container">
   <mat-sidenav mode="side" opened class="sidenav">
     <mat-nav-list>

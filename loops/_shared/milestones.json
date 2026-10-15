@@ -494,15 +494,15 @@
       ]
     },
     "M05": {
-      "status": "building",
+      "status": "passed",
       "trial": 0,
       "upgraded": false,
-      "cost_usd": 0.0,
+      "cost_usd": 4.058815,
       "upgrade_cost_usd": 0.0,
-      "verify_rounds": 0,
+      "verify_rounds": 1,
       "started_at": "2026-10-15T04:10:55+03:00",
-      "ended_at": null,
-      "tag": null,
+      "ended_at": "2026-10-15T06:54:41+03:00",
+      "tag": "M05",
       "blocked_reason": null,
       "title": "Plans",
       "slug": "plans",
@@ -510,57 +510,113 @@
       "roles": {
         "backend-dev": {
           "tasks": 9,
-          "status": "building",
-          "iterations": 1,
-          "attempt_iterations": 1,
+          "status": "built",
+          "iterations": 3,
+          "attempt_iterations": 3,
           "attempt_cap": 5,
           "started_at": "2026-10-15T04:10:55+03:00",
-          "ended_at": null,
-          "tokens_in": 0,
-          "tokens_out": 0,
-          "cache_read": 0,
-          "cache_write": 0,
-          "cost_usd": 0.0,
-          "sessions": [],
-          "models": [],
-          "last_result": null
+          "ended_at": "2026-10-15T06:44:02+03:00",
+          "tokens_in": 124,
+          "tokens_out": 75732,
+          "cache_read": 4377057,
+          "cache_write": 180250,
+          "cost_usd": 0.185134,
+          "sessions": [
+            "91ef3e79-22c9-4565-b730-59a7d5bd49a6",
+            "933527ae-f854-4b0d-9643-568701c8f61e"
+          ],
+          "models": [
+            "claude-haiku-5-5"
+          ],
+          "last_result": {
+            "milestone": "M05",
+            "result": "built",
+            "tasks_done": [
+              "T060",
+              "T061",
+              "T062",
+              "T063",
+              "T064",
+              "T065",
+              "T066",
+              "T067",
+              "T068"
+            ],
+            "open_tasks": 0,
+            "selfcheck": "cd backend && ./mvnw -q verify: green (159 tests, 0 failures). scripts/backend.sh start --port 8091 --db selfcheck --fresh: healthy. curl-regression --upto M05 on a fresh db: 5 suites, 0 failed (M01 6/6, M02 14/14, M03 13/13, M04 12/12, M05 16/16). export-swagger --ms M05: PASS, 34 operations, no diff. Server stopped.",
+            "notes": "Iter 3 built T065-T068 (PlanItemCleanup, PlanController, PlanServiceTest and PlanControllerTest, curl suite M05.sh) and ran the full self-check. Evidence in outputs/evidence/M05/. No contract issues or assumptions added."
+          },
+          "last_gate": "pass"
         },
         "frontend-dev": {
           "tasks": 7,
-          "status": "building",
-          "iterations": 1,
-          "attempt_iterations": 1,
+          "status": "built",
+          "iterations": 4,
+          "attempt_iterations": 4,
           "attempt_cap": 5,
           "started_at": "2026-10-15T04:10:55+03:00",
-          "ended_at": null,
-          "tokens_in": 0,
-          "tokens_out": 0,
-          "cache_read": 0,
-          "cache_write": 0,
-          "cost_usd": 0.0,
-          "sessions": [],
-          "models": [],
-          "last_result": null
+          "ended_at": "2026-10-15T06:45:50+03:00",
+          "tokens_in": 214,
+          "tokens_out": 106830,
+          "cache_read": 10158034,
+          "cache_write": 375274,
+          "cost_usd": 0.695678,
+          "sessions": [
+            "c1b36576-5445-47a4-bc62-c3327a0e0ec5",
+            "527c37c6-d36e-4fe7-a4d0-9072a64e873c",
+            "fe239e73-8d98-4cac-87d2-7b6963ab7aa4"
+          ],
+          "models": [
+            "claude-haiku-5-5"
+          ],
+          "last_result": {
+            "milestone": "M05",
+            "result": "built",
+            "tasks_done": [
+              "T069",
+              "T070",
+              "T071",
+              "T072",
+              "T073",
+              "T074",
+              "T075"
+            ],
+            "open_tasks": 0,
+            "selfcheck": "npx ng build (frontend/): passes, 500 kB budget warning only. Mock on :4010 and dev server on :4300 started by script. E2E-M05-01..08 executed with the Playwright MCP, all passed (0 console errors after the acknowledge-start body fix); E2E-M05-09 real_stack_only. Evidence: outputs/evidence/M05/result.json (passed: true). Both servers stopped by script.",
+            "notes": "Iter 4: fixed acknowledge-start (contract has no requestBody; a JSON body gave 415, now posts with no body). T074 and T075 ticked. Screenshots in run-artifacts/playwright/ (tool cannot write into outputs/evidence). Mock is stateless, so post-write progress and deletes are checked on the real stack by the verifier."
+          },
+          "last_gate": "pass"
         },
         "verify": {
           "tasks": 0,
-          "status": "pending",
-          "iterations": 0,
+          "status": "passed",
+          "iterations": 1,
           "attempt_iterations": 0,
           "attempt_cap": null,
-          "started_at": null,
-          "ended_at": null,
-          "tokens_in": 0,
-          "tokens_out": 0,
-          "cache_read": 0,
-          "cache_write": 0,
-          "cost_usd": 0.0,
-          "sessions": [],
-          "models": [],
+          "started_at": "2026-10-15T06:45:50+03:00",
+          "ended_at": "2026-10-15T06:54:40+03:00",
+          "tokens_in": 114,
+          "tokens_out": 24813,
+          "cache_read": 6398633,
+          "cache_write": 175195,
+          "cost_usd": 3.178003,
+          "sessions": [
+            "fcda09fc-cf2c-4f73-adc5-0737c232c05e"
+          ],
+          "models": [
+            "claude-opus-5-5"
+          ],
           "last_result": null
         }
       },
-      "events": []
+      "events": [
+        {
+          "at": "2026-10-15T06:54:40+03:00",
+          "type": "verdict",
+          "role": "verify",
+          "detail": "round 1: PASS (0 small fixes)"
+        }
+      ]
     },
     "M06": {
       "status": "pending",

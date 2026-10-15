@@ -1,0 +1,18 @@
+{
+  "milestone": "M05",
+  "passed": true,
+  "finished_at": "2026-10-15T06:44:45+03:00",
+  "iteration": 4,
+  "against": "Prism mock (scripts/mock.sh, :4010) + Angular dev server (scripts/frontend.sh, :4300), Playwright MCP 0.0.40",
+  "scenarios": [
+    { "id": "E2E-M05-01", "passed": true, "steps": 7, "screenshot": "", "console_errors": 0, "notes": "Builder filled (title, 90 min, window 2026-10-16 09:00-11:00, priority 1, one task, one habit, one learning card). POST /api/plans 201, body has 3 items (TASK, HABIT, LEARNING_RESOURCE). Dialog closed, both groups reloaded. No screenshot taken (dialog already closed at capture time)." },
+    { "id": "E2E-M05-02", "passed": true, "steps": 4, "screenshot": "", "console_errors": 0, "notes": "No items: 'Pick at least one task, habit or learning resource.' End before start: 'End must be after start.' Duration 0 and -5: 'Enter a whole number of minutes, 1 or more.' Priority 0: 'Enter a whole number, 1 or more.' 0 POSTs in all cases. Cancel closes the dialog with no request." },
+    { "id": "E2E-M05-03", "passed": true, "steps": 3, "screenshot": "", "console_errors": 0, "notes": "Duration 120 in a 60-minute window: warning 'plans-form-duration-warning' shown before save. Save still sends POST /api/plans (201)." },
+    { "id": "E2E-M05-04", "passed": true, "steps": 5, "screenshot": "run-artifacts/playwright/E2E-M05-04-groups.png", "console_errors": 0, "notes": "plans-group-active and plans-group-completed both render plans-card-1 (mock artefact: same plan in both groups). plans-status-1 'In progress', plans-priority-1 'Priority 1', plans-rest-1 'Rest 1h 28m 52s', plans-progress-1 '1 of 3 items (33%)'." },
+    { "id": "E2E-M05-05", "passed": true, "steps": 3, "screenshot": "", "console_errors": 0, "notes": "Clicking the input inside plans-item-toggle-2 sends PUT /api/plans/1/items/2 {\"done\":true}, 200. The mock returns the same plan, so progress still reads 1 of 3 (mock artefact); the checkbox shows checked." },
+    { "id": "E2E-M05-06", "passed": true, "steps": 3, "screenshot": "", "console_errors": 0, "notes": "plans-rest-1 went from 'Rest 1h 28m 51s' to 'Rest 1h 28m 46s' over 5 s at app clock 09:30Z." },
+    { "id": "E2E-M05-07", "passed": true, "steps": 6, "screenshot": "run-artifacts/playwright/E2E-M05-07-start-banner.png", "console_errors": 0, "notes": "Real clock before the window: no banner. setNow 09:30Z: plans-start-banner 'Plan Focused morning has started', plans-highlight-1 present, one POST /api/plans/1/acknowledge-start (200); no repeat in 6 s. Dismiss hid banner and highlight. Step 6 (notifications off): SettingsStore.settings set to notificationsEnabled=false in dev mode via ng.getComponent, fresh load, setNow 09:30Z: one acknowledge-start 200, no banner, no highlight. The app's settings were not persisted (no PUT /api/settings). The pre-fix 415 on acknowledge-start was logged once before the body fix in plans.api.ts; every run after the fix is clean." },
+    { "id": "E2E-M05-08", "passed": true, "steps": 3, "screenshot": "", "console_errors": 0, "notes": "Delete confirm 'Delete plan?'. Cancel sends no request. OK sends DELETE /api/plans/1 (204) and the list reloads (the mock still returns the plan)." }
+  ],
+  "real_stack_only": ["E2E-M05-09"]
+}

@@ -2,16 +2,31 @@
   "spec": "specs/001-quickflow",
   "milestone": "M05",
   "milestone_title": "Plans",
-  "milestone_status": "building",
-  "status": "building",
+  "milestone_status": "passed",
+  "status": "built",
   "trial": 0,
   "upgraded": false,
   "model": "claude-haiku-5-5",
-  "iteration": 1,
-  "attempt_iterations": 1,
+  "iteration": 4,
+  "attempt_iterations": 4,
   "attempt_cap": 5,
-  "budget_left_usd": 15.0,
-  "last_session_id": null,
-  "last_result": null,
-  "updated_at": "2026-10-15T04:10:55+03:00"
+  "budget_left_usd": 10.9412,
+  "last_session_id": "fe239e73-8d98-4cac-87d2-7b6963ab7aa4",
+  "last_result": {
+    "milestone": "M05",
+    "result": "built",
+    "tasks_done": [
+      "T069",
+      "T070",
+      "T071",
+      "T072",
+      "T073",
+      "T074",
+      "T075"
+    ],
+    "open_tasks": 0,
+    "selfcheck": "npx ng build (frontend/): passes, 500 kB budget warning only. Mock on :4010 and dev server on :4300 started by script. E2E-M05-01..08 executed with the Playwright MCP, all passed (0 console errors after the acknowledge-start body fix); E2E-M05-09 real_stack_only. Evidence: outputs/evidence/M05/result.json (passed: true). Both servers stopped by script.",
+    "notes": "Iter 4: fixed acknowledge-start (contract has no requestBody; a JSON body gave 415, now posts with no body). T074 and T075 ticked. Screenshots in run-artifacts/playwright/ (tool cannot write into outputs/evidence). Mock is stateless, so post-write progress and deletes are checked on the real stack by the verifier."
+  },
+  "updated_at": "2026-10-15T06:54:41+03:00"
 }

@@ -1,27 +1,22 @@
 # Handoff - frontend-dev
 
-## Where M04 stands (iteration 2, trial 0): built
-- T054-T059 ticked. All six [FE] tasks of M04 are done.
-- `npx ng build` passes (500 kB budget warning only).
-- `outputs/e2e/M04.md`: E2E-M04-01..06 executed on the Prism mock with the Playwright MCP, 0 console errors. E2E-M04-07 [real-stack-only] written and listed in `outputs/evidence/M04/result.json` (passed: true).
-- Servers stopped by script (frontend-4300 and mock-4010: "stopped").
+## Where M05 stands (iteration 4, trial 0): built, all 7 tasks ticked
+- T069-T075 ticked. `npx ng build` passes (500 kB budget warning only). Both servers stopped by script.
+- E2E-M05-01..08 executed on the Prism mock with the Playwright MCP, all passed. Results in `outputs/evidence/M05/result.json`. E2E-M05-09 is `real_stack_only`, for the verifier.
+- Screenshots are in `run-artifacts/playwright/` (the screenshot tool cannot write into `outputs/evidence/`): `E2E-M05-04-groups.png`, `E2E-M05-07-start-banner.png`.
 
-## Next steps (for the verifier, real stack)
-- Run E2E-M04-07 (fresh db: `learning-empty-state`).
-- Real-stack checks listed in e2e/M04.md: milestone done updates progress "2/2 milestones" and status COMPLETED; un-tick returns to In progress; note add/remove persists; card delete removes it from the grid.
-- Screenshots are in `run-artifacts/playwright/` (E2E-M04-01-learning-grid.png, E2E-M04-06-learning-after-remove.png). They are not in `outputs/evidence/M04/`: the copy was denied.
+## Code changed in iteration 4
+- `frontend/src/app/core/api/plans.api.ts`: `acknowledgeStart` posts with `null` (no body). The contract operation has no requestBody; a JSON body gets 415 from the mock.
 
-## Decisions and traps
-- The mock is stateless and returns card 1 "Spring Boot in depth" (milestones "Finish chapter 3" and "Build the sample project"). After writes, the list shows the example data again, not the sent title.
-- Status is derived when milestones exist: the dialog disables `learning-form-status` and leaves `status` out of the PUT body. The server answers 409 otherwise.
-- Details are a child component (`learning-card-details.component.ts`). Every change emits `changed`, and the page reloads the list.
-- Extra test ids beyond the acceptance list: `learning-edit-<id>`, `learning-load-error`, `learning-form-error`.
-- Progress label with no milestones is "No milestones yet". My choice, not in the spec.
-- `scripts/mock.sh status` is not implemented. Use `frontend.sh status`.
-- Permission layer: a compound Bash command (cp into evidence plus ng build) was denied as a whole. Run one command per Bash call.
+## Traps for the verifier (real stack)
+- The mock is stateless: the same example plan (id 1, IN_PROGRESS, startNotified false, 09:00Z-11:00Z) is returned for both groups, and PUT/DELETE do not change later GETs. So "progress 33%" after a toggle, and the card after a delete, are mock artefacts. Check the real flows on the real stack.
+- Notifications off: the flag lives in `SettingsStore.settings` (signal). It was only overridden in the browser for the test; it was not persisted.
+- Start notice: a plan is announced when its cached server status is not NOT_STARTED and the app clock is at or after its start. Clock skew can delay it up to 30 s (sync interval). Assumption A-frontend-dev-M05-3.
+- Empty-state add button is `plans-empty-add-button` (assumption A-frontend-dev-M05-1). Habit picker shows active habits only (A-frontend-dev-M05-2).
+- `[attr.data-testid]` on `mat-checkbox` sits on the host element. Click the inner `input`.
+- The browser `console_messages` list is cumulative for the session; a 415 from before the body fix stays in it.
 
 ## Commands that worked
-- `scripts/mock.sh start`, then `scripts/frontend.sh start --api http://localhost:4010`.
-- `scripts/frontend.sh stop`, then `scripts/mock.sh stop` (separate Bash calls).
-- Playwright: `browser_evaluate` with short scripts that click `data-testid` elements and dispatch input events. Wait about 1 s before reading the DOM.
-- `npx ng build` from `frontend/`: passes.
+- `scripts/mock.sh start` and `scripts/frontend.sh start --api http://localhost:4010`, one per Bash call. Stop with `scripts/frontend.sh stop`, then `scripts/mock.sh stop`.
+- `npx ng build` from `frontend/`.
+- Playwright: navigate, then evaluate in a separate call (a parallel navigate and evaluate loses the context). Install XHR hooks after each navigation. Set the clock with `window.__qfClock.setNow('2026-10-15T09:30:00Z')`.
