@@ -32,7 +32,10 @@ import { LearningCardDialogComponent, LearningCardDialogData } from './learning-
     }
 
     @if (loadFailed()) {
-      <p class="notice" data-testid="learning-load-error">Learning resources could not be loaded.</p>
+      <div class="error-state" role="alert" data-testid="learning-load-error">
+        <span>Learning resources could not be loaded.</span>
+        <button mat-stroked-button type="button" data-testid="learning-error-retry" (click)="load()">Retry</button>
+      </div>
     } @else if (!loading() && cards().length === 0) {
       <qf-empty-state
         testId="learning"

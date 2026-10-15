@@ -78,7 +78,7 @@ interface LearningCardForm {
           color="primary"
           type="submit"
           data-testid="learning-form-save"
-          [disabled]="saving()"
+          [disabled]="saving() || form.invalid"
         >
           Save
         </button>

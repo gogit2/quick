@@ -30,6 +30,20 @@ scripts/pipeline.sh --story "As a user, I want tags on tasks"    # new spec spec
 scripts/pipeline.sh --input path/to/other-PRD.md --yes           # whole new requirements file, no approval stop
 ```
 
+## Running the application
+Start the stable backend (port 8090) and the frontend dev server (port 4300) by hand. Run each command from the project root.
+```bash
+scripts/backend.sh start --port 8090 --db stable     # Spring Boot API on http://localhost:8090
+scripts/frontend.sh start --api http://localhost:8090 # Angular on http://localhost:4300, proxies /api to the backend
+# open http://localhost:4300
+scripts/frontend.sh stop
+scripts/backend.sh stop --port 8090
+```
+- Data: the H2 file database is `backend/data/stable.mv.db` (one file per `--db` name). `--fresh` on `backend.sh start` deletes it first.
+- Pages (navigation order): Dashboard, Tasks, Habits, Learning, Plans, Settings. `/` opens the start page chosen in Settings.
+- Demo clock: add `?clockOffsetMs=<ms>` to any URL to move the app clock, for example `http://localhost:4300/plans?clockOffsetMs=3600000` shows the app one hour ahead. Only the app clock moves, not the server clock.
+- Build check: `cd frontend && npx ng build` (zero warnings expected).
+
 ## Layout
 - `loops/<role>/`: `Loop-instructions.md`, `task.md`, `progress.md` (runner table: start/end, tokens, cost and session ids per milestone, plus the agent action log), `state/`, `outputs/` (one md per milestone with ticked tasks, plus curl / e2e / evidence).
 - `loops/_shared/`: `PROTOCOL.md`, `budget.env`, `milestones.json`, `assumptions.md`, `contract-issues.md`.

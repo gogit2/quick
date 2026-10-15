@@ -1,5 +1,16 @@
 <h1 data-testid="settings-title">Settings</h1>
 
+@if (loading()) {
+  <mat-progress-bar mode="indeterminate" data-testid="settings-loading" />
+}
+
+@if (loadFailed()) {
+  <div class="error-state" role="alert" data-testid="settings-load-error">
+    <span>Settings could not be loaded.</span>
+    <button mat-stroked-button type="button" data-testid="settings-error-retry" (click)="load()">Retry</button>
+  </div>
+}
+
 <form class="form" [formGroup]="form" (ngSubmit)="save()" novalidate>
   <mat-form-field appearance="outline">
     <mat-label>Display name</mat-label>

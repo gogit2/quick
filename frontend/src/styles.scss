@@ -2,3 +2,31 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+// Keyboard users always see where the focus is.
+:focus-visible {
+  outline: 2px solid #3f51b5;
+  outline-offset: 2px;
+}
+
+// Material buttons also remove the outline; keep the ring on them.
+.mat-mdc-button-base:focus-visible {
+  outline: 2px solid #3f51b5;
+  outline-offset: 2px;
+}
+
+// Material list items remove the outline; keep the ring on navigation links.
+a.mat-mdc-list-item:focus-visible {
+  outline: 2px solid #3f51b5;
+  outline-offset: -2px;
+}
+
+// Load failure with a retry button, shared by every page.
+.error-state {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin: 16px 0;
+  color: #b00020;
+}

@@ -1,6 +1,6 @@
 # Run summary
 
-_Generated 2026-10-15T10:51:47+03:00 from `loops/_shared/milestones.json` and `run-artifacts/sessions.csv`._
+_Generated 2026-10-15T11:14:10+03:00 from `loops/_shared/milestones.json` and `run-artifacts/sessions.csv`._
 
 | Milestone | Status | Start | End | Trials | Upgraded | Verify rounds | BE it. | FE it. | Sessions | Cost USD | Tag |
 |---|---|---|---|---|---|---|---|---|---|---|---|
@@ -10,14 +10,14 @@ _Generated 2026-10-15T10:51:47+03:00 from `loops/_shared/milestones.json` and `r
 | M04 Learning | passed | 2026-10-15T03:59:35+03:00 | 2026-10-15T04:10:54+03:00 | 0 | no | 1 | 2 | 2 | 5 | 2.9133 | M04 |
 | M05 Plans | passed | 2026-10-15T04:10:55+03:00 | 2026-10-15T06:54:41+03:00 | 0 | no | 1 | 3 | 4 | 6 | 4.0588 | M05 |
 | M06 Dashboard | passed | 2026-10-15T06:54:42+03:00 | 2026-10-15T10:51:47+03:00 | 0 | no | 1 | 2 | 2 | 3 | 2.9075 | M06 |
-| M07 Hardening | pending |  |  | 0 | no | 0 | 0 | 0 | 0 | 0.0000 |  |
+| M07 Hardening | passed | 2026-10-15T10:51:47+03:00 | 2026-10-15T11:14:10+03:00 | 0 | no | 1 | 1 | 2 | 4 | 4.7849 | M07 |
 
-**Total cost (headless loops)**: $19.0957 over 29 sessions.
+**Total cost (headless loops)**: $23.8806 over 33 sessions.
 
 | Model | Sessions | Input | Output | Cache read | Cache write | Cost USD |
 |---|---|---|---|---|---|---|
-| claude-haiku-5-5 | 23 | 1.4k | 798.6k | 53.19M | 2.30M | 3.2328 |
-| claude-opus-5-5 | 6 | 664 | 125.4k | 31.73M | 875.7k | 15.8629 |
+| claude-haiku-5-5 | 26 | 1.7k | 957.9k | 72.99M | 2.85M | 4.7403 |
+| claude-opus-5-5 | 7 | 784 | 151.8k | 38.36M | 1.05M | 19.1403 |
 
 ## Events
 - 2026-10-15T03:31:32+03:00 · M01 · verify · verdict · round 1: PASS (0 small fixes)
@@ -27,3 +27,4 @@ _Generated 2026-10-15T10:51:47+03:00 from `loops/_shared/milestones.json` and `r
 - 2026-10-15T04:10:54+03:00 · M04 · verify · verdict · round 1: PASS (1 small fixes)
 - 2026-10-15T06:54:40+03:00 · M05 · verify · verdict · round 1: PASS (0 small fixes)
 - 2026-10-15T10:51:46+03:00 · M06 · verify · verdict · round 1: PASS (2 small fixes)
+- 2026-10-15T11:14:10+03:00 · M07 · verify · verdict · round 1: PASS (1 small fixes)

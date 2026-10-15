@@ -68,8 +68,11 @@ function windowOrder(group: AbstractControl): ValidationErrors | null {
         <mat-form-field appearance="outline">
           <mat-label>Title</mat-label>
           <input matInput data-testid="plans-form-title" formControlName="title" maxlength="200" />
-          @if (form.controls.title.touched && form.controls.title.hasError('required')) {
+          @if (form.controls.title.touched && (form.controls.title.hasError('required') || form.controls.title.hasError('pattern'))) {
             <mat-error>Title is required.</mat-error>
+          }
+          @if (form.controls.title.touched && form.controls.title.hasError('maxlength')) {
+            <mat-error>Must be at most 200 characters.</mat-error>
           }
         </mat-form-field>
 
@@ -164,7 +167,7 @@ function windowOrder(group: AbstractControl): ValidationErrors | null {
           }
         </section>
 
-        @if (itemsError()) {
+        @if (form.touched && picked().size === 0) {
           <p class="error" data-testid="plans-form-items-error">Pick at least one task, habit or learning resource.</p>
         }
 
@@ -175,7 +178,14 @@ function windowOrder(group: AbstractControl): ValidationErrors | null {
     </mat-dialog-content>
     <mat-dialog-actions align="end">
       <button mat-button type="button" data-testid="plans-form-cancel" (click)="ref.close()">Cancel</button>
-      <button mat-raised-button color="primary" type="button" data-testid="plans-form-save" [disabled]="saving()" (click)="save()">
+      <button
+        mat-raised-button
+        color="primary"
+        type="button"
+        data-testid="plans-form-save"
+        [disabled]="saving() || form.invalid || picked().size === 0"
+        (click)="save()"
+      >
         Save
       </button>
     </mat-dialog-actions>
@@ -236,13 +246,16 @@ export class PlanBuilderDialogComponent implements OnInit {
 
   // Keys like "TASK:4" of the picked items.
   readonly picked = signal<ReadonlySet<string>>(new Set());
-  readonly itemsError = signal(false);
   readonly serverErrors = signal<string[]>([]);
   readonly saving = signal(false);
 
   readonly form = new FormGroup<PlanBuilderForm>(
     {
-      title: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.maxLength(200)] }),
+      // The pattern rejects whitespace-only titles.
+      title: new FormControl('', {
+        nonNullable: true,
+        validators: [Validators.required, Validators.pattern(/\S/), Validators.maxLength(200)],
+      }),
       estimatedDurationMinutes: new FormControl<number | null>(DEFAULT_DURATION_MINUTES, [
         Validators.required,
         Validators.min(1),
@@ -297,16 +310,12 @@ export class PlanBuilderDialogComponent implements OnInit {
       next.delete(pickKey(sourceType, sourceId));
     }
     this.picked.set(next);
-    if (next.size > 0) {
-      this.itemsError.set(false);
-    }
   }
 
   save(): void {
     this.serverErrors.set([]);
     this.form.markAllAsTouched();
     const items = this.pickedItems();
-    this.itemsError.set(items.length === 0);
     if (this.form.invalid || items.length === 0 || this.saving()) {
       return;
     }

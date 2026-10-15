@@ -1,8 +1,8 @@
 {
-  "milestone": "M06",
+  "milestone": "M07",
   "result": "built",
-  "tasks_done": ["T082", "T083", "T084", "T085", "T086", "T087", "T088"],
+  "tasks_done": ["T099", "T100"],
   "open_tasks": 0,
-  "selfcheck": "npx ng build: passes (500 kB budget warning only). Mock 4010 and frontend 4300 started by script. Playwright MCP: E2E-M06-01..05 executed on the mock, all passed, 0 console errors. Both servers stopped by script. The screenshot copy into outputs/evidence/M06 was denied; the file is at run-artifacts/playwright/E2E-M06-01-dashboard.png.",
-  "notes": "Code from an earlier attempt was verified; T087 (learning snapshot, quick-add) was added this iteration. Known gap for the verifier: a failed habit or plan toggle leaves the mat-checkbox DOM toggled on the real stack. Real-stack-only scenarios are listed in outputs/evidence/M06/result.json."
+  "selfcheck": "npx ng build: passes with zero warnings (initial budget raised to 600 kB; bundle 553.77 kB). Playwright on mock (4010) + dev server (4300): E2E-M07-02 smoke passed (M01-01 nav, M02-01, M03-01, M04-01, M05-01, M06-01), console no errors, no 5xx. E2E-M07-04 keyboard passed: Tab/Enter to nav, add dialogs open with focus and close with Escape restoring focus (tasks, habits, learning, plans, dashboard quick-add task); nav focus ring fixed in styles.scss. E2E-M07-03 written, real-stack-only. Both servers stopped by script.",
+  "notes": "E2E-M07-01 is run by the verifier on the real stack. E2E-M07-03 (error and retry per page) is real-stack-only. Keyboard gaps: Habits, Learning, Plans reached by click; other quick-add buttons not keyboard-opened. Details in outputs/e2e/M07.md and outputs/evidence/M07/result.json."
 }

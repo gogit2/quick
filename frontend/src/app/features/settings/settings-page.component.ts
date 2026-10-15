@@ -3,6 +3,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
@@ -32,6 +33,7 @@ function timeZoneOptions(): string[] {
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
+    MatProgressBarModule,
     MatSelectModule,
     MatSlideToggleModule,
   ],
@@ -50,6 +52,9 @@ export class SettingsPageComponent implements OnInit {
   ];
 
   readonly timeZones = signal<string[]>(timeZoneOptions());
+  readonly loading = signal(false);
+  // Set when the settings could not be read, so the form is not presented as the saved values.
+  readonly loadFailed = signal(false);
   readonly saving = signal(false);
   readonly saved = signal(false);
   readonly errorText = signal<string | null>(null);
@@ -66,9 +71,21 @@ export class SettingsPageComponent implements OnInit {
   });
 
   ngOnInit(): void {
+    this.load();
+  }
+
+  load(): void {
+    this.loading.set(true);
+    this.loadFailed.set(false);
     this.store.refresh().subscribe({
-      next: (settings) => this.apply(settings),
-      error: () => this.errorText.set('Settings could not be loaded.'),
+      next: (settings) => {
+        this.loading.set(false);
+        this.apply(settings);
+      },
+      error: () => {
+        this.loading.set(false);
+        this.loadFailed.set(true);
+      },
     });
   }
 

@@ -35,7 +35,10 @@ const RELOAD_INTERVAL_MS = 30_000;
     }
 
     @if (loadFailed()) {
-      <p class="notice" data-testid="plans-load-error">Plans could not be loaded.</p>
+      <div class="error-state" role="alert" data-testid="plans-load-error">
+        <span>Plans could not be loaded.</span>
+        <button mat-stroked-button type="button" data-testid="plans-error-retry" (click)="load()">Retry</button>
+      </div>
     } @else if (!loading() && active().length === 0 && completed().length === 0) {
       <qf-empty-state
         testId="plans"

@@ -738,15 +738,15 @@
       ]
     },
     "M07": {
-      "status": "pending",
+      "status": "passed",
       "trial": 0,
       "upgraded": false,
-      "cost_usd": 0.0,
+      "cost_usd": 4.784923,
       "upgrade_cost_usd": 0.0,
-      "verify_rounds": 0,
-      "started_at": null,
-      "ended_at": null,
-      "tag": null,
+      "verify_rounds": 1,
+      "started_at": "2026-10-15T10:51:47+03:00",
+      "ended_at": "2026-10-15T11:14:10+03:00",
+      "tag": "M07",
       "blocked_reason": null,
       "title": "Hardening",
       "slug": "hardening",
@@ -754,57 +754,102 @@
       "roles": {
         "backend-dev": {
           "tasks": 5,
-          "status": "pending",
-          "iterations": 0,
-          "attempt_iterations": 0,
-          "attempt_cap": null,
-          "started_at": null,
-          "ended_at": null,
-          "tokens_in": 0,
-          "tokens_out": 0,
-          "cache_read": 0,
-          "cache_write": 0,
-          "cost_usd": 0.0,
-          "sessions": [],
-          "models": [],
-          "last_result": null
+          "status": "built",
+          "iterations": 1,
+          "attempt_iterations": 1,
+          "attempt_cap": 4,
+          "started_at": "2026-10-15T10:51:47+03:00",
+          "ended_at": "2026-10-15T11:01:10+03:00",
+          "tokens_in": 98,
+          "tokens_out": 73820,
+          "cache_read": 5004016,
+          "cache_write": 152958,
+          "cost_usd": 0.409753,
+          "sessions": [
+            "b7334588-7362-4734-9556-dfb07d8ce6d0"
+          ],
+          "models": [
+            "claude-haiku-5-5"
+          ],
+          "last_result": {
+            "milestone": "M07",
+            "result": "built",
+            "tasks_done": [
+              "T089",
+              "T090",
+              "T091",
+              "T092",
+              "T093"
+            ],
+            "open_tasks": 0,
+            "selfcheck": "cd backend && ./mvnw -q verify: 188 tests, 0 failures. scripts/backend.sh start --port 8091 --db selfcheck --fresh; curl-regression --upto M07: 7 suites, 0 failed (M07.sh 5/5); export-swagger --ms M07: PASS, 35 operations, no problems; server stopped.",
+            "notes": "Added catch-all ApiError handling (500 without stack trace, Spring 404/405 keep status), enum-in-body field name, and a per-request INFO log. Assumptions A-backend-dev-M07-1..2 logged for the user's review."
+          },
+          "last_gate": "pass"
         },
         "frontend-dev": {
           "tasks": 7,
-          "status": "pending",
-          "iterations": 0,
-          "attempt_iterations": 0,
-          "attempt_cap": null,
-          "started_at": null,
-          "ended_at": null,
-          "tokens_in": 0,
-          "tokens_out": 0,
-          "cache_read": 0,
-          "cache_write": 0,
-          "cost_usd": 0.0,
-          "sessions": [],
-          "models": [],
-          "last_result": null
+          "status": "built",
+          "iterations": 2,
+          "attempt_iterations": 2,
+          "attempt_cap": 5,
+          "started_at": "2026-10-15T10:51:47+03:00",
+          "ended_at": "2026-10-15T11:04:20+03:00",
+          "tokens_in": 222,
+          "tokens_out": 85520,
+          "cache_read": 14799913,
+          "cache_write": 399670,
+          "cost_usd": 1.097767,
+          "sessions": [
+            "5ee29270-3d60-40f4-a392-f337df3bd7a3",
+            "a96bb28a-f940-4b9e-aacc-8326841938a1"
+          ],
+          "models": [
+            "claude-haiku-5-5"
+          ],
+          "last_result": {
+            "milestone": "M07",
+            "result": "built",
+            "tasks_done": [
+              "T099",
+              "T100"
+            ],
+            "open_tasks": 0,
+            "selfcheck": "npx ng build: passes with zero warnings (initial budget raised to 600 kB; bundle 553.77 kB). Playwright on mock (4010) + dev server (4300): E2E-M07-02 smoke passed (M01-01 nav, M02-01, M03-01, M04-01, M05-01, M06-01), console no errors, no 5xx. E2E-M07-04 keyboard passed: Tab/Enter to nav, add dialogs open with focus and close with Escape restoring focus (tasks, habits, learning, plans, dashboard quick-add task); nav focus ring fixed in styles.scss. E2E-M07-03 written, real-stack-only. Both servers stopped by script.",
+            "notes": "E2E-M07-01 is run by the verifier on the real stack. E2E-M07-03 (error and retry per page) is real-stack-only. Keyboard gaps: Habits, Learning, Plans reached by click; other quick-add buttons not keyboard-opened. Details in outputs/e2e/M07.md and outputs/evidence/M07/result.json."
+          },
+          "last_gate": "pass"
         },
         "verify": {
           "tasks": 0,
-          "status": "pending",
-          "iterations": 0,
+          "status": "passed",
+          "iterations": 1,
           "attempt_iterations": 0,
           "attempt_cap": null,
-          "started_at": null,
-          "ended_at": null,
-          "tokens_in": 0,
-          "tokens_out": 0,
-          "cache_read": 0,
-          "cache_write": 0,
-          "cost_usd": 0.0,
-          "sessions": [],
-          "models": [],
+          "started_at": "2026-10-15T11:04:20+03:00",
+          "ended_at": "2026-10-15T11:14:10+03:00",
+          "tokens_in": 120,
+          "tokens_out": 26339,
+          "cache_read": 6632473,
+          "cache_write": 177956,
+          "cost_usd": 3.277403,
+          "sessions": [
+            "979d24b3-e173-40e6-bb83-97400db8ceb4"
+          ],
+          "models": [
+            "claude-opus-5-5"
+          ],
           "last_result": null
         }
       },
-      "events": []
+      "events": [
+        {
+          "at": "2026-10-15T11:14:10+03:00",
+          "type": "verdict",
+          "role": "verify",
+          "detail": "round 1: PASS (1 small fixes)"
+        }
+      ]
     }
   },
   "order": [

@@ -1,0 +1,15 @@
+{
+  "milestone": "M07",
+  "passed": true,
+  "finished_at": "2026-10-15T11:03:04+03:00",
+  "scope": "iteration 2: T099 (E2E-M07-02 smoke run, E2E-M07-04 keyboard run, E2E-M07-03 written) and T100 (README, budget). E2E-M07-01 is executed by the verifier on the real stack.",
+  "scenarios": [
+    { "id": "SELF-M07-T094-retry", "passed": true, "steps": 3, "screenshot": "", "console_errors": 0, "notes": "iteration 1. habits outage shows habits-error-retry; retry after mock restart loads cards. The 500s are from the deliberate outage." },
+    { "id": "SELF-M07-T095-validation", "passed": true, "steps": 2, "screenshot": "", "console_errors": 0, "notes": "iteration 1. tasks save disabled when empty; plan builder whitespace title message and disabled save." },
+    { "id": "SELF-M07-T096-a11y-layout", "passed": true, "steps": 3, "screenshot": "", "console_errors": 0, "notes": "iteration 1. aria-current on nav-tasks; single navigation landmark; no horizontal scroll at 800 px on tasks, plans, dashboard. Iteration 2 added a focus ring for nav links (styles.scss), verified with Tab key." },
+    { "id": "SELF-M07-T097-notify-clock", "passed": true, "steps": 3, "screenshot": "", "console_errors": 0, "notes": "iteration 1. one banner at 09:30Z, gone after dismiss, rest positive. Notifications-off not re-run." },
+    { "id": "E2E-M07-02", "passed": true, "steps": 6, "screenshot": "loops/frontend-dev/outputs/evidence/M07/E2E-M07-02-M06-dashboard.png", "console_errors": 0, "notes": "smoke on mock: E2E-M01-01 nav (reload step not repeated), M02-01, M03-01, M04-01, M05-01 (POST 201 with 3 items), M06-01. All requests 200/201/304, no 5xx." },
+    { "id": "E2E-M07-04", "passed": true, "steps": 15, "screenshot": "loops/frontend-dev/outputs/evidence/M07/E2E-M07-04-keyboard-plans.png", "console_errors": 0, "notes": "keyboard: Tab to nav-tasks, Enter opens Tasks, Tab x5 to tasks-add-button, Enter opens dialog with focus in title, Escape restores focus. Same open/Escape check for Habits, Learning, Plans and Dashboard quick-add Task. Enter on nav-settings and nav-dashboard. Habits, Learning, Plans reached by click, not Enter." }
+  ],
+  "real_stack_only": ["E2E-M07-03"]
+}

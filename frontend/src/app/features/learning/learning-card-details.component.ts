@@ -74,7 +74,7 @@ interface NoteForm {
           mat-stroked-button
           type="submit"
           [attr.data-testid]="'learning-milestone-add-' + card().id"
-          [disabled]="saving()"
+          [disabled]="saving() || milestoneForm.invalid"
         >
           Add milestone
         </button>
@@ -113,7 +113,7 @@ interface NoteForm {
           mat-stroked-button
           type="submit"
           [attr.data-testid]="'learning-note-add-' + card().id"
-          [disabled]="saving()"
+          [disabled]="saving() || noteForm.invalid"
         >
           Add note
         </button>

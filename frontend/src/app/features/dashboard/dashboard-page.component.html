@@ -16,7 +16,10 @@
 }
 
 @if (loadFailed()) {
-  <p class="notice" data-testid="dashboard-load-error">The dashboard could not be loaded.</p>
+  <div class="error-state" role="alert" data-testid="dashboard-load-error">
+    <span>The dashboard could not be loaded.</span>
+    <button mat-stroked-button type="button" data-testid="dashboard-error-retry" (click)="load()">Retry</button>
+  </div>
 }
 
 @if (data(); as dash) {

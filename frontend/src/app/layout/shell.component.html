@@ -13,9 +13,15 @@
 
 <mat-sidenav-container class="container">
   <mat-sidenav mode="side" opened class="sidenav">
-    <mat-nav-list>
+    <mat-nav-list aria-label="Main navigation">
       @for (item of navItems; track item.path) {
-        <a mat-list-item [routerLink]="item.path" routerLinkActive="active" [attr.data-testid]="item.testId">
+        <a
+          mat-list-item
+          [routerLink]="item.path"
+          routerLinkActive="active"
+          ariaCurrentWhenActive="page"
+          [attr.data-testid]="item.testId"
+        >
           {{ item.label }}
         </a>
       }

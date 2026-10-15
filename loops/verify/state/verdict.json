@@ -1,14 +1,11 @@
 {
-  "milestone": "M06",
+  "milestone": "M07",
   "round": 1,
   "verdict": "PASS",
   "checks": { "review": "pass", "swagger": "pass", "unit": "pass", "curl": "pass", "e2e": "pass", "smoke": "pass" },
-  "fixes": [
-    { "file": "frontend/src/app/features/dashboard/dashboard-page.component.ts", "summary": "F1: on a failed habit or plan item toggle, reset the mat-checkbox (event.source.checked) to the stored value; handlers take MatCheckboxChange", "lines": 6 },
-    { "file": "frontend/src/app/features/dashboard/dashboard-page.component.html", "summary": "F1: pass $event to toggleHabit and togglePlanItem", "lines": 2 }
-  ],
+  "fixes": [ { "file": "frontend/src/styles.scss", "summary": "Visible 2px focus outline on Material buttons (.mat-mdc-button-base:focus-visible); MDC set outline:none so keyboard focus was only a faint tint (T096, E2E-M07-04)", "lines": 6 } ],
   "fix_tasks": [],
   "contract_issues": [],
   "escalate": false,
-  "notes": "mvnw verify 165/165, swagger PASS, curl M01..M06 68/68 (+ M06 alone on fresh db 7/7), E2E-M06-01..05 + empty/backend-down states + smoke M01-M05 pass on the real stack, no console errors or 5xx outside the deliberate backend stop. Screenshots in run-artifacts/playwright/verify-M06-r1-*.png (copy into evidence denied)."
+  "notes": "mvnw verify 188/188, swagger 35 ops PASS, curl M01..M07 73/73 on a fresh db, E2E-M07-01 full journey on the real clock, E2E-M07-03 backend down on all 6 pages with retry recovery, E2E-M07-04 keyboard, smoke M01-01..M06-01 all pass; no console errors or 5xx with the backend up. Non-blocking: Settings Save stays enabled after a load failure."
 }

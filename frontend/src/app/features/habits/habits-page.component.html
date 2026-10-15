@@ -14,7 +14,10 @@
 }
 
 @if (loadFailed()) {
-  <p class="notice" data-testid="habits-load-error">Habits could not be loaded.</p>
+  <div class="error-state" role="alert" data-testid="habits-load-error">
+    <span>Habits could not be loaded.</span>
+    <button mat-stroked-button type="button" data-testid="habits-error-retry" (click)="load()">Retry</button>
+  </div>
 } @else if (!loading() && habits().length === 0) {
   <qf-empty-state
     testId="habits"

@@ -77,7 +77,13 @@ interface HabitForm {
 
       <mat-dialog-actions align="end">
         <button mat-button type="button" data-testid="habits-form-cancel" (click)="ref.close()">Cancel</button>
-        <button mat-raised-button color="primary" type="submit" data-testid="habits-form-save" [disabled]="saving()">
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          data-testid="habits-form-save"
+          [disabled]="saving() || form.invalid"
+        >
           Save
         </button>
       </mat-dialog-actions>

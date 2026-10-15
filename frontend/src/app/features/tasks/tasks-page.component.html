@@ -59,7 +59,10 @@
 }
 
 @if (loadFailed()) {
-  <p class="notice" role="alert">The tasks could not be loaded. Try again.</p>
+  <div class="error-state" role="alert">
+    <span>The tasks could not be loaded.</span>
+    <button mat-stroked-button type="button" data-testid="tasks-error-retry" (click)="load()">Retry</button>
+  </div>
 }
 
 @if (!loading() && tasks().length === 0 && !loadFailed()) {
