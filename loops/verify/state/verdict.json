@@ -1,11 +1,14 @@
 {
-  "milestone": "M05",
+  "milestone": "M06",
   "round": 1,
   "verdict": "PASS",
   "checks": { "review": "pass", "swagger": "pass", "unit": "pass", "curl": "pass", "e2e": "pass", "smoke": "pass" },
-  "fixes": [],
+  "fixes": [
+    { "file": "frontend/src/app/features/dashboard/dashboard-page.component.ts", "summary": "F1: on a failed habit or plan item toggle, reset the mat-checkbox (event.source.checked) to the stored value; handlers take MatCheckboxChange", "lines": 6 },
+    { "file": "frontend/src/app/features/dashboard/dashboard-page.component.html", "summary": "F1: pass $event to toggleHabit and togglePlanItem", "lines": 2 }
+  ],
   "fix_tasks": [],
   "contract_issues": [],
   "escalate": false,
-  "notes": "All T060-T075 present. Swagger PASS, mvnw verify 159/159, ng build OK, curl M01..M05 61/61 on a fresh db, Playwright real stack E2E-M05-01..09 (real-clock start, banner/acknowledge once, notifications-off silent ack, task DONE/TODO via plan items, 100% to History, delete confirm) and smoke M01-M04 pass. No fixes. Non-blocking notes in outputs/M05-round-1.md."
+  "notes": "mvnw verify 165/165, swagger PASS, curl M01..M06 68/68 (+ M06 alone on fresh db 7/7), E2E-M06-01..05 + empty/backend-down states + smoke M01-M05 pass on the real stack, no console errors or 5xx outside the deliberate backend stop. Screenshots in run-artifacts/playwright/verify-M06-r1-*.png (copy into evidence denied)."
 }

@@ -1,34 +1,31 @@
 {
   "spec": "specs/001-quickflow",
-  "milestone": "M05",
-  "milestone_title": "Plans",
+  "milestone": "M06",
+  "milestone_title": "Dashboard",
   "milestone_status": "passed",
   "status": "built",
   "trial": 0,
   "upgraded": false,
   "model": "claude-haiku-5-5",
-  "iteration": 3,
-  "attempt_iterations": 3,
+  "iteration": 2,
+  "attempt_iterations": 2,
   "attempt_cap": 5,
-  "budget_left_usd": 10.9412,
-  "last_session_id": "933527ae-f854-4b0d-9643-568701c8f61e",
+  "budget_left_usd": 12.0925,
+  "last_session_id": "ab6a2c50-0cd9-4686-a4a9-c258d13c6533",
   "last_result": {
-    "milestone": "M05",
+    "milestone": "M06",
     "result": "built",
     "tasks_done": [
-      "T060",
-      "T061",
-      "T062",
-      "T063",
-      "T064",
-      "T065",
-      "T066",
-      "T067",
-      "T068"
+      "T076",
+      "T077",
+      "T078",
+      "T079",
+      "T080",
+      "T081"
     ],
     "open_tasks": 0,
-    "selfcheck": "cd backend && ./mvnw -q verify: green (159 tests, 0 failures). scripts/backend.sh start --port 8091 --db selfcheck --fresh: healthy. curl-regression --upto M05 on a fresh db: 5 suites, 0 failed (M01 6/6, M02 14/14, M03 13/13, M04 12/12, M05 16/16). export-swagger --ms M05: PASS, 34 operations, no diff. Server stopped.",
-    "notes": "Iter 3 built T065-T068 (PlanItemCleanup, PlanController, PlanServiceTest and PlanControllerTest, curl suite M05.sh) and ran the full self-check. Evidence in outputs/evidence/M05/. No contract issues or assumptions added."
+    "selfcheck": "cd backend && ./mvnw -q verify: green, 165 tests, 0 failures. curl-regression --upto M06 on a fresh db: 6 suites, 0 failed (M06 7/7). M06.sh alone on a fresh db: 7/7. export-swagger --ms M06: PASS, 35 operations, no diff. Server 8091 stopped.",
+    "notes": "Iter 1 code kept after verification; added DashboardRulesTest, DashboardConsistencyTest, M06.sh. AC-M06-01 all-zero branch runs only on an empty db (assumption A-backend-dev-M06-1)."
   },
-  "updated_at": "2026-10-15T06:54:41+03:00"
+  "updated_at": "2026-10-15T10:51:47+03:00"
 }

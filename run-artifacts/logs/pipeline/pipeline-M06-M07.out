@@ -1,0 +1,5 @@
+[10:37:39] ===== M06 Dashboard
+[10:37:39] M06: backend-dev started (pid 79580, log run-artifacts/logs/pipeline/M06-backend-dev.log)
+[10:37:39] M06: frontend-dev started (pid 79583, log run-artifacts/logs/pipeline/M06-frontend-dev.log)
+[10:45:47] M06: both loops built - verifying
+[10:51:46] M06: verify -> pass

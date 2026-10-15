@@ -1,22 +1,27 @@
 # Handoff - frontend-dev
 
-## Where M05 stands (iteration 4, trial 0): built, all 7 tasks ticked
-- T069-T075 ticked. `npx ng build` passes (500 kB budget warning only). Both servers stopped by script.
-- E2E-M05-01..08 executed on the Prism mock with the Playwright MCP, all passed. Results in `outputs/evidence/M05/result.json`. E2E-M05-09 is `real_stack_only`, for the verifier.
-- Screenshots are in `run-artifacts/playwright/` (the screenshot tool cannot write into `outputs/evidence/`): `E2E-M05-04-groups.png`, `E2E-M05-07-start-banner.png`.
+## Where M06 stands (iteration 2, trial 0): built, all 7 tasks ticked
+- T082-T088 ticked. `npx ng build` passes (500 kB budget warning only).
+- E2E-M06-01..05 executed on the Prism mock with the Playwright MCP, all passed. Scenarios in `outputs/e2e/M06.md`, results in `outputs/evidence/M06/result.json`. Three real-stack-only groups are listed there (empty states, load error, completion vs tasks page).
+- Both servers stopped by script.
+- Screenshot is only at `run-artifacts/playwright/E2E-M06-01-dashboard.png`. Copying into `outputs/evidence/M06/` was denied by the permission layer.
 
-## Code changed in iteration 4
-- `frontend/src/app/core/api/plans.api.ts`: `acknowledgeStart` posts with `null` (no body). The contract operation has no requestBody; a JSON body gets 415 from the mock.
+## Code in M06
+- `frontend/src/app/core/api/models.ts`: Dashboard types (Dashboard, DashboardTaskMetrics, DashboardHabits, DashboardPlans, DashboardLearning).
+- `frontend/src/app/core/api/dashboard.api.ts`: `getDashboard()`.
+- `frontend/src/app/features/dashboard/dashboard-page.component.{ts,html,scss}`: greeting, metric cards, today/overdue lists, habit checklist (HabitCompletionService), active plans (rest time, item toggles), learning snapshot, quick-add dialogs (task, habit, learning, plan), reload every 30 s and on window focus.
+- No other folder was touched.
 
 ## Traps for the verifier (real stack)
-- The mock is stateless: the same example plan (id 1, IN_PROGRESS, startNotified false, 09:00Z-11:00Z) is returned for both groups, and PUT/DELETE do not change later GETs. So "progress 33%" after a toggle, and the card after a delete, are mock artefacts. Check the real flows on the real stack.
-- Notifications off: the flag lives in `SettingsStore.settings` (signal). It was only overridden in the browser for the test; it was not persisted.
-- Start notice: a plan is announced when its cached server status is not NOT_STARTED and the app clock is at or after its start. Clock skew can delay it up to 30 s (sync interval). Assumption A-frontend-dev-M05-3.
-- Empty-state add button is `plans-empty-add-button` (assumption A-frontend-dev-M05-1). Habit picker shows active habits only (A-frontend-dev-M05-2).
-- `[attr.data-testid]` on `mat-checkbox` sits on the host element. Click the inner `input`.
-- The browser `console_messages` list is cumulative for the session; a 415 from before the body fix stays in it.
+- Mock is stateless: toggles do not change later GETs. So the habit and plan checkboxes keep the toggled DOM state after the reload (the bound `checked` value does not change). Check the real flows on the real stack.
+- Known gap: when a habit or plan toggle FAILS (error path), the mat-checkbox DOM stays toggled, because the reload does not change the bound value. A success on the real stack corrects it. Fix idea: force-sync the checkbox on error, or bind through a signal that is set to the server value.
+- Rest time follows the app clock. The browser greeting uses the browser's local hour (afternoon at 09:30Z in this browser).
+- Plan start banner may appear on the dashboard too (M05 notice). Expected.
+- `[attr.data-testid]` on `mat-checkbox` sits on the host. Click the inner `input` (`[data-testid=...] input`).
+- The browser `console_messages` list is cumulative for the session.
 
 ## Commands that worked
 - `scripts/mock.sh start` and `scripts/frontend.sh start --api http://localhost:4010`, one per Bash call. Stop with `scripts/frontend.sh stop`, then `scripts/mock.sh stop`.
+- Shell pipes or `&&` in one Bash call were denied by the permission layer. Use plain single commands.
 - `npx ng build` from `frontend/`.
-- Playwright: navigate, then evaluate in a separate call (a parallel navigate and evaluate loses the context). Install XHR hooks after each navigation. Set the clock with `window.__qfClock.setNow('2026-10-15T09:30:00Z')`.
+- Playwright: navigate, then evaluate in a separate call. Install XHR hooks after each navigation. Set the clock with `window.__qfClock.setNow('2026-10-15T09:30:00Z')`.

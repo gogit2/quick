@@ -1,0 +1,104 @@
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.quick-add {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.greeting {
+  margin: 4px 0 0;
+  font-size: 16px;
+}
+
+.notice {
+  color: #b00020;
+  margin: 16px 0;
+}
+
+.muted {
+  opacity: 0.7;
+  font-size: 13px;
+}
+
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.metric p {
+  margin: 6px 0;
+}
+
+.columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.panel h2 {
+  font-size: 18px;
+  margin: 0 0 8px;
+}
+
+.rows {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+}
+
+.row-title {
+  flex: 1;
+  overflow-wrap: anywhere;
+}
+
+.chip {
+  padding: 2px 8px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.08);
+  font-size: 13px;
+}
+
+.overdue-marker {
+  padding: 2px 8px;
+  border-radius: 12px;
+  background: #fde7e9;
+  color: #b00020;
+  font-size: 13px;
+}
+
+.item-done {
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+
+.empty {
+  opacity: 0.7;
+  margin: 8px 0;
+}
+
+.plan {
+  margin-bottom: 16px;
+}
+
+.plan-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 4px;
+}

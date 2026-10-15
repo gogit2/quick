@@ -3,3 +3,7 @@
 [06:33:46] M05: frontend-dev started (pid 15021, log run-artifacts/logs/pipeline/M05-frontend-dev.log)
 [06:45:50] M05: both loops built - verifying
 [06:54:41] M05: verify -> pass
+[06:54:41] M05 committed and tagged
+[06:54:41] ===== M06 Dashboard
+[06:54:42] M06: backend-dev started (pid 70001, log run-artifacts/logs/pipeline/M06-backend-dev.log)
+[06:54:42] M06: frontend-dev started (pid 70011, log run-artifacts/logs/pipeline/M06-frontend-dev.log)

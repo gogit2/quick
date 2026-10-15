@@ -1,0 +1,52 @@
+{
+  "milestone": "M06",
+  "passed": true,
+  "finished_at": "2026-10-15T10:41:00+03:00",
+  "scenarios": [
+    {
+      "id": "E2E-M06-01",
+      "passed": true,
+      "steps": 9,
+      "screenshot": "run-artifacts/playwright/E2E-M06-01-dashboard.png",
+      "console_errors": 0,
+      "notes": "Smoke: greeting, four metric cards, today/overdue tasks, habit checklist, active plan with rest time, learning snapshot. Copy into outputs/evidence/M06 was denied by the permission layer."
+    },
+    {
+      "id": "E2E-M06-02",
+      "passed": true,
+      "steps": 2,
+      "screenshot": "run-artifacts/playwright/E2E-M06-01-dashboard.png",
+      "console_errors": 0,
+      "notes": "Mock: completionPercent 0%, (0 of 2), matches tasks.total=2, completed=0. Shares the E2E-M06-01 screenshot. Real-stack equality with the tasks page is for the verifier."
+    },
+    {
+      "id": "E2E-M06-03",
+      "passed": true,
+      "steps": 5,
+      "screenshot": "",
+      "console_errors": 0,
+      "notes": "Task, habit, learning and plan quick-add dialogs open and cancel. Save of a task sends POST /api/tasks, closes the dialog and reloads GET /api/dashboard. No screenshot taken for this scenario."
+    },
+    {
+      "id": "E2E-M06-04",
+      "passed": true,
+      "steps": 2,
+      "screenshot": "run-artifacts/playwright/E2E-M06-01-dashboard.png",
+      "console_errors": 0,
+      "notes": "Habit toggle sends POST /api/habits/1/completions {}; plan item toggle sends PUT /api/plans/1/items/2 {done:true}; both followed by GET /api/dashboard. Mock is stateless so checkboxes keep the toggled DOM state."
+    },
+    {
+      "id": "E2E-M06-05",
+      "passed": true,
+      "steps": 2,
+      "screenshot": "run-artifacts/playwright/E2E-M06-01-dashboard.png",
+      "console_errors": 0,
+      "notes": "Clock override 09:30Z gives Rest 1h 29m 59s; 09:31Z gives Rest 1h 28m 58s."
+    }
+  ],
+  "real_stack_only": [
+    "E2E-M06-RS-empty-states",
+    "E2E-M06-RS-load-error",
+    "E2E-M06-RS-completion-vs-tasks-page"
+  ]
+}

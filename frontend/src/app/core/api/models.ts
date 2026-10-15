@@ -222,3 +222,51 @@ export interface PlanCreate {
 export interface PlanItemUpdate {
   done: boolean;
 }
+
+// Dashboard aggregate (GET /api/dashboard). Every number is computed by the server.
+export interface DashboardTaskMetrics {
+  dueToday: number;
+  overdue: number;
+  completedToday: number;
+  total: number;
+  completed: number;
+  completionPercent: number;
+}
+
+export interface DashboardHabits {
+  active: number;
+  completedToday: number;
+  // Today's checklist: the active habits.
+  items: Habit[];
+}
+
+export interface DashboardPlans {
+  active: number;
+  upcoming: number;
+  completed: number;
+  // The IN_PROGRESS plans, in priority order.
+  items: Plan[];
+}
+
+export interface DashboardLearning {
+  totalCards: number;
+  notStarted: number;
+  inProgress: number;
+  completed: number;
+  milestonesDone: number;
+  milestonesTotal: number;
+  // Milestones completed in the last 7 days, newest first.
+  recentMilestones: LearningMilestone[];
+}
+
+export interface Dashboard {
+  date: string;
+  timeZone: string;
+  displayName: string;
+  tasks: DashboardTaskMetrics;
+  todayTasks: Task[];
+  overdueTasks: Task[];
+  habits: DashboardHabits;
+  plans: DashboardPlans;
+  learning: DashboardLearning;
+}

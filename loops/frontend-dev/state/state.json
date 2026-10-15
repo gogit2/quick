@@ -1,32 +1,32 @@
 {
   "spec": "specs/001-quickflow",
-  "milestone": "M05",
-  "milestone_title": "Plans",
+  "milestone": "M06",
+  "milestone_title": "Dashboard",
   "milestone_status": "passed",
   "status": "built",
   "trial": 0,
   "upgraded": false,
   "model": "claude-haiku-5-5",
-  "iteration": 4,
-  "attempt_iterations": 4,
+  "iteration": 2,
+  "attempt_iterations": 2,
   "attempt_cap": 5,
-  "budget_left_usd": 10.9412,
-  "last_session_id": "fe239e73-8d98-4cac-87d2-7b6963ab7aa4",
+  "budget_left_usd": 12.0925,
+  "last_session_id": "e462b62e-80f1-406f-a6fa-100562e48c97",
   "last_result": {
-    "milestone": "M05",
+    "milestone": "M06",
     "result": "built",
     "tasks_done": [
-      "T069",
-      "T070",
-      "T071",
-      "T072",
-      "T073",
-      "T074",
-      "T075"
+      "T082",
+      "T083",
+      "T084",
+      "T085",
+      "T086",
+      "T087",
+      "T088"
     ],
     "open_tasks": 0,
-    "selfcheck": "npx ng build (frontend/): passes, 500 kB budget warning only. Mock on :4010 and dev server on :4300 started by script. E2E-M05-01..08 executed with the Playwright MCP, all passed (0 console errors after the acknowledge-start body fix); E2E-M05-09 real_stack_only. Evidence: outputs/evidence/M05/result.json (passed: true). Both servers stopped by script.",
-    "notes": "Iter 4: fixed acknowledge-start (contract has no requestBody; a JSON body gave 415, now posts with no body). T074 and T075 ticked. Screenshots in run-artifacts/playwright/ (tool cannot write into outputs/evidence). Mock is stateless, so post-write progress and deletes are checked on the real stack by the verifier."
+    "selfcheck": "npx ng build: passes (500 kB budget warning only). Mock 4010 and frontend 4300 started by script. Playwright MCP: E2E-M06-01..05 executed on the mock, all passed, 0 console errors. Both servers stopped by script. The screenshot copy into outputs/evidence/M06 was denied; the file is at run-artifacts/playwright/E2E-M06-01-dashboard.png.",
+    "notes": "Code from an earlier attempt was verified; T087 (learning snapshot, quick-add) was added this iteration. Known gap for the verifier: a failed habit or plan toggle leaves the mat-checkbox DOM toggled on the real stack. Real-stack-only scenarios are listed in outputs/evidence/M06/result.json."
   },
-  "updated_at": "2026-10-15T06:54:41+03:00"
+  "updated_at": "2026-10-15T10:51:47+03:00"
 }

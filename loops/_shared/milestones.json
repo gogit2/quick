@@ -619,15 +619,15 @@
       ]
     },
     "M06": {
-      "status": "pending",
+      "status": "passed",
       "trial": 0,
       "upgraded": false,
-      "cost_usd": 0.0,
+      "cost_usd": 2.907472,
       "upgrade_cost_usd": 0.0,
-      "verify_rounds": 0,
-      "started_at": null,
-      "ended_at": null,
-      "tag": null,
+      "verify_rounds": 1,
+      "started_at": "2026-10-15T06:54:42+03:00",
+      "ended_at": "2026-10-15T10:51:47+03:00",
+      "tag": "M06",
       "blocked_reason": null,
       "title": "Dashboard",
       "slug": "dashboard",
@@ -635,57 +635,107 @@
       "roles": {
         "backend-dev": {
           "tasks": 6,
-          "status": "pending",
-          "iterations": 0,
-          "attempt_iterations": 0,
-          "attempt_cap": null,
-          "started_at": null,
-          "ended_at": null,
-          "tokens_in": 0,
-          "tokens_out": 0,
-          "cache_read": 0,
-          "cache_write": 0,
-          "cost_usd": 0.0,
-          "sessions": [],
-          "models": [],
-          "last_result": null
+          "status": "built",
+          "iterations": 2,
+          "attempt_iterations": 2,
+          "attempt_cap": 5,
+          "started_at": "2026-10-15T06:54:42+03:00",
+          "ended_at": "2026-10-15T10:45:47+03:00",
+          "tokens_in": 84,
+          "tokens_out": 65355,
+          "cache_read": 4019038,
+          "cache_write": 134547,
+          "cost_usd": 0.321934,
+          "sessions": [
+            "ab6a2c50-0cd9-4686-a4a9-c258d13c6533"
+          ],
+          "models": [
+            "claude-haiku-5-5"
+          ],
+          "last_result": {
+            "milestone": "M06",
+            "result": "built",
+            "tasks_done": [
+              "T076",
+              "T077",
+              "T078",
+              "T079",
+              "T080",
+              "T081"
+            ],
+            "open_tasks": 0,
+            "selfcheck": "cd backend && ./mvnw -q verify: green, 165 tests, 0 failures. curl-regression --upto M06 on a fresh db: 6 suites, 0 failed (M06 7/7). M06.sh alone on a fresh db: 7/7. export-swagger --ms M06: PASS, 35 operations, no diff. Server 8091 stopped.",
+            "notes": "Iter 1 code kept after verification; added DashboardRulesTest, DashboardConsistencyTest, M06.sh. AC-M06-01 all-zero branch runs only on an empty db (assumption A-backend-dev-M06-1)."
+          },
+          "last_gate": "pass"
         },
         "frontend-dev": {
           "tasks": 7,
-          "status": "pending",
-          "iterations": 0,
-          "attempt_iterations": 0,
-          "attempt_cap": null,
-          "started_at": null,
-          "ended_at": null,
-          "tokens_in": 0,
-          "tokens_out": 0,
-          "cache_read": 0,
-          "cache_write": 0,
-          "cost_usd": 0.0,
-          "sessions": [],
-          "models": [],
-          "last_result": null
+          "status": "built",
+          "iterations": 2,
+          "attempt_iterations": 2,
+          "attempt_cap": 5,
+          "started_at": "2026-10-15T06:54:42+03:00",
+          "ended_at": "2026-10-15T10:41:14+03:00",
+          "tokens_in": 82,
+          "tokens_out": 32959,
+          "cache_read": 3406942,
+          "cache_write": 110979,
+          "cost_usd": 0.199799,
+          "sessions": [
+            "e462b62e-80f1-406f-a6fa-100562e48c97"
+          ],
+          "models": [
+            "claude-haiku-5-5"
+          ],
+          "last_result": {
+            "milestone": "M06",
+            "result": "built",
+            "tasks_done": [
+              "T082",
+              "T083",
+              "T084",
+              "T085",
+              "T086",
+              "T087",
+              "T088"
+            ],
+            "open_tasks": 0,
+            "selfcheck": "npx ng build: passes (500 kB budget warning only). Mock 4010 and frontend 4300 started by script. Playwright MCP: E2E-M06-01..05 executed on the mock, all passed, 0 console errors. Both servers stopped by script. The screenshot copy into outputs/evidence/M06 was denied; the file is at run-artifacts/playwright/E2E-M06-01-dashboard.png.",
+            "notes": "Code from an earlier attempt was verified; T087 (learning snapshot, quick-add) was added this iteration. Known gap for the verifier: a failed habit or plan toggle leaves the mat-checkbox DOM toggled on the real stack. Real-stack-only scenarios are listed in outputs/evidence/M06/result.json."
+          },
+          "last_gate": "pass"
         },
         "verify": {
           "tasks": 0,
-          "status": "pending",
-          "iterations": 0,
+          "status": "passed",
+          "iterations": 1,
           "attempt_iterations": 0,
           "attempt_cap": null,
-          "started_at": null,
-          "ended_at": null,
-          "tokens_in": 0,
-          "tokens_out": 0,
-          "cache_read": 0,
-          "cache_write": 0,
-          "cost_usd": 0.0,
-          "sessions": [],
-          "models": [],
+          "started_at": "2026-10-15T10:45:47+03:00",
+          "ended_at": "2026-10-15T10:51:46+03:00",
+          "tokens_in": 104,
+          "tokens_out": 22732,
+          "cache_read": 4655534,
+          "cache_write": 124947,
+          "cost_usd": 2.385739,
+          "sessions": [
+            "c55e7178-3681-43f0-ad14-4ad11035d93a"
+          ],
+          "models": [
+            "claude-opus-5-5"
+          ],
           "last_result": null
         }
       },
-      "events": []
+      "events": [
+        {
+          "at": "2026-10-15T10:51:46+03:00",
+          "type": "verdict",
+          "role": "verify",
+          "detail": "round 1: PASS (2 small fixes)"
+        }
+      ]
     },
     "M07": {
       "status": "pending",
