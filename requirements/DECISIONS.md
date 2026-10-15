@@ -24,3 +24,10 @@ Format: `D-<n> (Qx): question -> decision`.
 - **D-12**: Plan `PriorityOrder` is a positive integer; equal values are allowed (ties are broken by start time).
 - **D-13**: A "due-date filter" on tasks offers: due today, overdue, due this week (Mon-Sun), no due date, and an explicit date range.
 - **D-14**: Task search matches the title only, case-insensitive, partial match.
+
+## Defaults taken in speckit-plan (not asked; change here to override)
+
+- **D-15**: Task completion percentage = completed non-archived tasks / all non-archived tasks, round half up, 0 when there are none. "Today's tasks" = non-archived tasks due today (any status); "completed today" = DONE tasks last updated today.
+- **D-16**: API style: ids are integers; lists are not paginated; errors use one `ApiError` body (400 validation with fieldErrors, 404, 409). A duplicate habit completion is 409; a future date or inactive habit is 400. Updating a learning card's status while it has milestones is 409.
+- **D-17**: A plan has no stored status; it is computed from the clock, times and items. Plans cannot be edited after creation in the MVP (create, mark items, acknowledge start, remove).
+- **D-18**: Plan item progress is rounded half up; a plan whose items are all done before its start is Completed.

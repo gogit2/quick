@@ -1,0 +1,2221 @@
+# QuickFlow API contract (full API). Generated once during planning; edited only by the user/verifier. x-milestone = milestone that delivers the operation.
+openapi: 3.0.3
+info:
+  title: QuickFlow API
+  version: 1.0.0
+  description: Contract for spec 001-quickflow. Single user, no authentication. Dates are yyyy-MM-dd in the user time zone; date-times are UTC
+    (ISO-8601 with Z). Lists are not paginated. All errors use ApiError.
+servers:
+- url: http://localhost:8090
+  description: stable backend
+tags:
+- name: Settings
+- name: Tasks
+- name: Habits
+- name: Learning
+- name: Plans
+- name: Dashboard
+paths:
+  /api/settings:
+    get:
+      x-milestone: M01
+      tags:
+      - Settings
+      summary: Get the settings of the single user
+      operationId: getSettings
+      responses:
+        '200':
+          description: Settings
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Settings'
+              examples:
+                default:
+                  $ref: '#/components/examples/Settings'
+    put:
+      x-milestone: M01
+      tags:
+      - Settings
+      summary: Replace the settings
+      operationId: updateSettings
+      description: Invalid time zone ids and unknown start pages are rejected with 400.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SettingsUpdate'
+            example:
+              displayName: Alex
+              email: alex@example.com
+              timeZone: Europe/Berlin
+              notificationsEnabled: true
+              defaultStartPage: DASHBOARD
+      responses:
+        '200':
+          description: Saved settings
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Settings'
+              examples:
+                default:
+                  $ref: '#/components/examples/Settings'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+  /api/tasks:
+    get:
+      x-milestone: M02
+      tags:
+      - Tasks
+      summary: List tasks
+      operationId: listTasks
+      parameters:
+      - name: q
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Case-insensitive partial match on the title.
+      - name: status
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/TaskStatus'
+      - name: priority
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/TaskPriority'
+      - name: due
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/TaskDueFilter'
+      - name: dueFrom
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date
+        description: Inclusive; combinable with dueTo.
+      - name: dueTo
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date
+      - name: archived
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+        description: false (default) = non-archived tasks only (BR4); true = archived tasks only.
+      - name: sort
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/TaskSort'
+      responses:
+        '200':
+          description: Tasks (not paginated)
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Task'
+              examples:
+                default:
+                  $ref: '#/components/examples/TaskList'
+    post:
+      x-milestone: M02
+      tags:
+      - Tasks
+      summary: Create a task
+      operationId: createTask
+      description: 'Defaults: status TODO, priority MEDIUM.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaskCreate'
+            example:
+              title: Write quarterly report
+              description: Draft the report
+              priority: HIGH
+              dueDate: '2026-10-20'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+              examples:
+                default:
+                  $ref: '#/components/examples/Task'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+  /api/tasks/{id}:
+    get:
+      x-milestone: M02
+      tags:
+      - Tasks
+      summary: Get a task
+      operationId: getTask
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Resource id
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: Task
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+              examples:
+                default:
+                  $ref: '#/components/examples/Task'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      x-milestone: M02
+      tags:
+      - Tasks
+      summary: Update a task
+      operationId: updateTask
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Resource id
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaskUpdate'
+      responses:
+        '200':
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+              examples:
+                default:
+                  $ref: '#/components/examples/Task'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      x-milestone: M02
+      tags:
+      - Tasks
+      summary: Delete a task for good
+      operationId: deleteTask
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Resource id
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '204':
+          description: Deleted (also removed from plans)
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /api/tasks/{id}/complete:
+    post:
+      x-milestone: M02
+      tags:
+      - Tasks
+      summary: Mark a task completed (status DONE)
+      operationId: completeTask
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Resource id
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: Updated task
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+              examples:
+                default:
+                  $ref: '#/components/examples/Task'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /api/tasks/{id}/archive:
+    post:
+      x-milestone: M02
+      tags:
+      - Tasks
+      summary: Archive a task
+      operationId: archiveTask
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Resource id
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: Updated task
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+              examples:
+                default:
+                  $ref: '#/components/examples/Task'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /api/tasks/{id}/restore:
+    post:
+      x-milestone: M02
+      tags:
+      - Tasks
+      summary: Restore an archived task
+      operationId: restoreTask
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Resource id
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: Updated task
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+              examples:
+                default:
+                  $ref: '#/components/examples/Task'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /api/habits:
+    get:
+      x-milestone: M03
+      tags:
+      - Habits
+      summary: List habits
+      operationId: listHabits
+      parameters:
+      - name: active
+        in: query
+        required: false
+        schema:
+          type: boolean
+        description: Filter by IsActive; omit for all.
+      responses:
+        '200':
+          description: Habits
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Habit'
+              examples:
+                default:
+                  $ref: '#/components/examples/HabitList'
+    post:
+      x-milestone: M03
+      tags:
+      - Habits
+      summary: Create a habit
+      operationId: createHabit
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HabitCreate'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Habit'
+              examples:
+                default:
+                  $ref: '#/components/examples/Habit'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+  /api/habits/{id}:
+    get:
+      x-milestone: M03
+      tags:
+      - Habits
+      summary: Get a habit
+      operationId: getHabit
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Resource id
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: Habit
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Habit'
+              examples:
+                default:
+                  $ref: '#/components/examples/Habit'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      x-milestone: M03
+      tags:
+      - Habits
+      summary: Update or (de)activate a habit
+      operationId: updateHabit
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Resource id
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HabitUpdate'
+      responses:
+        '200':
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Habit'
+              examples:
+                default:
+                  $ref: '#/components/examples/Habit'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      x-milestone: M03
+      tags:
+      - Habits
+      summary: Delete a habit and its completions
+      operationId: deleteHabit
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Resource id
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '204':
+          description: Deleted (also removed from plans)
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /api/habits/{id}/completions:
+    get:
+      x-milestone: M03
+      tags:
+      - Habits
+      summary: List completions of a habit
+      operationId: listHabitCompletions
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Resource id
+        schema:
+          type: integer
+          format: int64
+      - name: from
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date
+      - name: to
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date
+      responses:
+        '200':
+          description: Completions, newest first
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/HabitCompletion'
+              examples:
+                default:
+                  $ref: '#/components/examples/HabitCompletionList'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    post:
+      x-milestone: M03
+      tags:
+      - Habits
+      summary: Mark a habit complete for a date
+      operationId: completeHabit
+      description: 400 for a future date or an inactive habit. 409 if that habit already has a completion on that date (BR7), or, for a WEEKLY
+        habit, in that Monday-Sunday week.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Resource id
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HabitCompletionCreate'
+      responses:
+        '201':
+          description: Recorded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HabitCompletion'
+              examples:
+                default:
+                  $ref: '#/components/examples/HabitCompletion'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+  /api/habits/{id}/completions/{date}:
+    delete:
+      x-milestone: M03
+      tags:
+      - Habits
+      summary: Remove the completion of a date (undo)
+      operationId: deleteHabitCompletion
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Resource id
+        schema:
+          type: integer
+          format: int64
+      - name: date
+        in: path
+        required: true
+        description: Completion date (yyyy-MM-dd)
+        schema:
+          type: string
+          format: date
+      responses:
+        '204':
+          description: Removed
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /api/learning-cards:
+    get:
+      x-milestone: M04
+      tags:
+      - Learning
+      summary: List learning cards with milestones and notes
+      operationId: listLearningCards
+      responses:
+        '200':
+          description: Cards, newest first
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LearningCard'
+              examples:
+                default:
+                  $ref: '#/components/examples/LearningCardList'
+    post:
+      x-milestone: M04
+      tags:
+      - Learning
+      summary: Add a learning card
+      operationId: createLearningCard
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LearningCardCreate'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LearningCard'
+              examples:
+                default:
+                  $ref: '#/components/examples/LearningCard'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+  /api/learning-cards/{id}:
+    get:
+      x-milestone: M04
+      tags:
+      - Learning
+      summary: Get a learning card
+      operationId: getLearningCard
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Resource id
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: Card
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LearningCard'
+              examples:
+                default:
+                  $ref: '#/components/examples/LearningCard'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      x-milestone: M04
+      tags:
+      - Learning
+      summary: Update a learning card
+      operationId: updateLearningCard
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Resource id
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LearningCardUpdate'
+      responses:
+        '200':
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LearningCard'
+              examples:
+                default:
+                  $ref: '#/components/examples/LearningCard'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+    delete:
+      x-milestone: M04
+      tags:
+      - Learning
+      summary: Remove a learning card with its milestones and notes
+      operationId: deleteLearningCard
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Resource id
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '204':
+          description: Deleted (also removed from plans)
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /api/learning-cards/{id}/milestones:
+    post:
+      x-milestone: M04
+      tags:
+      - Learning
+      summary: Add a milestone to a card
+      operationId: createLearningMilestone
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Learning card id
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LearningMilestoneCreate'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LearningMilestone'
+              examples:
+                default:
+                  $ref: '#/components/examples/LearningMilestoneNew'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /api/learning-cards/{id}/milestones/{milestoneId}:
+    put:
+      x-milestone: M04
+      tags:
+      - Learning
+      summary: Update or complete a milestone
+      operationId: updateLearningMilestone
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Learning card id
+        schema:
+          type: integer
+          format: int64
+      - name: milestoneId
+        in: path
+        required: true
+        description: Milestone id
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LearningMilestoneUpdate'
+      responses:
+        '200':
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LearningMilestone'
+              examples:
+                default:
+                  $ref: '#/components/examples/LearningMilestone'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      x-milestone: M04
+      tags:
+      - Learning
+      summary: Remove a milestone
+      operationId: deleteLearningMilestone
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Learning card id
+        schema:
+          type: integer
+          format: int64
+      - name: milestoneId
+        in: path
+        required: true
+        description: Milestone id
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '204':
+          description: Deleted
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /api/learning-cards/{id}/notes:
+    post:
+      x-milestone: M04
+      tags:
+      - Learning
+      summary: Add a note to a card
+      operationId: createLearningNote
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Learning card id
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LearningNoteCreate'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LearningNote'
+              examples:
+                default:
+                  $ref: '#/components/examples/LearningNote'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /api/learning-cards/{id}/notes/{noteId}:
+    delete:
+      x-milestone: M04
+      tags:
+      - Learning
+      summary: Remove a note
+      operationId: deleteLearningNote
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Learning card id
+        schema:
+          type: integer
+          format: int64
+      - name: noteId
+        in: path
+        required: true
+        description: Note id
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '204':
+          description: Deleted
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /api/plans:
+    get:
+      x-milestone: M05
+      tags:
+      - Plans
+      summary: List plans ordered by priorityOrder, then start
+      operationId: listPlans
+      parameters:
+      - name: group
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/PlanGroup'
+        description: Omit for all plans.
+      responses:
+        '200':
+          description: Plans (not paginated)
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Plan'
+              examples:
+                default:
+                  $ref: '#/components/examples/PlanList'
+    post:
+      x-milestone: M05
+      tags:
+      - Plans
+      summary: Create a plan from existing tasks, habits and learning cards
+      operationId: createPlan
+      description: 400 when there are no items (BR10), end is not after start (BR11), a source does not exist, an item is duplicated, or the duration
+        is not positive. A duration longer than the window is accepted (durationExceedsWindow=true).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlanCreate'
+            example:
+              title: Focused morning
+              estimatedDurationMinutes: 90
+              startDateTime: '2026-10-15T09:00:00Z'
+              endDateTime: '2026-10-15T11:00:00Z'
+              priorityOrder: 1
+              items:
+              - sourceType: TASK
+                sourceId: 1
+              - sourceType: HABIT
+                sourceId: 1
+              - sourceType: LEARNING_RESOURCE
+                sourceId: 1
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Plan'
+              examples:
+                default:
+                  $ref: '#/components/examples/Plan'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+  /api/plans/{id}:
+    get:
+      x-milestone: M05
+      tags:
+      - Plans
+      summary: Get a plan
+      operationId: getPlan
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Resource id
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: Plan
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Plan'
+              examples:
+                default:
+                  $ref: '#/components/examples/Plan'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      x-milestone: M05
+      tags:
+      - Plans
+      summary: Remove a plan (sources are untouched)
+      operationId: deletePlan
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Resource id
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '204':
+          description: Deleted
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /api/plans/{id}/items/{itemId}:
+    put:
+      x-milestone: M05
+      tags:
+      - Plans
+      summary: Mark a plan item done or not done
+      operationId: updatePlanItem
+      description: TASK items also set the task to DONE (done=true) or TODO (done=false). HABIT and LEARNING_RESOURCE items only change the item
+        flag.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Plan id
+        schema:
+          type: integer
+          format: int64
+      - name: itemId
+        in: path
+        required: true
+        description: Plan item id
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlanItemUpdate'
+      responses:
+        '200':
+          description: The whole plan with recomputed progress
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Plan'
+              examples:
+                default:
+                  $ref: '#/components/examples/Plan'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /api/plans/{id}/acknowledge-start:
+    post:
+      x-milestone: M05
+      tags:
+      - Plans
+      summary: Record that the start notice was shown
+      operationId: acknowledgePlanStart
+      description: Idempotent. Used for the one-time catch-up notice when a plan started while the app was closed.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Resource id
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: Plan with startNotified=true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Plan'
+              examples:
+                default:
+                  $ref: '#/components/examples/Plan'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /api/dashboard:
+    get:
+      x-milestone: M06
+      tags:
+      - Dashboard
+      summary: Dashboard aggregate for today
+      operationId: getDashboard
+      responses:
+        '200':
+          description: Dashboard
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dashboard'
+              examples:
+                default:
+                  $ref: '#/components/examples/Dashboard'
+components:
+  schemas:
+    ApiError:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+        status:
+          type: integer
+        error:
+          type: string
+        message:
+          type: string
+        path:
+          type: string
+        fieldErrors:
+          type: array
+          items:
+            $ref: '#/components/schemas/FieldError'
+      required:
+      - timestamp
+      - status
+      - error
+      - message
+      - path
+      - fieldErrors
+      description: Error body of every 4xx/5xx response.
+      example:
+        timestamp: '2026-10-15T09:00:00Z'
+        status: 400
+        error: Bad Request
+        message: Validation failed
+        path: /api/tasks
+        fieldErrors:
+        - field: title
+          message: must not be blank
+    FieldError:
+      type: object
+      properties:
+        field:
+          type: string
+        message:
+          type: string
+      required:
+      - field
+      - message
+    TaskStatus:
+      type: string
+      enum:
+      - TODO
+      - IN_PROGRESS
+      - DONE
+    TaskPriority:
+      type: string
+      enum:
+      - LOW
+      - MEDIUM
+      - HIGH
+    TaskDueFilter:
+      type: string
+      enum:
+      - TODAY
+      - OVERDUE
+      - THIS_WEEK
+      - NO_DUE_DATE
+      description: THIS_WEEK = Monday-Sunday of the current week in the user time zone.
+    TaskSort:
+      type: string
+      enum:
+      - CREATED_DESC
+      - CREATED_ASC
+      - DUE_DATE_ASC
+      - DUE_DATE_DESC
+      description: Default CREATED_DESC. Tasks without a due date sort last for DUE_DATE_*.
+    HabitFrequency:
+      type: string
+      enum:
+      - DAILY
+      - WEEKLY
+    LearningStatus:
+      type: string
+      enum:
+      - NOT_STARTED
+      - IN_PROGRESS
+      - COMPLETED
+    PlanStatus:
+      type: string
+      enum:
+      - NOT_STARTED
+      - IN_PROGRESS
+      - COMPLETED
+    PlanGroup:
+      type: string
+      enum:
+      - ACTIVE_UPCOMING
+      - COMPLETED
+      description: ACTIVE_UPCOMING = NOT_STARTED + IN_PROGRESS.
+    PlanItemSourceType:
+      type: string
+      enum:
+      - TASK
+      - HABIT
+      - LEARNING_RESOURCE
+    StartPage:
+      type: string
+      enum:
+      - DASHBOARD
+      - TASKS
+      - HABITS
+      - LEARNING
+      - PLANS
+    Settings:
+      type: object
+      properties:
+        displayName:
+          type: string
+          maxLength: 100
+        email:
+          type: string
+          maxLength: 200
+          nullable: true
+        timeZone:
+          type: string
+          description: IANA zone id, e.g. Europe/Berlin
+        notificationsEnabled:
+          type: boolean
+        defaultStartPage:
+          $ref: '#/components/schemas/StartPage'
+        configured:
+          type: boolean
+          description: false until the first PUT; the frontend then saves the browser time zone silently.
+      required:
+      - displayName
+      - timeZone
+      - notificationsEnabled
+      - defaultStartPage
+      - configured
+      example:
+        displayName: Alex
+        email: alex@example.com
+        timeZone: Europe/Berlin
+        notificationsEnabled: true
+        defaultStartPage: DASHBOARD
+        configured: true
+    SettingsUpdate:
+      type: object
+      properties:
+        displayName:
+          type: string
+          maxLength: 100
+        email:
+          type: string
+          maxLength: 200
+          format: email
+          nullable: true
+        timeZone:
+          type: string
+        notificationsEnabled:
+          type: boolean
+        defaultStartPage:
+          $ref: '#/components/schemas/StartPage'
+      required:
+      - displayName
+      - timeZone
+      - notificationsEnabled
+      - defaultStartPage
+      example:
+        displayName: Alex
+        email: alex@example.com
+        timeZone: Europe/Berlin
+        notificationsEnabled: true
+        defaultStartPage: DASHBOARD
+    Task:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        title:
+          type: string
+          maxLength: 200
+        description:
+          type: string
+          maxLength: 2000
+          nullable: true
+        status:
+          $ref: '#/components/schemas/TaskStatus'
+        priority:
+          $ref: '#/components/schemas/TaskPriority'
+        dueDate:
+          type: string
+          format: date
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        archived:
+          type: boolean
+        overdue:
+          type: boolean
+          description: due date before today (user time zone) and status not DONE and not archived
+      required:
+      - id
+      - title
+      - status
+      - priority
+      - createdAt
+      - updatedAt
+      - archived
+      - overdue
+    TaskCreate:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 1
+          maxLength: 200
+        description:
+          type: string
+          maxLength: 2000
+          nullable: true
+        status:
+          $ref: '#/components/schemas/TaskStatus'
+        priority:
+          $ref: '#/components/schemas/TaskPriority'
+        dueDate:
+          type: string
+          format: date
+          nullable: true
+      required:
+      - title
+      example:
+        title: Write quarterly report
+        description: Draft the report
+        priority: HIGH
+        dueDate: '2026-10-20'
+    TaskUpdate:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 1
+          maxLength: 200
+        description:
+          type: string
+          maxLength: 2000
+          nullable: true
+        status:
+          $ref: '#/components/schemas/TaskStatus'
+        priority:
+          $ref: '#/components/schemas/TaskPriority'
+        dueDate:
+          type: string
+          format: date
+          nullable: true
+      required:
+      - title
+      description: Full replacement. Missing status/priority keep their current value; missing description/dueDate clear them.
+    Habit:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+          maxLength: 150
+        description:
+          type: string
+          maxLength: 2000
+          nullable: true
+        frequency:
+          $ref: '#/components/schemas/HabitFrequency'
+        createdAt:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        doneForCurrentPeriod:
+          type: boolean
+          description: 'DAILY: completed today. WEEKLY: completed on any day of the current Monday-Sunday week.'
+        currentStreak:
+          type: integer
+          description: Consecutive completed days (DAILY) or weeks (WEEKLY) ending at the current period; an unfinished current period does not
+            break it.
+        totalCompletions:
+          type: integer
+        periodStart:
+          type: string
+          format: date
+        periodEnd:
+          type: string
+          format: date
+      required:
+      - id
+      - name
+      - frequency
+      - createdAt
+      - active
+      - doneForCurrentPeriod
+      - currentStreak
+      - totalCompletions
+      - periodStart
+      - periodEnd
+    HabitCreate:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 150
+        description:
+          type: string
+          maxLength: 2000
+          nullable: true
+        frequency:
+          $ref: '#/components/schemas/HabitFrequency'
+      required:
+      - name
+      - frequency
+    HabitUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 150
+        description:
+          type: string
+          maxLength: 2000
+          nullable: true
+        frequency:
+          $ref: '#/components/schemas/HabitFrequency'
+        active:
+          type: boolean
+      required:
+      - name
+      - frequency
+      - active
+    HabitCompletion:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        habitId:
+          type: integer
+          format: int64
+        completionDate:
+          type: string
+          format: date
+        createdAt:
+          type: string
+          format: date-time
+      required:
+      - id
+      - habitId
+      - completionDate
+      - createdAt
+    HabitCompletionCreate:
+      type: object
+      properties:
+        completionDate:
+          type: string
+          format: date
+          nullable: true
+      description: completionDate defaults to today (user time zone); future dates are rejected.
+    LearningMilestone:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        learningCardId:
+          type: integer
+          format: int64
+        title:
+          type: string
+          maxLength: 200
+        done:
+          type: boolean
+        targetDate:
+          type: string
+          format: date
+          nullable: true
+        completedAt:
+          type: string
+          format: date-time
+          nullable: true
+      required:
+      - id
+      - learningCardId
+      - title
+      - done
+    LearningNote:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        learningCardId:
+          type: integer
+          format: int64
+        text:
+          type: string
+          maxLength: 4000
+        createdAt:
+          type: string
+          format: date-time
+      required:
+      - id
+      - learningCardId
+      - text
+      - createdAt
+    LearningCard:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        title:
+          type: string
+          maxLength: 200
+        description:
+          type: string
+          maxLength: 2000
+          nullable: true
+        status:
+          $ref: '#/components/schemas/LearningStatus'
+        createdAt:
+          type: string
+          format: date-time
+        milestones:
+          type: array
+          items:
+            $ref: '#/components/schemas/LearningMilestone'
+        notes:
+          type: array
+          items:
+            $ref: '#/components/schemas/LearningNote'
+      required:
+      - id
+      - title
+      - status
+      - createdAt
+      - milestones
+      - notes
+      description: 'status is derived from milestones when the card has any (none done: NOT_STARTED, some: IN_PROGRESS, all: COMPLETED); set by
+        hand only when it has none.'
+    LearningCardCreate:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 1
+          maxLength: 200
+        description:
+          type: string
+          maxLength: 2000
+          nullable: true
+        status:
+          $ref: '#/components/schemas/LearningStatus'
+      required:
+      - title
+    LearningCardUpdate:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 1
+          maxLength: 200
+        description:
+          type: string
+          maxLength: 2000
+          nullable: true
+        status:
+          $ref: '#/components/schemas/LearningStatus'
+      required:
+      - title
+      description: status is only accepted while the card has no milestones; otherwise 409.
+    LearningMilestoneCreate:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 1
+          maxLength: 200
+        targetDate:
+          type: string
+          format: date
+          nullable: true
+      required:
+      - title
+    LearningMilestoneUpdate:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 1
+          maxLength: 200
+        done:
+          type: boolean
+        targetDate:
+          type: string
+          format: date
+          nullable: true
+      required:
+      - title
+      - done
+    LearningNoteCreate:
+      type: object
+      properties:
+        text:
+          type: string
+          minLength: 1
+          maxLength: 4000
+      required:
+      - text
+    PlanItem:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        sourceType:
+          $ref: '#/components/schemas/PlanItemSourceType'
+        sourceId:
+          type: integer
+          format: int64
+        title:
+          type: string
+          description: Current title/name of the source entity.
+        done:
+          type: boolean
+      required:
+      - id
+      - sourceType
+      - sourceId
+      - title
+      - done
+    Plan:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        title:
+          type: string
+          maxLength: 200
+        estimatedDurationMinutes:
+          type: integer
+          minimum: 1
+        startDateTime:
+          type: string
+          format: date-time
+        endDateTime:
+          type: string
+          format: date-time
+        priorityOrder:
+          type: integer
+          minimum: 1
+        status:
+          $ref: '#/components/schemas/PlanStatus'
+        createdAt:
+          type: string
+          format: date-time
+        startNotified:
+          type: boolean
+          description: true once the start notice was acknowledged (POST .../acknowledge-start).
+        durationExceedsWindow:
+          type: boolean
+          description: estimated duration is longer than end minus start (warning only).
+        totalItems:
+          type: integer
+        doneItems:
+          type: integer
+        completionPercent:
+          type: integer
+          description: round-half-up of doneItems*100/totalItems
+        restSeconds:
+          type: integer
+          description: Seconds until endDateTime, only while status is IN_PROGRESS (BR12); null otherwise.
+          nullable: true
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/PlanItem'
+      required:
+      - id
+      - title
+      - estimatedDurationMinutes
+      - startDateTime
+      - endDateTime
+      - priorityOrder
+      - status
+      - createdAt
+      - startNotified
+      - durationExceedsWindow
+      - totalItems
+      - doneItems
+      - completionPercent
+      - items
+      description: 'status is computed on every read from the clock and item completion, never stored: COMPLETED if all items are done or now
+        >= end; else IN_PROGRESS if now >= start; else NOT_STARTED.'
+    PlanItemCreate:
+      type: object
+      properties:
+        sourceType:
+          $ref: '#/components/schemas/PlanItemSourceType'
+        sourceId:
+          type: integer
+          format: int64
+      required:
+      - sourceType
+      - sourceId
+    PlanCreate:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 1
+          maxLength: 200
+        estimatedDurationMinutes:
+          type: integer
+          minimum: 1
+        startDateTime:
+          type: string
+          format: date-time
+        endDateTime:
+          type: string
+          format: date-time
+        priorityOrder:
+          type: integer
+          minimum: 1
+        items:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/PlanItemCreate'
+      required:
+      - title
+      - estimatedDurationMinutes
+      - startDateTime
+      - endDateTime
+      - priorityOrder
+      - items
+      example:
+        title: Focused morning
+        estimatedDurationMinutes: 90
+        startDateTime: '2026-10-15T09:00:00Z'
+        endDateTime: '2026-10-15T11:00:00Z'
+        priorityOrder: 1
+        items:
+        - sourceType: TASK
+          sourceId: 1
+        - sourceType: HABIT
+          sourceId: 1
+        - sourceType: LEARNING_RESOURCE
+          sourceId: 1
+    PlanItemUpdate:
+      type: object
+      properties:
+        done:
+          type: boolean
+      required:
+      - done
+    DashboardTaskMetrics:
+      type: object
+      properties:
+        dueToday:
+          type: integer
+        overdue:
+          type: integer
+        completedToday:
+          type: integer
+        total:
+          type: integer
+        completed:
+          type: integer
+        completionPercent:
+          type: integer
+      required:
+      - dueToday
+      - overdue
+      - completedToday
+      - total
+      - completed
+      - completionPercent
+      description: total/completed count non-archived tasks; completionPercent = round-half-up(completed*100/total), 0 when total is 0; completedToday
+        = DONE tasks last updated today.
+    DashboardHabits:
+      type: object
+      properties:
+        active:
+          type: integer
+        completedToday:
+          type: integer
+          description: active habits done for the current period
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Habit'
+      required:
+      - active
+      - completedToday
+      - items
+      description: items = active habits (today's checklist).
+    DashboardPlans:
+      type: object
+      properties:
+        active:
+          type: integer
+        upcoming:
+          type: integer
+        completed:
+          type: integer
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Plan'
+      required:
+      - active
+      - upcoming
+      - completed
+      - items
+      description: items = IN_PROGRESS plans ordered by priorityOrder.
+    DashboardLearning:
+      type: object
+      properties:
+        totalCards:
+          type: integer
+        notStarted:
+          type: integer
+        inProgress:
+          type: integer
+        completed:
+          type: integer
+        milestonesDone:
+          type: integer
+        milestonesTotal:
+          type: integer
+        recentMilestones:
+          type: array
+          items:
+            $ref: '#/components/schemas/LearningMilestone'
+      required:
+      - totalCards
+      - notStarted
+      - inProgress
+      - completed
+      - milestonesDone
+      - milestonesTotal
+      - recentMilestones
+      description: recentMilestones = milestones completed in the last 7 days, newest first.
+    Dashboard:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+        timeZone:
+          type: string
+        displayName:
+          type: string
+        tasks:
+          $ref: '#/components/schemas/DashboardTaskMetrics'
+        todayTasks:
+          type: array
+          items:
+            $ref: '#/components/schemas/Task'
+        overdueTasks:
+          type: array
+          items:
+            $ref: '#/components/schemas/Task'
+        habits:
+          $ref: '#/components/schemas/DashboardHabits'
+        plans:
+          $ref: '#/components/schemas/DashboardPlans'
+        learning:
+          $ref: '#/components/schemas/DashboardLearning'
+      required:
+      - date
+      - timeZone
+      - displayName
+      - tasks
+      - todayTasks
+      - overdueTasks
+      - habits
+      - plans
+      - learning
+      description: todayTasks = non-archived tasks due today (any status); overdueTasks = overdue tasks.
+  responses:
+    BadRequest:
+      description: Validation failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiError'
+          example:
+            timestamp: '2026-10-15T09:00:00Z'
+            status: 400
+            error: Bad Request
+            message: Validation failed
+            path: /api/tasks
+            fieldErrors:
+            - field: title
+              message: must not be blank
+    NotFound:
+      description: Not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiError'
+          example:
+            timestamp: '2026-10-15T09:00:00Z'
+            status: 404
+            error: Not Found
+            message: Task 99 not found
+            path: /api/tasks/99
+            fieldErrors: []
+    Conflict:
+      description: Conflict
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiError'
+          example:
+            timestamp: '2026-10-15T09:00:00Z'
+            status: 409
+            error: Conflict
+            message: Habit already completed for 2026-10-15
+            path: /api/habits/1/completions
+            fieldErrors: []
+  examples:
+    Task:
+      value:
+        id: 1
+        title: Write quarterly report
+        description: Draft the report and send it to the team
+        status: IN_PROGRESS
+        priority: HIGH
+        dueDate: '2026-10-20'
+        createdAt: '2026-10-14T08:30:00Z'
+        updatedAt: '2026-10-15T07:00:00Z'
+        archived: false
+        overdue: false
+    TaskList:
+      value:
+      - id: 1
+        title: Write quarterly report
+        description: Draft the report and send it to the team
+        status: IN_PROGRESS
+        priority: HIGH
+        dueDate: '2026-10-20'
+        createdAt: '2026-10-14T08:30:00Z'
+        updatedAt: '2026-10-15T07:00:00Z'
+        archived: false
+        overdue: false
+      - id: 2
+        title: Book dentist
+        description: null
+        status: TODO
+        priority: MEDIUM
+        dueDate: '2026-10-10'
+        createdAt: '2026-10-01T09:00:00Z'
+        updatedAt: '2026-10-01T09:00:00Z'
+        archived: false
+        overdue: true
+    Habit:
+      value:
+        id: 1
+        name: Morning run
+        description: 30 minutes before work
+        frequency: DAILY
+        createdAt: '2026-10-01T06:00:00Z'
+        active: true
+        doneForCurrentPeriod: false
+        currentStreak: 4
+        totalCompletions: 12
+        periodStart: '2026-10-15'
+        periodEnd: '2026-10-15'
+    HabitList:
+      value:
+      - id: 1
+        name: Morning run
+        description: 30 minutes before work
+        frequency: DAILY
+        createdAt: '2026-10-01T06:00:00Z'
+        active: true
+        doneForCurrentPeriod: false
+        currentStreak: 4
+        totalCompletions: 12
+        periodStart: '2026-10-15'
+        periodEnd: '2026-10-15'
+      - id: 2
+        name: Weekly review
+        description: null
+        frequency: WEEKLY
+        createdAt: '2026-09-20T18:00:00Z'
+        active: true
+        doneForCurrentPeriod: true
+        currentStreak: 3
+        totalCompletions: 3
+        periodStart: '2026-10-12'
+        periodEnd: '2026-10-18'
+    HabitCompletion:
+      value:
+        id: 7
+        habitId: 1
+        completionDate: '2026-10-15'
+        createdAt: '2026-10-15T06:45:00Z'
+    HabitCompletionList:
+      value:
+      - id: 7
+        habitId: 1
+        completionDate: '2026-10-15'
+        createdAt: '2026-10-15T06:45:00Z'
+    LearningMilestone:
+      value:
+        id: 1
+        learningCardId: 1
+        title: Finish chapter 3
+        done: true
+        targetDate: '2026-10-31'
+        completedAt: '2026-10-14T20:00:00Z'
+    LearningMilestoneNew:
+      value:
+        id: 2
+        learningCardId: 1
+        title: Build the sample project
+        done: false
+        targetDate: null
+        completedAt: null
+    LearningNote:
+      value:
+        id: 1
+        learningCardId: 1
+        text: 'Remember: dependency injection is about inversion of control.'
+        createdAt: '2026-10-14T20:05:00Z'
+    LearningCard:
+      value:
+        id: 1
+        title: Spring Boot in depth
+        description: https://example.com/course/spring-boot
+        status: IN_PROGRESS
+        createdAt: '2026-10-01T10:00:00Z'
+        milestones:
+        - id: 1
+          learningCardId: 1
+          title: Finish chapter 3
+          done: true
+          targetDate: '2026-10-31'
+          completedAt: '2026-10-14T20:00:00Z'
+        - id: 2
+          learningCardId: 1
+          title: Build the sample project
+          done: false
+          targetDate: null
+          completedAt: null
+        notes:
+        - id: 1
+          learningCardId: 1
+          text: 'Remember: dependency injection is about inversion of control.'
+          createdAt: '2026-10-14T20:05:00Z'
+    LearningCardList:
+      value:
+      - id: 1
+        title: Spring Boot in depth
+        description: https://example.com/course/spring-boot
+        status: IN_PROGRESS
+        createdAt: '2026-10-01T10:00:00Z'
+        milestones:
+        - id: 1
+          learningCardId: 1
+          title: Finish chapter 3
+          done: true
+          targetDate: '2026-10-31'
+          completedAt: '2026-10-14T20:00:00Z'
+        - id: 2
+          learningCardId: 1
+          title: Build the sample project
+          done: false
+          targetDate: null
+          completedAt: null
+        notes:
+        - id: 1
+          learningCardId: 1
+          text: 'Remember: dependency injection is about inversion of control.'
+          createdAt: '2026-10-14T20:05:00Z'
+    Plan:
+      value:
+        id: 1
+        title: Focused morning
+        estimatedDurationMinutes: 90
+        startDateTime: '2026-10-15T09:00:00Z'
+        endDateTime: '2026-10-15T11:00:00Z'
+        priorityOrder: 1
+        status: IN_PROGRESS
+        createdAt: '2026-10-14T21:00:00Z'
+        startNotified: true
+        durationExceedsWindow: false
+        totalItems: 3
+        doneItems: 1
+        completionPercent: 33
+        restSeconds: 3600
+        items:
+        - id: 1
+          sourceType: TASK
+          sourceId: 1
+          title: Write quarterly report
+          done: true
+        - id: 2
+          sourceType: HABIT
+          sourceId: 1
+          title: Morning run
+          done: false
+        - id: 3
+          sourceType: LEARNING_RESOURCE
+          sourceId: 1
+          title: Spring Boot in depth
+          done: false
+    PlanList:
+      value:
+      - id: 1
+        title: Focused morning
+        estimatedDurationMinutes: 90
+        startDateTime: '2026-10-15T09:00:00Z'
+        endDateTime: '2026-10-15T11:00:00Z'
+        priorityOrder: 1
+        status: IN_PROGRESS
+        createdAt: '2026-10-14T21:00:00Z'
+        startNotified: true
+        durationExceedsWindow: false
+        totalItems: 3
+        doneItems: 1
+        completionPercent: 33
+        restSeconds: 3600
+        items:
+        - id: 1
+          sourceType: TASK
+          sourceId: 1
+          title: Write quarterly report
+          done: true
+        - id: 2
+          sourceType: HABIT
+          sourceId: 1
+          title: Morning run
+          done: false
+        - id: 3
+          sourceType: LEARNING_RESOURCE
+          sourceId: 1
+          title: Spring Boot in depth
+          done: false
+    Settings:
+      value:
+        displayName: Alex
+        email: alex@example.com
+        timeZone: Europe/Berlin
+        notificationsEnabled: true
+        defaultStartPage: DASHBOARD
+        configured: true
+    Dashboard:
+      value:
+        date: '2026-10-15'
+        timeZone: Europe/Berlin
+        displayName: Alex
+        tasks:
+          dueToday: 1
+          overdue: 1
+          completedToday: 0
+          total: 2
+          completed: 0
+          completionPercent: 0
+        todayTasks:
+        - id: 1
+          title: Write quarterly report
+          description: Draft the report and send it to the team
+          status: IN_PROGRESS
+          priority: HIGH
+          dueDate: '2026-10-20'
+          createdAt: '2026-10-14T08:30:00Z'
+          updatedAt: '2026-10-15T07:00:00Z'
+          archived: false
+          overdue: false
+        overdueTasks:
+        - id: 2
+          title: Book dentist
+          description: null
+          status: TODO
+          priority: MEDIUM
+          dueDate: '2026-10-10'
+          createdAt: '2026-10-01T09:00:00Z'
+          updatedAt: '2026-10-01T09:00:00Z'
+          archived: false
+          overdue: true
+        habits:
+          active: 2
+          completedToday: 1
+          items:
+          - id: 1
+            name: Morning run
+            description: 30 minutes before work
+            frequency: DAILY
+            createdAt: '2026-10-01T06:00:00Z'
+            active: true
+            doneForCurrentPeriod: false
+            currentStreak: 4
+            totalCompletions: 12
+            periodStart: '2026-10-15'
+            periodEnd: '2026-10-15'
+          - id: 2
+            name: Weekly review
+            description: null
+            frequency: WEEKLY
+            createdAt: '2026-09-20T18:00:00Z'
+            active: true
+            doneForCurrentPeriod: true
+            currentStreak: 3
+            totalCompletions: 3
+            periodStart: '2026-10-12'
+            periodEnd: '2026-10-18'
+        plans:
+          active: 1
+          upcoming: 0
+          completed: 0
+          items:
+          - id: 1
+            title: Focused morning
+            estimatedDurationMinutes: 90
+            startDateTime: '2026-10-15T09:00:00Z'
+            endDateTime: '2026-10-15T11:00:00Z'
+            priorityOrder: 1
+            status: IN_PROGRESS
+            createdAt: '2026-10-14T21:00:00Z'
+            startNotified: true
+            durationExceedsWindow: false
+            totalItems: 3
+            doneItems: 1
+            completionPercent: 33
+            restSeconds: 3600
+            items:
+            - id: 1
+              sourceType: TASK
+              sourceId: 1
+              title: Write quarterly report
+              done: true
+            - id: 2
+              sourceType: HABIT
+              sourceId: 1
+              title: Morning run
+              done: false
+            - id: 3
+              sourceType: LEARNING_RESOURCE
+              sourceId: 1
+              title: Spring Boot in depth
+              done: false
+        learning:
+          totalCards: 1
+          notStarted: 0
+          inProgress: 1
+          completed: 0
+          milestonesDone: 1
+          milestonesTotal: 2
+          recentMilestones:
+          - id: 1
+            learningCardId: 1
+            title: Finish chapter 3
+            done: true
+            targetDate: '2026-10-31'
+            completedAt: '2026-10-14T20:00:00Z'
