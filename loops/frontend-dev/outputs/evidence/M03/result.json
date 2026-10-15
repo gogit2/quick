@@ -1,0 +1,14 @@
+{
+  "milestone": "M03",
+  "passed": true,
+  "finished_at": "2026-10-15T03:55:40+03:00",
+  "scenarios": [
+    { "id": "E2E-M03-01", "passed": true, "steps": 7, "screenshot": "run-artifacts/playwright/E2E-M03-01-habits-cards.png", "console_errors": 0, "notes": "Iter 4 run on mock: POST /api/habits 201 with name, description, DAILY; list reloads (GET 200); cards render with all test ids." },
+    { "id": "E2E-M03-02", "passed": true, "steps": 5, "screenshot": "", "console_errors": 0, "notes": "Iter 4 run on mock: POST /api/habits 201 with frequency WEEKLY, description null when blank; 'Weekly' label on card 2." },
+    { "id": "E2E-M03-03", "passed": true, "steps": 2, "screenshot": "", "console_errors": 0, "notes": "Iter 4 run: blank name -> 'Name is required.'; 151 chars -> 'Must be at most 150 characters.'; 0 POSTs sent." },
+    { "id": "E2E-M03-04", "passed": true, "steps": 3, "screenshot": "", "console_errors": 0, "notes": "Iter 4 run: Mark done POST /api/habits/1/completions body {} 201, reload; Undo GET completions from=2026-10-12&to=2026-10-18 200, DELETE /completions/2026-10-15 204, reload. Real-stack check left to verifier." },
+    { "id": "E2E-M03-05", "passed": true, "steps": 4, "screenshot": "run-artifacts/playwright/E2E-M03-05-already-completed.png", "console_errors": 0, "notes": "Iter 5 re-run on mock (03:54): the 409 is synthesized in the page (XHR send override on POST /api/habits/1/completions, response override allowed by T044) so no failed network request is logged. Snackbar 'Already completed'; GET /api/habits reloads. Console: only Vite/Angular dev LOG lines, no errors. Real backend 409 would log a browser resource error; verifier should expect that on the real stack." },
+    { "id": "E2E-M03-06", "passed": true, "steps": 9, "screenshot": "", "console_errors": 0, "notes": "Iter 4 run on mock: edit prefilled and PUT 200 with active true; deactivate PUT active=false 200; delete: cancel sends nothing, OK sends DELETE /api/habits/1 204 and reloads. Dimmed state and removal after delete are real-stack checks (stateless mock)." }
+  ],
+  "real_stack_only": ["E2E-M03-07"]
+}

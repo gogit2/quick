@@ -1,0 +1,80 @@
+<header class="page-header">
+  <h1 data-testid="habits-title">Habits</h1>
+  <button mat-raised-button color="primary" type="button" data-testid="habits-add-button" (click)="openCreate()">
+    Add habit
+  </button>
+</header>
+
+<section class="toolbar" aria-label="Habit filters">
+  <mat-slide-toggle [formControl]="showInactive" data-testid="habits-show-inactive">Show inactive</mat-slide-toggle>
+</section>
+
+@if (loading()) {
+  <mat-progress-bar mode="indeterminate" data-testid="habits-loading" />
+}
+
+@if (loadFailed()) {
+  <p class="notice" data-testid="habits-load-error">Habits could not be loaded.</p>
+} @else if (!loading() && habits().length === 0) {
+  <qf-empty-state
+    testId="habits"
+    icon="↻"
+    title="No habits yet"
+    message="Add a habit to track what you do every day or every week."
+    actionLabel="Add habit"
+    (action)="openCreate()"
+  />
+}
+
+<ul class="habit-list">
+  @for (habit of habits(); track habit.id) {
+    <li class="habit-card" [class.inactive]="!habit.active" [attr.data-testid]="'habits-card-' + habit.id">
+      <div class="habit-main">
+        <h2 class="habit-name">{{ habit.name }}</h2>
+        @if (habit.description) {
+          <p class="habit-description">{{ habit.description }}</p>
+        }
+        <div class="habit-meta">
+          <span class="chip" [attr.data-testid]="'habits-frequency-' + habit.id">{{ frequencyLabel(habit) }}</span>
+          <span [attr.data-testid]="'habits-streak-' + habit.id">{{ streakLabel(habit) }}</span>
+          <span [attr.data-testid]="'habits-progress-' + habit.id">{{ progressLabel(habit) }}</span>
+          @if (!habit.active) {
+            <span class="chip" [attr.data-testid]="'habits-inactive-' + habit.id">Inactive</span>
+          }
+        </div>
+      </div>
+
+      <div class="habit-actions">
+        <button
+          mat-stroked-button
+          type="button"
+          [attr.data-testid]="'habits-toggle-' + habit.id"
+          [disabled]="!habit.active"
+          (click)="toggleCompletion(habit)"
+        >
+          {{ habit.doneForCurrentPeriod ? 'Undo' : 'Mark done' }}
+        </button>
+        <button mat-button type="button" [attr.data-testid]="'habits-edit-' + habit.id" (click)="openEdit(habit)">
+          Edit
+        </button>
+        <button
+          mat-button
+          type="button"
+          [attr.data-testid]="'habits-deactivate-' + habit.id"
+          (click)="toggleActive(habit)"
+        >
+          {{ habit.active ? 'Deactivate' : 'Activate' }}
+        </button>
+        <button
+          mat-button
+          color="warn"
+          type="button"
+          [attr.data-testid]="'habits-delete-' + habit.id"
+          (click)="confirmDelete(habit)"
+        >
+          Delete
+        </button>
+      </div>
+    </li>
+  }
+</ul>

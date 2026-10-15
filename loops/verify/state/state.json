@@ -1,17 +1,17 @@
 {
   "spec": "specs/001-quickflow",
-  "milestone": "M02",
-  "milestone_title": "Tasks",
+  "milestone": "M03",
+  "milestone_title": "Habits",
   "milestone_status": "passed",
   "status": "passed",
-  "trial": 0,
+  "trial": 1,
   "upgraded": false,
   "model": "claude-opus-5-5",
   "iteration": 1,
   "attempt_iterations": 0,
   "attempt_cap": null,
-  "budget_left_usd": 11.3068,
-  "last_session_id": "c384f6c1-6d92-4c78-b4d2-5f662572a438",
+  "budget_left_usd": 12.0894,
+  "last_session_id": "e85391e2-f87f-418c-a5dd-2822e228dfb7",
   "last_result": null,
-  "updated_at": "2026-10-15T03:45:46+03:00"
+  "updated_at": "2026-10-15T03:59:35+03:00"
 }

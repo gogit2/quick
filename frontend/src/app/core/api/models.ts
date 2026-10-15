@@ -70,3 +70,45 @@ export interface TaskUpdate {
   priority?: TaskPriority;
   dueDate?: string | null;
 }
+
+export type HabitFrequency = 'DAILY' | 'WEEKLY';
+
+export interface Habit {
+  id: number;
+  name: string;
+  description?: string | null;
+  frequency: HabitFrequency;
+  createdAt: string;
+  active: boolean;
+  // DAILY: completed today. WEEKLY: completed on any day of the current Monday-Sunday week.
+  doneForCurrentPeriod: boolean;
+  currentStreak: number;
+  totalCompletions: number;
+  periodStart: string;
+  periodEnd: string;
+}
+
+export interface HabitCreate {
+  name: string;
+  description?: string | null;
+  frequency: HabitFrequency;
+}
+
+export interface HabitUpdate {
+  name: string;
+  description?: string | null;
+  frequency: HabitFrequency;
+  active: boolean;
+}
+
+export interface HabitCompletion {
+  id: number;
+  habitId: number;
+  completionDate: string;
+  createdAt: string;
+}
+
+// completionDate is optional: the server uses today in the user's time zone when it is left out.
+export interface HabitCompletionCreate {
+  completionDate?: string | null;
+}
