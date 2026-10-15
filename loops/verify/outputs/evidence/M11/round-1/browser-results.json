@@ -1,0 +1,25 @@
+{
+  "milestone": "M11",
+  "round": 1,
+  "stack": "backend :8090 (fresh stable db, run-artifacts/backend-latest.jar), frontend :4300 dev server",
+  "screenshots_dir": "run-artifacts/playwright/",
+  "scenarios": [
+    { "id": "E2E-M10-08", "kind": "real-stack-only (fresh db)", "passed": true, "notes": "tasks/habits/learning/plans: *-empty-state with illustration and *-empty-add-button, light and dark, no h-scroll", "screenshot": "verify-M11-r1-empty-plans-dark.png" },
+    { "id": "E2E-M07-03", "kind": "real-stack-only (backend stopped)", "passed": true, "notes": "6 pages show <page>-error-retry in an alert box, settings-load-error; retry while down re-sends request and error stays; after restart dashboard retry recovers, other pages load (empty states / settings form). 5xx snackbar shown via the new lazy import in error.interceptor.ts", "screenshot": "verify-M11-r1-E2E-M07-03-dashboard-error.png" },
+    { "id": "E2E-M07-01", "kind": "full journey, real clock", "passed": true, "notes": "steps 1-16: settings saved; baseline zeros; task 1 Todo->Done, completion 100%; habit 1 done, streak 1 day, dashboard 1; card 1 two milestones 0/2 -> 2/2 Completed; plan 1 start 14:33:00Z Not started, upcoming 1; banner once at +6.6 s with highlight; status In progress + rest 59m33s->59m28s after the 30 s page refresh (14:33:26Z); dismiss removes banner and highlight; items 33/67/100 %, Completed, moved to History; dashboard completed 1, active 0, upcoming 0, milestones 2/2, habits 1, 100 %. No 5xx and no console errors outside the intentional backend-down window (14:30:00-14:30:39Z)", "screenshot": "verify-M11-r1-E2E-M07-01-step12.png, verify-M11-r1-E2E-M07-01-step15.png" },
+    { "id": "E2E-M11-01", "kind": "smoke", "passed": true, "notes": "?reduceMotion=1: html[data-reduce-motion=true], motion tokens 0ms, ui-card/row/nav link/body/mat-sidenav transition 0s, document.getAnimations() 0. Without flag: ui-card 0.2s, body 0.2s, sidenav 0.2s after fix F1 (was 0.4s Material default)" },
+    { "id": "E2E-M11-02", "passed": true, "notes": "qf-ready present after load; light theme switch: body background settles after ~210 ms, 0 running animations afterwards. First-paint part by code review (D-26): afterNextRender + rAF in app.component.ts, colour transitions scoped to html.qf-ready" },
+    { "id": "E2E-M11-03", "passed": true, "notes": "contrast-check.js logic on 6 pages x light/dark with real data: 0 failures, 0 unknown (61/33/24/22/28/30 checks per page); focus ring 5.8 light, 10.12 dark" },
+    { "id": "E2E-M11-04", "passed": true, "notes": "Tasks 23 and Settings 18 tabbable controls, light and dark: every one :focus-visible with outline solid >= 2px; theme-option aria-pressed false/true/false; no icon button without aria-label; lang=en; nav aria-current=page", "screenshot": "verify-M11-r1-focus-settings-dark.png" },
+    { "id": "E2E-M11-05", "passed": true, "notes": "npx ng build: no warnings, Initial total 603.78 kB raw / 150.28 kB transfer (after fixes 603.87 / 150.30); all resource URLs on localhost (218 resources, 0 non-local)" },
+    { "id": "E2E-M11-06", "passed": true, "notes": "6 pages x light/dark x 390/1024/1440 = 36 combinations: scrollWidth == innerWidth, no main control outside the viewport. Mobile drawer opens, Escape closes and focus returns to menu button", "screenshot": "verify-M11-r1-drawer-390-light.png, verify-M11-r1-settings-dark-390.png" },
+    { "id": "E2E-M11-07", "passed": true, "notes": "loop regression files: M06-M10 all pass, M01-M05 only the four D-26 accepted failures; verifier ran E2E-M07-01 and all real-stack-only scenarios above on the real stack" },
+    { "id": "smoke E2E-M01-01", "passed": true, "notes": "6 nav links: route, <page>-title, exactly one aria-current=page" },
+    { "id": "smoke E2E-M02-01/M03-01/M04-01/M05-01/M06-01", "passed": true, "notes": "covered with real state by the E2E-M07-01 journey (add task, daily habit, learning card, plan from three items, dashboard content)" },
+    { "id": "smoke E2E-M08-01", "passed": true, "notes": "Inter Variable loaded, light background rgb(247,250,249), data-theme light" },
+    { "id": "smoke E2E-M09-01", "passed": true, "notes": "each nav item has icon + label, active item marked" },
+    { "id": "smoke E2E-M10-01", "passed": true, "notes": "dashboard light 1440: rounded bordered cards, 9 ui-card", "screenshot": "verify-M11-r1-smoke-dashboard-light-1440.png" }
+  ],
+  "console_errors_outside_backend_down_window": 0,
+  "http_5xx_outside_backend_down_window": 0
+}

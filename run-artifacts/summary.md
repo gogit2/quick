@@ -1,6 +1,6 @@
 # Run summary
 
-_Generated 2026-10-15T13:36:12+03:00 from `loops/_shared/milestones.json` and `run-artifacts/sessions.csv`._
+_Generated 2026-10-15T17:40:04+03:00 from `loops/_shared/milestones.json` and `run-artifacts/sessions.csv`._
 
 | Milestone | Status | Start | End | Trials | Upgraded | Verify rounds | BE it. | FE it. | Sessions | Cost USD | Tag |
 |---|---|---|---|---|---|---|---|---|---|---|---|
@@ -14,14 +14,15 @@ _Generated 2026-10-15T13:36:12+03:00 from `loops/_shared/milestones.json` and `r
 | M08 Design foundation | passed | 2026-10-15T12:18:58+03:00 | 2026-10-15T12:36:21+03:00 | 0 | no | 1 | 0 | 2 | 3 | 3.2677 | M08 |
 | M09 Shell and navigation | passed | 2026-10-15T12:36:21+03:00 | 2026-10-15T12:59:17+03:00 | 0 | no | 1 | 0 | 2 | 3 | 4.4839 | M09 |
 | M10 Pages | passed | 2026-10-15T12:59:18+03:00 | 2026-10-15T13:36:12+03:00 | 0 | no | 1 | 0 | 4 | 5 | 6.0330 | M10 |
-| M11 Polish and regression | pending |  |  | 0 | no | 0 | 0 | 0 | 0 | 0.0000 |  |
+| M11 Polish and regression | passed | 2026-10-15T13:36:13+03:00 | 2026-10-15T17:40:04+03:00 | 0 | no | 1 | 0 | 11 | 12 | 8.5085 | M11 |
 
-**Total cost (headless loops)**: $37.6653 over 44 sessions.
+**Total cost (headless loops)**: $46.1737 over 56 sessions.
 
 | Model | Sessions | Input | Output | Cache read | Cache write | Cost USD |
 |---|---|---|---|---|---|---|
-| claude-haiku-5-5 | 34 | 2.4k | 1.32M | 104.83M | 3.94M | 6.8795 |
-| claude-opus-5-5 | 10 | 1.2k | 260.3k | 62.11M | 1.64M | 30.7858 |
+| claude-haiku-5-5 | 44 | 3.2k | 1.62M | 166.98M | 5.34M | 10.9294 |
+| claude-opus-5-5 | 11 | 1.3k | 299.9k | 71.13M | 1.84M | 34.9759 |
+| claude-sonnet-5-5 | 1 | 30 | 6.4k | 548.3k | 37.5k | 0.2684 |
 
 ## Events
 - 2026-10-15T03:31:32+03:00 · M01 · verify · verdict · round 1: PASS (0 small fixes)
@@ -38,3 +39,12 @@ _Generated 2026-10-15T13:36:12+03:00 from `loops/_shared/milestones.json` and `r
 - 2026-10-15T12:59:16+03:00 · M09 · verify · verdict · round 1: PASS (1 small fixes)
 - 2026-10-15T12:59:18+03:00 · M10 · backend-dev · info · no tasks for this role in this milestone
 - 2026-10-15T13:36:11+03:00 · M10 · verify · verdict · round 1: PASS (3 small fixes)
+- 2026-10-15T13:36:13+03:00 · M11 · backend-dev · info · no tasks for this role in this milestone
+- 2026-10-15T14:05:48+03:00 · M11 · frontend-dev · trial · trial 1: iteration cap 5 reached with 4 open tasks
+- 2026-10-15T14:28:11+03:00 · M11 · frontend-dev · trial · trial 2: stuck: Only T134 is open and needs the user's decision (A-frontend-dev-M11-2): plain nav markup in the shell or raise the 600 kB budget. E2E-M11-07 also still fails on four M01-M05 items (M01-02, M02-05, M05
+- 2026-10-15T14:28:12+03:00 · M11 · frontend-dev · trial · trial 3: iteration cap 4 reached with 1 open tasks
+- 2026-10-15T14:28:12+03:00 · M11 · frontend-dev · upgrade · 3 trials used - one retry on claude-sonnet-5-5 with $15
+- 2026-10-15T14:30:28+03:00 · M11 · frontend-dev · blocked · upgrade retry failed: stuck: Only T134 is open. Narrowing Material list imports saved 0.35 kB only; the earlier forms-in-initial-bundle claim is wrong. Closing the 3.4 kB gap needs a design cut in the shell or a user decision to 
+- 2026-10-15T14:30:28+03:00 · M11 · runner · blocked · upgrade retry failed: stuck: Only T134 is open. Narrowing Material list imports saved 0.35 kB only; the earlier forms-in-initial-bundle claim is wrong. Closing the 3.4 kB gap needs a design cut in the shell or a user decision to 
+- 2026-10-15T17:26:36+0300 · M11 · user · unblocked · user decisions D-25 (budget 650 kB) and D-26 (ignore 4 mock-limited scenarios); trials reset
+- 2026-10-15T17:40:03+03:00 · M11 · verify · verdict · round 1: PASS (2 small fixes)

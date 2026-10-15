@@ -2,7 +2,7 @@
   "spec": "specs/002-visual-polish",
   "milestone": "M11",
   "milestone_title": "Polish and regression",
-  "milestone_status": "building",
+  "milestone_status": "passed",
   "status": "built",
   "trial": 0,
   "upgraded": false,
@@ -10,8 +10,8 @@
   "iteration": 0,
   "attempt_iterations": 0,
   "attempt_cap": null,
-  "budget_left_usd": 20.7907,
+  "budget_left_usd": 16.4915,
   "last_session_id": null,
   "last_result": null,
-  "updated_at": "2026-10-15T17:26:36+03:00"
+  "updated_at": "2026-10-15T17:40:04+03:00"
 }

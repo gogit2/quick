@@ -1,19 +1,10 @@
-Command: cd frontend && npx ng build   (2026-10-15, iteration 2, after the error interceptor change)
+Command: cd frontend && npx ng build   (2026-10-15, after D-25: initial maximumWarning 650kB)
 
-                      | Initial total            | 603.39 kB |               150.25 kB
+                      | Initial total            | 603.78 kB |               150.28 kB
 
-Build result: "Application bundle generation complete" with ONE warning:
-  WARNING bundle initial exceeded maximum budget. Budget 600.00 kB was not met by 3.39 kB with a total of 603.39 kB.
+Build result: "Application bundle generation complete". No WARNING line. Budget 650.00 kB (D-25) is met.
 
 Status vs T134 targets:
-  - transfer size 150.25 kB < 500 kB: met
-  - no warnings: NOT met (raw initial 603.39 kB > 600 kB budget). Was 617.89 kB before this iteration.
-  - angular.json budget left unchanged (not raised).
-
-Change made in iteration 2:
-  - core/api/error.interceptor.ts: MatSnackBar is loaded with a dynamic import() only when a 5xx needs the snackbar. Saved 14.5 kB raw.
-
-Tried and reverted (no gain): MatListModule replaced by standalone MatNavList/MatListItem in layout/shell.component.ts.
-  - The forms package still reaches the initial bundle: @angular/material/list imports NG_VALUE_ACCESSOR from @angular/forms (list.mjs line 16), so any Material list pulls ~34 kB of forms code into main.
-
-Remaining 3.39 kB: not reached by the levers in T134 (no illustration components are eager; all Material modules used by the shell are used). Options for the user: remove the shell's mat-nav-list (forms ~34 kB), or raise the budget in angular.json (not done).
+  - transfer size 150.28 kB < 500 kB: met
+  - no warnings: met (raw initial 603.78 kB < 650 kB budget, angular.json maximumWarning 650kB)
+  - angular.json budget not changed again.

@@ -1174,15 +1174,15 @@
       ]
     },
     "M11": {
-      "status": "building",
+      "status": "passed",
       "trial": 0,
       "upgraded": false,
-      "cost_usd": 4.20931,
+      "cost_usd": 8.508493,
       "upgrade_cost_usd": 0.0,
-      "verify_rounds": 0,
+      "verify_rounds": 1,
       "started_at": "2026-10-15T13:36:13+03:00",
-      "ended_at": null,
-      "tag": null,
+      "ended_at": "2026-10-15T17:40:04+03:00",
+      "tag": "M11",
       "blocked_reason": null,
       "title": "Polish and regression",
       "slug": "polish-and-regression",
@@ -1207,17 +1207,17 @@
         },
         "frontend-dev": {
           "tasks": 8,
-          "status": "building",
-          "iterations": 10,
-          "attempt_iterations": 0,
-          "attempt_cap": null,
+          "status": "built",
+          "iterations": 11,
+          "attempt_iterations": 1,
+          "attempt_cap": 4,
           "started_at": "2026-10-15T13:36:13+03:00",
-          "ended_at": null,
-          "tokens_in": 814,
-          "tokens_out": 291654,
-          "cache_read": 61001650,
-          "cache_write": 1315958,
-          "cost_usd": 4.20931,
+          "ended_at": "2026-10-15T17:28:20+03:00",
+          "tokens_in": 860,
+          "tokens_out": 305390,
+          "cache_read": 62693054,
+          "cache_write": 1435103,
+          "cost_usd": 4.318336,
           "sessions": [
             "b84512ad-8116-45a9-a102-42e6be0d5b9c",
             "fff0e995-e172-4c9d-978e-a356c898947a",
@@ -1228,7 +1228,8 @@
             "92cc1784-0662-42b3-85f8-bfae5dc23f4b",
             "c2608ec7-0d45-4185-a65d-5ee831b906a1",
             "c1526f46-20b8-4120-9e55-b0e0bcb114ef",
-            "029d1e45-06b3-4acd-b26d-039395aa4883"
+            "029d1e45-06b3-4acd-b26d-039395aa4883",
+            "8c2a1cf2-be53-4bf5-9035-5477852c2377"
           ],
           "models": [
             "claude-haiku-5-5",
@@ -1236,29 +1237,35 @@
           ],
           "last_result": {
             "milestone": "M11",
-            "result": "stuck",
-            "tasks_done": [],
-            "open_tasks": 1,
-            "selfcheck": "cd frontend && npx ng build: completed, Initial total 603.43 kB with the narrowed list imports (603.78 kB after revert), WARNING over the 600 kB budget. No servers started.",
-            "notes": "Only T134 is open. Narrowing Material list imports saved 0.35 kB only; the earlier forms-in-initial-bundle claim is wrong. Closing the 3.4 kB gap needs a design cut in the shell or a user decision to raise the budget. E2E-M11-07 still fails on four M01-M05 items."
+            "result": "built",
+            "tasks_done": [
+              "T134"
+            ],
+            "open_tasks": 0,
+            "selfcheck": "cd frontend && npx ng build: passes with no warning under the 650 kB budget (D-25): Initial total 603.78 kB raw, 150.28 kB transfer. Servers 4010 (mock) and 4300 (dev) started and stopped by script. Network check on /dashboard, /tasks, /habits, /learning, /plans, /settings: every request on localhost. Regression: M06-M10 all pass; M01-M05 only the four D-26 accepted known failures (E2E-M01-02, E2E-M02-05, E2E-M05-02, E2E-M05-07). E2E-M11-02 first-paint part checked by code review (D-26). evidence/M11/result.json passed true.",
+            "notes": "T134 ticked after the user decisions D-25 and D-26. Not measured: the text-shift part of T134 (no layout-shift measurement with the MCP). Real-stack-only scenarios are left for the verifier."
           },
-          "last_gate": "skip"
+          "last_gate": "pass"
         },
         "verify": {
           "tasks": 0,
-          "status": "pending",
-          "iterations": 0,
+          "status": "passed",
+          "iterations": 1,
           "attempt_iterations": 0,
           "attempt_cap": null,
-          "started_at": null,
-          "ended_at": null,
-          "tokens_in": 0,
-          "tokens_out": 0,
-          "cache_read": 0,
-          "cache_write": 0,
-          "cost_usd": 0.0,
-          "sessions": [],
-          "models": [],
+          "started_at": "2026-10-15T17:28:20+03:00",
+          "ended_at": "2026-10-15T17:40:03+03:00",
+          "tokens_in": 144,
+          "tokens_out": 39627,
+          "cache_read": 9018243,
+          "cache_write": 199174,
+          "cost_usd": 4.190157,
+          "sessions": [
+            "aab71505-9c77-496f-9044-7f4a512a6154"
+          ],
+          "models": [
+            "claude-opus-5-5"
+          ],
           "last_result": null
         }
       },
@@ -1310,6 +1317,12 @@
           "type": "unblocked",
           "role": "user",
           "detail": "user decisions D-25 (budget 650 kB) and D-26 (ignore 4 mock-limited scenarios); trials reset"
+        },
+        {
+          "at": "2026-10-15T17:40:03+03:00",
+          "type": "verdict",
+          "role": "verify",
+          "detail": "round 1: PASS (2 small fixes)"
         }
       ],
       "upgraded_at": "2026-10-15T14:28:12+03:00"

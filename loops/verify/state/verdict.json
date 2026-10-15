@@ -1,15 +1,14 @@
 {
-  "milestone": "M10",
+  "milestone": "M11",
   "round": 1,
   "verdict": "PASS",
   "checks": { "review": "pass", "swagger": "pass", "unit": "pass", "curl": "pass", "e2e": "pass", "smoke": "pass" },
   "fixes": [
-    { "file": "frontend/src/app/features/learning/learning-page.component.ts", "summary": "F1: first expand of a learning card now animates (render closed, open two animation frames later); F2: progress track --qf-outline instead of saturated --qf-accent-soft", "lines": 7 },
-    { "file": "frontend/src/app/features/plans/plan-progress.component.ts", "summary": "F2: progress track --qf-outline so a 0 % bar no longer looks full in light theme", "lines": 1 },
-    { "file": "frontend/src/app/features/dashboard/dashboard-page.component.scss", "summary": "F2: progress track --qf-outline", "lines": 1 }
+    { "file": "frontend/src/app/layout/shell.component.scss", "summary": "sidenav transition moved into &.mat-drawer (width + transform, --qf-motion-base) so Material's 400 ms .mat-drawer-transition rule no longer overrides it; rail collapse now animates in ~200 ms, 0s with reduced motion", "lines": 9 },
+    { "file": "frontend/src/app/features/dashboard/dashboard-page.component.html", "summary": "recent milestone date placed in the ui-list-row actions slot; it rendered glued to the title ('Chapter B 88115Oct 15')", "lines": 1 }
   ],
   "fix_tasks": [],
   "contract_issues": [],
   "escalate": false,
-  "notes": "Real stack: E2E-M10-01..09 (empty states light+dark on fresh db, real-clock plan start banner/highlight, contrast 12 runs 0 failures), backend-down error state, smoke M01-01..M06-01, M08-01, M09-01; mvnw 188/188; curl M01..M07 0 failed; swagger PASS; ng build OK (known budget warning, M11). Backlog: empty-state add button not filled (T122 wording), reverted to stay within 3 files. Report loops/verify/outputs/M10-round-1.md."
+  "notes": "mvnw 188/188, swagger PASS, ng build no warnings (150.3 kB transfer), curl M01..M07 0 failed on fresh db; E2E-M11-01..07, E2E-M07-01 journey, E2E-M07-03 and E2E-M10-08 on the real stack pass with no console errors or 5xx outside the intentional backend-down window. Report loops/verify/outputs/M11-round-1.md."
 }

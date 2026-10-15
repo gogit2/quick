@@ -1,11 +1,9 @@
-Network check (T134), 2026-10-15, dev server http://localhost:4300 with Prism mock on :4010, page /dashboard in dark theme, Playwright browser_network_requests.
+Network check (T134), 2026-10-15, dev server http://localhost:4300 with Prism mock on :4010, Playwright browser_network_requests. Every page visited once in a fresh load: /dashboard, /tasks, /habits, /learning, /plans, /settings.
 
-Result: every request is on localhost. No external host is requested.
-  - Font: http://localhost:4300/media/inter-latin-wght-normal.woff2 (the Latin variable file only, self-hosted from src/styles/_typography.scss). Not checked: the layout shift when it loads. That is a separate visual check.
+Result: every request on every page is on localhost. No external host is requested on any of the six pages.
+  - Font: http://localhost:4300/media/inter-latin-wght-normal.woff2 (the Latin variable file only, self-hosted). Requested on all six pages, status 200.
   - Styles: /styles.css. Scripts: /main.js, /polyfills.js, chunk-*.js and @fs vite deps (dev server only).
-  - Icons: /assets/icons/*.svg (local copies, core/icon.service.ts).
-  - API: /api/settings, /api/plans, /api/dashboard, POST /api/plans/1/acknowledge-start (all through the proxy to the mock).
+  - Icons: /assets/icons/*.svg (local copies).
+  - API (through the proxy to the mock): /api/settings, /api/plans?group=ACTIVE_UPCOMING, /api/plans?group=COMPLETED, /api/tasks, /api/habits, /api/learning-cards, POST /api/plans/1/acknowledge-start.
 
-Scope not covered in this run: other five pages were not checked, so the "every page" part of the check is still open. The production build was not checked either (dev server only).
-
-Note: src/app/app.component.html is an unused leftover template with external angular.dev and social links. The component renders only <router-outlet />, so these links never reach the browser. It can be deleted in a later change; it was not deleted here.
+Not checked: the layout shift when the font loads (fallback metrics from M08 task one; not verifiable with the MCP as a measured shift). Production build network not checked (dev server only).

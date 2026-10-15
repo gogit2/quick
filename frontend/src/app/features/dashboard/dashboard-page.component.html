@@ -205,7 +205,7 @@
             <li>
               <ui-list-row [attr.data-testid]="'dashboard-recent-milestone-' + milestone.id">
                 <span class="row-title">{{ milestone.title }}</span>
-                <span class="muted">{{ milestone.completedAt | date: 'MMM d' }}</span>
+                <span actions class="muted">{{ milestone.completedAt | date: 'MMM d' }}</span>
               </ui-list-row>
             </li>
           }

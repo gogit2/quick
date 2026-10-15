@@ -1,8 +1,8 @@
 {
   "milestone": "M11",
-  "result": "stuck",
-  "tasks_done": [],
-  "open_tasks": 1,
-  "selfcheck": "cd frontend && npx ng build: completed, Initial total 603.43 kB with the narrowed list imports (603.78 kB after revert), WARNING over the 600 kB budget. No servers started.",
-  "notes": "Only T134 is open. Narrowing Material list imports saved 0.35 kB only; the earlier forms-in-initial-bundle claim is wrong. Closing the 3.4 kB gap needs a design cut in the shell or a user decision to raise the budget. E2E-M11-07 still fails on four M01-M05 items."
+  "result": "built",
+  "tasks_done": ["T134"],
+  "open_tasks": 0,
+  "selfcheck": "cd frontend && npx ng build: passes with no warning under the 650 kB budget (D-25): Initial total 603.78 kB raw, 150.28 kB transfer. Servers 4010 (mock) and 4300 (dev) started and stopped by script. Network check on /dashboard, /tasks, /habits, /learning, /plans, /settings: every request on localhost. Regression: M06-M10 all pass; M01-M05 only the four D-26 accepted known failures (E2E-M01-02, E2E-M02-05, E2E-M05-02, E2E-M05-07). E2E-M11-02 first-paint part checked by code review (D-26). evidence/M11/result.json passed true.",
+  "notes": "T134 ticked after the user decisions D-25 and D-26. Not measured: the text-shift part of T134 (no layout-shift measurement with the MCP). Real-stack-only scenarios are left for the verifier."
 }

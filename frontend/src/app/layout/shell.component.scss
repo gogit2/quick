@@ -63,7 +63,14 @@
   padding: var(--qf-space-3) var(--qf-space-2);
   background: var(--qf-surface);
   border-inline-end: 1px solid var(--qf-outline);
-  transition: width var(--qf-motion-base) var(--qf-ease);
+
+  // `.mat-drawer` raises specificity above Material's `.mat-drawer-transition .mat-drawer`
+  // (400 ms transform), so the rail width and the mobile slide both use the motion tokens.
+  &.mat-drawer {
+    transition:
+      width var(--qf-motion-base) var(--qf-ease),
+      transform var(--qf-motion-base) var(--qf-ease);
+  }
 
   &.rail {
     width: var(--qf-sidenav-rail);
