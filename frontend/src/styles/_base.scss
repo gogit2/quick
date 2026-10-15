@@ -19,6 +19,12 @@ html[data-theme='system'], html:not([data-theme]) { color-scheme: light dark; }
   outline-offset: 2px;
 }
 
+// Form fields and selects: Material removes the outline on focus, so the ring is set here.
+html :is(input, textarea, select, [role='combobox'], [role='switch'], [role='radio'], [role='checkbox']):focus-visible {
+  outline: 2px solid var(--qf-focus-ring);
+  outline-offset: 2px;
+}
+
 // Material buttons also remove the outline; keep the ring on them.
 .mat-mdc-button-base:focus-visible {
   outline: 2px solid var(--qf-focus-ring);

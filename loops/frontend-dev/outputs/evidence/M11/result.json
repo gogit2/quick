@@ -1,0 +1,15 @@
+{
+  "milestone": "M11",
+  "passed": false,
+  "finished_at": "2026-10-15T14:26:00+03:00",
+  "scenarios": [
+    { "id": "E2E-M11-01", "passed": true, "steps": 3, "screenshot": null, "console_errors": 0, "notes": "reduceMotion=1: card and nav transition 0s, rail 0s, 0 running animations; without the flag card 0.2s" },
+    { "id": "E2E-M11-02", "passed": false, "steps": 4, "screenshot": null, "console_errors": 0, "notes": "partial: qf-ready present after load, body transition 0.2s, theme change animates about 200 ms and stops. Not verified: no animation on first paint (MCP cannot capture the pre-paint frame)" },
+    { "id": "E2E-M11-03", "passed": true, "steps": 2, "screenshot": null, "console_errors": 0, "notes": "contrast-check.js on six pages, light and dark, 1440 px: 0 failures, 0 unknown; focus ring 6.42 light, 10.12 dark" },
+    { "id": "E2E-M11-04", "passed": true, "steps": 3, "screenshot": null, "console_errors": 0, "notes": "all controls on Tasks (14) and Settings (15) show a 2px solid focus outline on the focused element; theme-option aria-pressed correct; lang en. Tab/Enter/Escape walk in E2E-M07-04" },
+    { "id": "E2E-M11-05", "passed": false, "steps": 2, "screenshot": null, "console_errors": 0, "notes": "ng build prints a budget WARNING: initial 603.78 kB, 3.79 kB over 600 kB (T134 blocked on the user decision A-frontend-dev-M11-2). Transfer 150.28 kB (under 500 kB). Network on /settings: localhost only" },
+    { "id": "E2E-M11-06", "passed": true, "steps": 3, "screenshot": null, "console_errors": 0, "notes": "no horizontal scroll on six pages at 390, 1024 and 1440 px (scrollWidth equals innerWidth)" },
+    { "id": "E2E-M11-07", "passed": false, "steps": 2, "screenshot": null, "console_errors": 0, "notes": "regression-m06-m10.json: all pass. regression-m01-m05.json: E2E-M01-02 (mock data), E2E-M02-05 (restore needs archived data), E2E-M05-02 (no items error text, pre-existing), E2E-M05-07 (partial). None caused by the restyle" }
+  ],
+  "real_stack_only": []
+}

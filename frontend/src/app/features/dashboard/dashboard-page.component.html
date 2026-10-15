@@ -36,8 +36,7 @@
         <mat-progress-bar mode="determinate" class="bar" [value]="dash.tasks.completionPercent" aria-hidden="true" />
         <span class="qf-caption">
           Completed
-          <strong data-testid="dashboard-completion-percent">{{ dash.tasks.completionPercent }}%</strong>
-          <span class="muted">({{ dash.tasks.completed }} of {{ dash.tasks.total }})</span>
+          <strong data-testid="dashboard-completion-percent">{{ dash.tasks.completionPercent }}%</strong>&ngsp;<span class="muted">({{ dash.tasks.completed }} of {{ dash.tasks.total }})</span>
         </span>
       </div>
       <p class="qf-caption">Overdue <strong data-testid="dashboard-tasks-overdue">{{ dash.tasks.overdue }}</strong></p>
@@ -194,13 +193,11 @@
       <ui-card class="panel" data-testid="dashboard-learning">
         <h2 class="qf-title">Learning</h2>
         <p class="qf-body">
-          Cards in progress <strong>{{ dash.learning.inProgress }}</strong>
-          <span class="muted">of {{ dash.learning.totalCards }}</span>
+          Cards in progress <strong>{{ dash.learning.inProgress }}</strong>&ngsp;<span class="muted">of {{ dash.learning.totalCards }}</span>
         </p>
         <p class="muted">Not started {{ dash.learning.notStarted }} · Completed {{ dash.learning.completed }}</p>
         <p class="qf-body">
-          Milestones done <strong>{{ dash.learning.milestonesDone }}</strong>
-          <span class="muted">of {{ dash.learning.milestonesTotal }}</span>
+          Milestones done <strong>{{ dash.learning.milestonesDone }}</strong>&ngsp;<span class="muted">of {{ dash.learning.milestonesTotal }}</span>
         </p>
         <h3 class="qf-label">Completed in the last 7 days</h3>
         <ul class="rows">

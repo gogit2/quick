@@ -1,0 +1,8 @@
+{
+  "milestone": "M11",
+  "task": "T132",
+  "measured_at": "2026-10-15T13:45:00+03:00",
+  "same_as": "contrast-before.json",
+  "reason": "No failures before any change, so the after run is the same measurement. No colour token, palette or theme value was edited.",
+  "total_failures": 0
+}

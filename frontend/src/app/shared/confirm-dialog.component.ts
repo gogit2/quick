@@ -47,7 +47,7 @@ export interface ConfirmDialogData {
 
     .danger {
       --mdc-protected-button-container-color: var(--qf-danger);
-      --mdc-protected-button-label-text-color: var(--mat-sys-on-error, #fff);
+      --mdc-protected-button-label-text-color: var(--qf-on-danger);
     }
   `,
 })

@@ -1,0 +1,39 @@
+// Motion rules (US-VIS-13). Durations and easing come from the --qf-motion-* and --qf-ease
+// tokens in _tokens.scss, all below 300 ms. Only these properties animate: opacity, transform,
+// background-color, border-color, box-shadow and grid-template-rows, plus the width of the
+// navigation rail (set in shell.component.scss).
+
+// Theme change: colours fade on the body and on surfaces. The class qf-ready is added to <html>
+// after the first frame (app.component.ts), so the first paint never animates.
+html.qf-ready body,
+html.qf-ready .qf-surface {
+  transition:
+    background-color var(--qf-motion-base) var(--qf-ease),
+    border-color var(--qf-motion-base) var(--qf-ease);
+}
+
+// Reduced motion: the OS setting (prefers-reduced-motion) or the test flag ?reduceMotion=1,
+// which sets html[data-reduce-motion='true'] (theme.service.ts). Both use the same rules.
+@mixin reduced-motion {
+  --qf-motion-fast: 0ms;
+  --qf-motion-base: 0ms;
+  --qf-motion-slow: 0ms;
+
+  scroll-behavior: auto;
+
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    @include reduced-motion;
+  }
+}
+
+html[data-reduce-motion='true'] {
+  @include reduced-motion;
+}

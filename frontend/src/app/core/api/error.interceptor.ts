@@ -1,6 +1,5 @@
 import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
-import { inject } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { Injector, inject } from '@angular/core';
 import { catchError, throwError } from 'rxjs';
 
 import { ApiError } from './models';
@@ -22,7 +21,7 @@ function isApiError(value: unknown): value is ApiError {
 
 // Converts ApiError bodies into ApiRequestError and shows a snackbar for 5xx responses.
 export const apiErrorInterceptor: HttpInterceptorFn = (req, next) => {
-  const snackBar = inject(MatSnackBar);
+  const injector = inject(Injector);
   return next(req).pipe(
     catchError((err: unknown) => {
       if (!(err instanceof HttpErrorResponse)) {
@@ -30,9 +29,12 @@ export const apiErrorInterceptor: HttpInterceptorFn = (req, next) => {
       }
       const body = isApiError(err.error) ? err.error : null;
       if (err.status >= 500) {
-        snackBar.open(body?.message ?? 'The server had a problem. Please try again.', 'Dismiss', {
-          duration: 6000,
-        });
+        // Material's snackbar loads only when a 5xx needs it, which keeps it out of the initial bundle.
+        void import('@angular/material/snack-bar').then(({ MatSnackBar }) =>
+          injector.get(MatSnackBar).open(body?.message ?? 'The server had a problem. Please try again.', 'Dismiss', {
+            duration: 6000,
+          }),
+        );
       }
       return throwError(() => new ApiRequestError(err.status, body));
     }),

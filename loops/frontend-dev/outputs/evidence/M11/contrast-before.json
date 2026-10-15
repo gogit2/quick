@@ -1,0 +1,23 @@
+{
+  "milestone": "M11",
+  "task": "T132",
+  "measured_at": "2026-10-15T13:45:00+03:00",
+  "viewport": "1440 px (dev server on :4300, Prism mock on :4010)",
+  "method": "loops/frontend-dev/outputs/e2e/contrast-check.js run via browser_evaluate on each page after a theme click (light, then dark)",
+  "pages": {
+    "dashboard-light": { "checked": 69, "failures": [], "unknown": [], "focus_ring_ratio": 6.42 },
+    "tasks-light": { "checked": 45, "failures": [], "unknown": [], "focus_ring_ratio": 6.42 },
+    "habits-light": { "checked": 35, "failures": [], "unknown": [], "focus_ring_ratio": 6.42 },
+    "learning-light": { "checked": 25, "failures": [], "unknown": [], "focus_ring_ratio": 6.42 },
+    "plans-light": { "checked": 45, "failures": [], "unknown": [], "focus_ring_ratio": 6.42 },
+    "settings-light": { "checked": 32, "failures": [], "unknown": [], "focus_ring_ratio": 6.42 },
+    "dashboard-dark": { "checked": 69, "failures": [], "unknown": [], "focus_ring_ratio": 10.12 },
+    "tasks-dark": { "checked": 45, "failures": [], "unknown": [], "focus_ring_ratio": 10.12 },
+    "habits-dark": { "checked": 35, "failures": [], "unknown": [], "focus_ring_ratio": 10.12 },
+    "learning-dark": { "checked": 25, "failures": [], "unknown": [], "focus_ring_ratio": 10.12 },
+    "plans-dark": { "checked": 45, "failures": [], "unknown": [], "focus_ring_ratio": 10.12 },
+    "settings-dark": { "checked": 32, "failures": [], "unknown": [], "focus_ring_ratio": 10.12 }
+  },
+  "total_failures": 0,
+  "note": "No failure on the first run, so no colour role was changed and no palette fallback (azure) was needed. Focus ring is measured on the first focusable control only (theme-option-light)."
+}

@@ -1,35 +1,28 @@
 # Handoff - frontend-dev
 
-## Where M10 stands (iteration 4, trial 0): 12 of 12 tasks ticked, built
-- All of T119-T130 are ticked. T130 closed in iter 4 (scenarios E2E-M10-01..10, E2E-M10-08 real-stack-only).
-- Iter 4 fixed the two Dashboard visual defects from iter 3: the overdue chip, the DONE chip and the habit streak text sit in the `actions` slot of `ui-list-row` (gap 222-309 px).
-- `outputs/evidence/M10/result.json`: passed true, real_stack_only ["E2E-M10-08"].
-- `npx ng build` passes (616.77 kB, budget WARNING as before; do not raise the budget).
-- Servers stopped by the script. Nothing left running.
-- If the verifier needs more: E2E-M10-08 (empty states) needs a fresh database on the real stack.
+## Where M11 stands (trial 3, iteration 10): 7 of 8 tasks ticked, stuck on a user decision
+- Ticked: T131, T132, T133, T135, T136, T137, T138.
+- BLOCKED: T134. `ng build` prints a WARNING: initial 603.78 kB vs the 600 kB budget (transfer 150 kB, far under 500 kB).
+- Iteration 10 finding: the earlier claim (A-frontend-dev-M11-2) that mat-nav-list pulls @angular/forms into the initial bundle is WRONG; no forms symbols are in any dist chunk. Importing only MatNavList/MatListItem/MatListItemIcon/MatListItemTitle instead of MatListModule saved just 0.35 kB (603.43 kB), so it was reverted. The remaining size is Angular core, router, Material (sidenav, toolbar, tooltip, button, icon, list) and polyfills (34.6 kB). Closing the 3.4 kB gap needs either a real design cut (e.g. drop MatTooltip or MatToolbar from the shell, re-verify M09) or the user raising `maximumWarning` in frontend/angular.json (e.g. 620kB).
+- E2E-M11-07 still fails on four M01-M05 items (evidence/M11/regression-m01-m05.json): M01-02 (mock returns data), M02-05 (restore needs archived data), M05-02 (no items error text), M05-07 (partial). Verifier or user decides; scenarios must not be edited by this loop.
+- E2E-M11-02 first-paint part not checkable with the MCP.
 
-## Done in iter 4
-- Dashboard fix (above). Dashboard light and dark screenshots re-taken after the fix.
-- Smoke regression E2E-M10-10 (M02-01, M03-01, M04-01, M05-01, M06-01) executed on the mock.
-- E2E-M05-06 clock check done for E2E-M10-05 (`window.__qfClock.setNow`).
+## USER DECISIONS (read requirements/DECISIONS.md D-25 and D-26) - APPLY THEM, then finish
+- D-25: angular.json initial `maximumWarning` is now 650kB (already edited). Run `cd frontend && npx ng build`; it must print NO warning; copy the 'Initial total' line to evidence/M11/bundle.txt; do NOT change the budget again.
+- D-26: ignore E2E-M01-02, M02-05, M05-02, M05-07 (stateless mock cannot pass them): in regression-m01-m05.json set `accepted_known_failure: true` + reason on those four; E2E-M11-07 is PASSED when only those four fail. The first-paint part of E2E-M11-02 is recorded as checked by code review.
+- Then: network check for every page, tick T134, write result.json (all executed M11 scenarios passed), result `built`.
 
-## Shared blocks (use them, do not re-create)
-- `shared/ui-card.component.ts` `<ui-card [interactive]>`; `shared/ui-page-header.component.ts` `<ui-page-header title subtitle titleTestId>` with an `[actions]` slot.
-- `shared/ui-chip.component.ts` `<ui-chip kind="task-status|priority|plan-status|learning-status|overdue" [value] [testId]>`.
-- `shared/ui-list-row.component.ts` with `[leading]` and `[actions]` slots. Put `data-testid` on the `<ui-list-row>` element, wrapped in `<li>` inside a `<ul>`. Anything after the title that should be spaced from it goes in `[actions]`, otherwise it touches the title.
-- `shared/ui-skeleton.component.ts` `<ui-skeleton variant="line|card|row" [count]>` (has the 'Loading' status text).
-- `shared/empty-state.component.ts` `illustration="tasks|habits|learning|plans|generic"`.
+## Next (after the user decides)
+1. Budget raised: `cd frontend && npx ng build`, copy the Initial total line to evidence/M11/bundle.txt.
+2. Run the per-page network check (only /settings was captured) into evidence/M11/network.txt.
+3. Tick T134 once the build has no warning.
 
 ## Traps
-- Permission layer denied `cp` and `mv` of screenshots into `outputs/evidence/M10/` (iter 1, 3, 4). Screenshots stay in `run-artifacts/playwright/`. Reference those paths in evidence JSON. Do not retry the copy.
-- A Bash call that chains commands with `&&`, `|`, `;` or a heredoc gets denied. Keep one plain command per call.
-- A radio click on the `mat-radio-button` host does not toggle it. Click the inner `input`.
-- The HMR reload after editing a component blanks the Playwright page. Navigate again before reading.
-- The mock is stateless: POSTs return 201 with the body echoed, but later GETs show seed data. Plans history shows the seed plan twice. Expected.
-- Theme state persists (localStorage `qf.theme`). Reset to System (`button[aria-label="System theme"]`) after dark checks.
-- Playwright tools load with ToolSearch `select:mcp__playwright__browser_navigate,mcp__playwright__browser_evaluate,mcp__playwright__browser_take_screenshot,mcp__playwright__browser_console_messages,mcp__playwright__browser_resize,mcp__playwright__browser_click`. Form fields in one `browser_evaluate` work with `el.value = v` plus `input` and `change` events.
+- Playwright MCP tools load with ToolSearch `select:mcp__playwright__browser_*`; reload per session.
+- Permission layer denies compound bash (for-loops, variables, heredocs, redirects into run-artifacts/). One plain command per call, or Write/Edit.
+- The mock is stateless. Material dialogs need a real `browser_press_key` Escape.
+- index.html has two pre-paint background literals (#fcfcfd, #121214); documented exception in frontend/README.md.
 
 ## Commands that worked
-- Build: `cd /home/ahmoh/Documents/proj/demo/QuickFlow/frontend && npx ng build`.
-- Servers: `scripts/mock.sh start --port 4010`, then `scripts/frontend.sh start --api http://localhost:4010`. Stop with `scripts/frontend.sh stop --port 4300`, then `scripts/mock.sh stop --port 4010`. Each as its own Bash call.
-- Contrast: `loops/frontend-dev/outputs/e2e/contrast-check.js` is one function. Paste it into one `browser_evaluate` with a loop over the toolbar theme buttons and `[data-testid="nav-<page>"]`.
+- Build: `cd frontend && npx ng build` (about 30 s).
+- Servers (repo root, one per call): `scripts/mock.sh start --port 4010`, `scripts/frontend.sh start --api http://localhost:4010 --port 4300`; stop with `stop --port`. Currently stopped.

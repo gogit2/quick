@@ -1174,13 +1174,13 @@
       ]
     },
     "M11": {
-      "status": "pending",
+      "status": "building",
       "trial": 0,
       "upgraded": false,
-      "cost_usd": 0.0,
+      "cost_usd": 4.20931,
       "upgrade_cost_usd": 0.0,
       "verify_rounds": 0,
-      "started_at": null,
+      "started_at": "2026-10-15T13:36:13+03:00",
       "ended_at": null,
       "tag": null,
       "blocked_reason": null,
@@ -1190,12 +1190,12 @@
       "roles": {
         "backend-dev": {
           "tasks": 0,
-          "status": "pending",
+          "status": "built",
           "iterations": 0,
           "attempt_iterations": 0,
           "attempt_cap": null,
           "started_at": null,
-          "ended_at": null,
+          "ended_at": "2026-10-15T13:36:13+03:00",
           "tokens_in": 0,
           "tokens_out": 0,
           "cache_read": 0,
@@ -1207,20 +1207,42 @@
         },
         "frontend-dev": {
           "tasks": 8,
-          "status": "pending",
-          "iterations": 0,
+          "status": "building",
+          "iterations": 10,
           "attempt_iterations": 0,
           "attempt_cap": null,
-          "started_at": null,
+          "started_at": "2026-10-15T13:36:13+03:00",
           "ended_at": null,
-          "tokens_in": 0,
-          "tokens_out": 0,
-          "cache_read": 0,
-          "cache_write": 0,
-          "cost_usd": 0.0,
-          "sessions": [],
-          "models": [],
-          "last_result": null
+          "tokens_in": 814,
+          "tokens_out": 291654,
+          "cache_read": 61001650,
+          "cache_write": 1315958,
+          "cost_usd": 4.20931,
+          "sessions": [
+            "b84512ad-8116-45a9-a102-42e6be0d5b9c",
+            "fff0e995-e172-4c9d-978e-a356c898947a",
+            "d79fb430-a0f8-4e27-8871-5bafe3720e9c",
+            "800a34be-2af2-4918-b83b-14c034944e30",
+            "c662ec5b-4892-4a79-99ad-9090a899abf7",
+            "db77f81a-86c9-4758-a7aa-5e3227ffb80a",
+            "92cc1784-0662-42b3-85f8-bfae5dc23f4b",
+            "c2608ec7-0d45-4185-a65d-5ee831b906a1",
+            "c1526f46-20b8-4120-9e55-b0e0bcb114ef",
+            "029d1e45-06b3-4acd-b26d-039395aa4883"
+          ],
+          "models": [
+            "claude-haiku-5-5",
+            "claude-sonnet-5-5"
+          ],
+          "last_result": {
+            "milestone": "M11",
+            "result": "stuck",
+            "tasks_done": [],
+            "open_tasks": 1,
+            "selfcheck": "cd frontend && npx ng build: completed, Initial total 603.43 kB with the narrowed list imports (603.78 kB after revert), WARNING over the 600 kB budget. No servers started.",
+            "notes": "Only T134 is open. Narrowing Material list imports saved 0.35 kB only; the earlier forms-in-initial-bundle claim is wrong. Closing the 3.4 kB gap needs a design cut in the shell or a user decision to raise the budget. E2E-M11-07 still fails on four M01-M05 items."
+          },
+          "last_gate": "skip"
         },
         "verify": {
           "tasks": 0,
@@ -1240,7 +1262,57 @@
           "last_result": null
         }
       },
-      "events": []
+      "events": [
+        {
+          "at": "2026-10-15T13:36:13+03:00",
+          "type": "info",
+          "role": "backend-dev",
+          "detail": "no tasks for this role in this milestone"
+        },
+        {
+          "at": "2026-10-15T14:05:48+03:00",
+          "type": "trial",
+          "role": "frontend-dev",
+          "detail": "trial 1: iteration cap 5 reached with 4 open tasks"
+        },
+        {
+          "at": "2026-10-15T14:28:11+03:00",
+          "type": "trial",
+          "role": "frontend-dev",
+          "detail": "trial 2: stuck: Only T134 is open and needs the user's decision (A-frontend-dev-M11-2): plain nav markup in the shell or raise the 600 kB budget. E2E-M11-07 also still fails on four M01-M05 items (M01-02, M02-05, M05"
+        },
+        {
+          "at": "2026-10-15T14:28:12+03:00",
+          "type": "trial",
+          "role": "frontend-dev",
+          "detail": "trial 3: iteration cap 4 reached with 1 open tasks"
+        },
+        {
+          "at": "2026-10-15T14:28:12+03:00",
+          "type": "upgrade",
+          "role": "frontend-dev",
+          "detail": "3 trials used - one retry on claude-sonnet-5-5 with $15"
+        },
+        {
+          "at": "2026-10-15T14:30:28+03:00",
+          "type": "blocked",
+          "role": "frontend-dev",
+          "detail": "upgrade retry failed: stuck: Only T134 is open. Narrowing Material list imports saved 0.35 kB only; the earlier forms-in-initial-bundle claim is wrong. Closing the 3.4 kB gap needs a design cut in the shell or a user decision to "
+        },
+        {
+          "at": "2026-10-15T14:30:28+03:00",
+          "type": "blocked",
+          "role": "runner",
+          "detail": "upgrade retry failed: stuck: Only T134 is open. Narrowing Material list imports saved 0.35 kB only; the earlier forms-in-initial-bundle claim is wrong. Closing the 3.4 kB gap needs a design cut in the shell or a user decision to "
+        },
+        {
+          "at": "2026-10-15T17:26:36+0300",
+          "type": "unblocked",
+          "role": "user",
+          "detail": "user decisions D-25 (budget 650 kB) and D-26 (ignore 4 mock-limited scenarios); trials reset"
+        }
+      ],
+      "upgraded_at": "2026-10-15T14:28:12+03:00"
     }
   },
   "order": [

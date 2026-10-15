@@ -1,8 +1,8 @@
 {
-  "milestone": "M10",
-  "result": "built",
-  "tasks_done": ["T126", "T130"],
-  "open_tasks": 0,
-  "selfcheck": "npx ng build passed (budget WARNING only, bundle 616.77 kB). Mock 4010 and frontend 4300 started by script. Playwright MCP on the mock: E2E-M10-01..07 and 09 PASS (dashboard light and dark, chips, skeleton, learning expand, plans clock check, dashboard grid, settings radios, contrast 12 runs 0 failures); E2E-M10-10 smoke set M02-01, M03-01, M04-01, M05-01, M06-01 PASS (POST 201 with expected bodies); E2E-M10-08 real-stack-only, written. evidence/M10/result.json passed true. Servers stopped by script.",
-  "notes": "Iter 4 fixed the Dashboard overdue and habit-row gaps (chip and streak in ui-list-row actions slot) and closed T130. Screenshots are in run-artifacts/playwright/ (evidence copy denied). Frontend-dev has no more M10 work; verifier runs E2E-M10-08 on the real stack."
+  "milestone": "M11",
+  "result": "stuck",
+  "tasks_done": [],
+  "open_tasks": 1,
+  "selfcheck": "cd frontend && npx ng build: completed, Initial total 603.43 kB with the narrowed list imports (603.78 kB after revert), WARNING over the 600 kB budget. No servers started.",
+  "notes": "Only T134 is open. Narrowing Material list imports saved 0.35 kB only; the earlier forms-in-initial-bundle claim is wrong. Closing the 3.4 kB gap needs a design cut in the shell or a user decision to raise the budget. E2E-M11-07 still fails on four M01-M05 items."
 }

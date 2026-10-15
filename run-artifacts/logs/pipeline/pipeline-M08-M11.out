@@ -15,3 +15,23 @@
 [12:59:18] M10: frontend-dev started (pid 441573, log run-artifacts/logs/pipeline/M10-frontend-dev.log)
 [13:21:17] M10: both loops built - verifying
 [13:36:11] M10: verify -> pass
+[13:36:12] M10 committed and tagged
+[13:36:12] ===== M11 Polish and regression
+[13:36:13] M11: backend-dev started (pid 524112, log run-artifacts/logs/pipeline/M11-backend-dev.log)
+[13:36:13] M11: frontend-dev started (pid 524115, log run-artifacts/logs/pipeline/M11-frontend-dev.log)
+[14:30:28] M11: frontend-dev exited 3
+spec: specs/002-visual-polish
+M01 passed     trial=0 cost=$2.612 left=$12.39 backend=built frontend=built verify=passed  Foundation
+M02 passed     trial=0 cost=$3.693 left=$11.31 backend=built frontend=built verify=passed  Tasks
+M03 passed     trial=1 cost=$2.911 left=$12.09 backend=built frontend=built verify=passed  Habits
+M04 passed     trial=0 cost=$2.913 left=$12.09 backend=built frontend=built verify=passed  Learning
+M05 passed     trial=0 cost=$4.059 left=$10.94 backend=built frontend=built verify=passed  Plans
+M06 passed     trial=0 cost=$2.907 left=$12.09 backend=built frontend=built verify=passed  Dashboard
+M07 passed     trial=0 cost=$4.785 left=$20.22 backend=built frontend=built verify=passed  Hardening
+M08 passed     trial=0 cost=$3.268 left=$11.73 backend=built frontend=built verify=passed  Design foundation
+M09 passed     trial=0 cost=$4.484 left=$10.52 backend=built frontend=built verify=passed  Shell and navigation
+M10 passed     trial=0 cost=$6.033 left=$8.97 backend=built frontend=built verify=passed  Pages
+M11 blocked    trial=3+up cost=$4.209 left=$14.73 backend=built frontend=blocked verify=pending  Polish and regression
+    blocked: upgrade retry failed: stuck: Only T134 is open. Narrowing Material list imports saved 0.35 kB only; the earlier forms-in-initial-bundle claim is wrong. Closing the 3.4 kB gap needs a design cut in the shell or a user decision to 
+[14:30:28] PIPELINE STOPPED: M11 is blocked - upgrade retry failed: stuck: Only T134 is open. Narrowing Material list imports saved 0.35 kB only; the earlier forms-in-initial-bundle claim is wrong. Closing the 3.4 kB gap needs a design cut in the shell or a user decision to 
+scripts/pipeline.sh failed with exit status 3.

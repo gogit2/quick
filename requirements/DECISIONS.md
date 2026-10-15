@@ -40,3 +40,8 @@ Format: `D-<n> (Qx): question -> decision`.
 - **D-22**: Typeface -> **Inter**, self-hosted (bundled from the `@fontsource-variable/inter` npm package, Latin subset only); no external font requests.
 - **D-23**: Out of scope for 002 -> editing a plan after creation, drag-and-drop plan priority, charts/calendar views, tags (stay in the backlog).
 - **D-24**: Milestones continue the numbering: M08 Design foundation, M09 Shell and navigation, M10 Pages, M11 Polish and regression.
+
+## M11 blocked-milestone decisions (spec 002, 2026-10-15, user)
+
+- **D-25**: The initial-bundle **raw warning budget is raised from 600 kB to 650 kB** (`frontend/angular.json`, `maximumWarning`). Reason: SC-V04 is defined on the estimated transfer size (150 kB against 500 kB, met); the 600 kB raw value had itself been raised from Angular's 500 kB default in spec 001 and was never a requirement. The error budget (1 MB) is unchanged. T134 is done when `ng build` prints no warnings under the 650 kB budget.
+- **D-26**: The four spec-001 scenarios that cannot pass against the stateless Prism mock (**E2E-M01-02, E2E-M02-05, E2E-M05-02, E2E-M05-07**) are **ignored for the M11 regression**: the loop records them in `regression-m01-m05.json` with `accepted_known_failure: true` and the reason, and E2E-M11-07 counts as passed when the only failures are exactly these four. Consequence (accepted by the user): nobody re-checks those four against the restyled UI in M11; the earlier verifier runs of M01, M02 and M05 passed them on the real stack before the restyle. Scenario texts are not edited. The part of E2E-M11-02 that needs the first paint (the MCP cannot observe it) is recorded as checked by code review, as E2E-M08-04 was in M08.

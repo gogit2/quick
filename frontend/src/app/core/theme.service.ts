@@ -11,6 +11,11 @@ function isThemeMode(value: string | null): value is ThemeMode {
   return value !== null && (MODES as readonly string[]).includes(value);
 }
 
+// Test hook: ?reduceMotion=1 turns off motion for the page, like ?clockOffsetMs for time.
+export function reduceMotionRequested(): boolean {
+  return new URLSearchParams(window.location.search).get('reduceMotion') === '1';
+}
+
 // Light, dark or system theme. The choice is kept in localStorage and mirrored to
 // <html data-theme>; the inline script in index.html sets the same attribute before paint.
 @Injectable({ providedIn: 'root' })
@@ -31,6 +36,9 @@ export class ThemeService {
   constructor() {
     this.systemQuery?.addEventListener('change', (event) => this.systemDark.set(event.matches));
     this.apply(this.mode());
+    if (reduceMotionRequested()) {
+      this.doc.documentElement.dataset['reduceMotion'] = 'true';
+    }
   }
 
   setMode(mode: ThemeMode): void {
