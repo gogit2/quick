@@ -1,0 +1,22 @@
+{
+  "milestone": "M02",
+  "round": 1,
+  "stack": "frontend http://localhost:4300 -> backend http://localhost:8090 (stable db, fresh before the browser run)",
+  "screenshots_dir": "run-artifacts/playwright/verify-M02-r1/",
+  "scenarios": [
+    { "id": "E2E-M01-01", "smoke": true, "result": "pass", "notes": "6 nav links: URL /<page>, <page>-title visible, nav link class active" },
+    { "id": "E2E-M02-08", "part": "empty state", "result": "pass", "notes": "fresh db: tasks-empty-state + tasks-empty-add-button, 0 rows", "screenshot": "E2E-M02-08-empty-state.png" },
+    { "id": "E2E-M02-02", "result": "pass (after fix F1)", "notes": "empty title -> 'Title is required.'; 201 chars -> 'Must be at most 200 characters.'; server 400 fieldErrors[title] (client validators removed via ng.getComponent) was NOT shown before F1, shown under Title after F1", "screenshot": "E2E-M02-02-server-field-error.png" },
+    { "id": "E2E-M02-01", "smoke": true, "result": "pass", "notes": "dialog from empty-state button, title 'Write quarterly report', priority High -> POST 201, row tasks-row-1 with 'To do' + 'High'", "screenshot": "E2E-M02-01-add-task.png" },
+    { "id": "E2E-M02-07", "result": "pass", "notes": "task due yesterday (Africa/Cairo) shows tasks-overdue-2; no other overdue markers", "screenshot": "E2E-M02-07-overdue.png" },
+    { "id": "E2E-M02-03", "result": "pass", "notes": "tasks-edit-1: title -> 'Write Q4 report', priority Low, due 2026-10-20 -> PUT 200, row updated", "screenshot": "E2E-M02-03-edit.png" },
+    { "id": "E2E-M02-04", "result": "pass", "notes": "tasks-complete-2 -> POST complete 200, status chip 'Done', overdue marker gone", "screenshot": "E2E-M02-04-complete.png" },
+    { "id": "E2E-M02-05", "result": "pass", "notes": "archive 5 -> gone from default list; show-archived lists it with 'Restore'; restore -> back in default list; delete 3 + confirm-ok -> DELETE 204, row gone", "screenshot": "E2E-M02-05-archived-view.png, E2E-M02-05-after-delete.png" },
+    { "id": "E2E-M02-06", "result": "pass", "notes": "q=REP (case-insensitive) -> 'Write Q4 report'; status=TODO, priority=LOW, due=OVERDUE/TODAY/THIS_WEEK/NO_DUE_DATE, sort=CREATED_ASC/DUE_DATE_ASC/DUE_DATE_DESC/CREATED_DESC all sent the right params and returned the expected rows (nulls last for due sorts)", "screenshot": "E2E-M02-06-filters.png" },
+    { "id": "E2E-M02-08", "part": "no-results", "result": "pass", "notes": "q=zzz-nomatch -> tasks-no-results, no empty state", "screenshot": "E2E-M02-08-no-results.png" },
+    { "id": "E2E-M02-08", "part": "backend down (error state)", "result": "pass", "notes": "backend stopped: alert 'The tasks could not be loaded. Try again.' + 5xx snackbar, no false empty state; backend restarted, data kept", "screenshot": "E2E-M02-08-backend-down.png" }
+  ],
+  "console_errors": "none in normal flows; only the deliberately provoked 400 (server field error test) and the proxy 500s while the backend was stopped",
+  "network_5xx": "none in normal flows (only while the backend was deliberately stopped)",
+  "passed": true
+}

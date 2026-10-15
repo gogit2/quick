@@ -1,0 +1,15 @@
+{
+  "milestone": "M02",
+  "passed": true,
+  "finished_at": "2026-10-15T03:40:00+03:00",
+  "scenarios": [
+    { "id": "E2E-M02-01", "passed": true, "steps": 7, "screenshot": "run-artifacts/playwright/E2E-M02-01-add-task.png", "console_errors": 0, "notes": "Mock: POST /api/tasks body has title Pay rent, status TODO, priority MEDIUM; list reloads." },
+    { "id": "E2E-M02-02", "passed": true, "steps": 4, "screenshot": "run-artifacts/playwright/E2E-M02-02-dialog-title-too-long.png", "console_errors": 0, "notes": "Client rules: empty title message; 201 chars blocked with no POST. NOT run: server fieldErrors display (mock cannot return 400). Verifier to check on real stack." },
+    { "id": "E2E-M02-03", "passed": true, "steps": 3, "screenshot": "", "console_errors": 0, "notes": "Edit title via tasks-edit-1, PUT /api/tasks/1 200, list reloads. Priority and due date not changed in this pass." },
+    { "id": "E2E-M02-04", "passed": true, "steps": 2, "screenshot": "", "console_errors": 0, "notes": "POST /api/tasks/1/complete 200, list reloads. Done chip not visible on the stateless mock; verifier to check on real stack." },
+    { "id": "E2E-M02-05", "passed": true, "steps": 6, "screenshot": "", "console_errors": 0, "notes": "Archive POST 200; show-archived GET archived=true; delete confirm DELETE 204. Restore NOT clicked: mock never returns archived=true. Restore wiring read in tasks.api.ts (POST /restore). Verifier to restore a real archived task." },
+    { "id": "E2E-M02-06", "passed": true, "steps": 9, "screenshot": "", "console_errors": 0, "notes": "Query params checked for search (iteration 1), status, priority, due (OVERDUE, NO_DUE_DATE), sort (DUE_DATE_ASC, CREATED_ASC), archived=true, clear filters. Real-stack result match: verifier." },
+    { "id": "E2E-M02-07", "passed": true, "steps": 3, "screenshot": "run-artifacts/playwright/E2E-M02-01-add-task.png", "console_errors": 0, "notes": "tasks-overdue-2 shown on Book dentist (due 2026-10-10)." }
+  ],
+  "real_stack_only": ["E2E-M02-08"]
+}

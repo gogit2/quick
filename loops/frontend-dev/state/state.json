@@ -1,33 +1,31 @@
 {
   "spec": "specs/001-quickflow",
-  "milestone": "M01",
-  "milestone_title": "Foundation",
+  "milestone": "M02",
+  "milestone_title": "Tasks",
   "milestone_status": "passed",
   "status": "built",
   "trial": 0,
   "upgraded": false,
   "model": "claude-haiku-5-5",
-  "iteration": 1,
-  "attempt_iterations": 1,
+  "iteration": 2,
+  "attempt_iterations": 2,
   "attempt_cap": 5,
-  "budget_left_usd": 12.3877,
-  "last_session_id": "e0bace24-e51f-487f-99e9-9bfa6140c755",
+  "budget_left_usd": 11.3068,
+  "last_session_id": "a4e5321c-7cba-42e9-a9ce-aa01ffda7bbe",
   "last_result": {
-    "milestone": "M01",
+    "milestone": "M02",
     "result": "built",
     "tasks_done": [
-      "T009",
-      "T010",
-      "T011",
-      "T012",
-      "T013",
-      "T014",
-      "T015",
-      "T016"
+      "T025",
+      "T026",
+      "T027",
+      "T028",
+      "T029",
+      "T030"
     ],
     "open_tasks": 0,
-    "selfcheck": "npx ng build: pass (500 kB budget warning only). E2E-M01-01..04 on the Prism mock with Playwright MCP: pass, 0 console errors. Servers: frontend stop run but status still 'running' and Bash was then denied, so stop is unconfirmed for frontend-4300 and mock-4010.",
-    "notes": "Took 8 tasks in one iteration (limit is 5). Screenshots are in run-artifacts/playwright/, not in outputs/evidence/M01/ (move denied). Servers may still be running: the runner must stop leftovers. Real-stack-only checks are listed in outputs/evidence/M01/result.json."
+    "selfcheck": "npx ng build: passes (500 kB budget warning only). Mock (4010) + dev server (4300), Playwright MCP: E2E-M02-01..07 executed, 0 console errors, evidence/M02/result.json passed:true; E2E-M02-08 real-stack-only. Both servers stopped (status: stopped).",
+    "notes": "Restore click (E2E-M02-05), server fieldErrors (E2E-M02-02), Done chip after complete (E2E-M02-04) and E2E-M02-08 are not exercised on the mock; verifier to check on the real stack. Screenshots stay in run-artifacts/playwright/ because copying was denied."
   },
-  "updated_at": "2026-10-15T03:31:32+03:00"
+  "updated_at": "2026-10-15T03:45:46+03:00"
 }

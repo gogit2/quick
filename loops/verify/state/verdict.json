@@ -1,11 +1,13 @@
 {
-  "milestone": "M01",
+  "milestone": "M02",
   "round": 1,
   "verdict": "PASS",
-  "checks": { "review": "pass", "swagger": "pass", "unit": "pass", "curl": "pass", "e2e": "pass", "smoke": "n/a" },
-  "fixes": [],
+  "checks": { "review": "pass", "swagger": "pass", "unit": "pass", "curl": "pass", "e2e": "pass", "smoke": "pass" },
+  "fixes": [
+    { "file": "frontend/src/app/features/tasks/task-form-dialog.component.ts", "summary": "F1: mark controls named in a 400 fieldErrors response invalid (setErrors server) so mat-error displays the server message (E2E-M02-02)", "lines": 4 }
+  ],
   "fix_tasks": [],
   "contract_issues": [],
   "escalate": false,
-  "notes": "All T001-T016 present. Swagger PASS, mvnw verify 25/25 and ng build OK, curl 6/6, real-stack E2E-M01-01..04 plus first-run, server fieldError and backend-down error state pass. Backend restarted --fresh before the browser run and is running on 8090. Non-blocking notes and assumption A-verify-M01-1 (~/.m2) are in loops/verify/outputs/M01-round-1.md."
+  "notes": "All checks pass on the real stack: swagger 10 ops, mvnw verify 58/58, ng build OK, curl M01 6/6 + M02 14/14, E2E-M02-01..08 incl. empty/no-results/backend-down and E2E-M01-01 smoke. Screenshots in run-artifacts/playwright/verify-M02-r1/."
 }

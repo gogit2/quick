@@ -3,3 +3,14 @@
 [03:17:48] M01: frontend-dev started (pid 377616, log run-artifacts/logs/pipeline/M01-frontend-dev.log)
 [03:26:55] M01: both loops built - verifying
 [03:31:32] M01: verify -> pass
+[03:31:32] M01 committed and tagged
+run-artifacts/summary.md
+spec: specs/001-quickflow
+M01 passed     trial=0 cost=$2.612 left=$12.39 backend=built frontend=built verify=passed  Foundation
+M02 pending    trial=0 cost=$0.000 left=$15.00 backend=pending frontend=pending verify=pending  Tasks
+M03 pending    trial=0 cost=$0.000 left=$15.00 backend=pending frontend=pending verify=pending  Habits
+M04 pending    trial=0 cost=$0.000 left=$15.00 backend=pending frontend=pending verify=pending  Learning
+M05 pending    trial=0 cost=$0.000 left=$15.00 backend=pending frontend=pending verify=pending  Plans
+M06 pending    trial=0 cost=$0.000 left=$15.00 backend=pending frontend=pending verify=pending  Dashboard
+M07 pending    trial=0 cost=$0.000 left=$25.00 backend=pending frontend=pending verify=pending  Hardening
+[03:31:32] pipeline finished

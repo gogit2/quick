@@ -1,7 +1,7 @@
 {
   "spec": "specs/001-quickflow",
-  "milestone": "M01",
-  "milestone_title": "Foundation",
+  "milestone": "M02",
+  "milestone_title": "Tasks",
   "milestone_status": "passed",
   "status": "passed",
   "trial": 0,
@@ -10,8 +10,8 @@
   "iteration": 1,
   "attempt_iterations": 0,
   "attempt_cap": null,
-  "budget_left_usd": 12.3877,
-  "last_session_id": "0bfdae0a-cf0a-4ef5-ba0b-816ac173d118",
+  "budget_left_usd": 11.3068,
+  "last_session_id": "c384f6c1-6d92-4c78-b4d2-5f662572a438",
   "last_result": null,
-  "updated_at": "2026-10-15T03:31:32+03:00"
+  "updated_at": "2026-10-15T03:45:46+03:00"
 }

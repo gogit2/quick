@@ -120,15 +120,15 @@
       ]
     },
     "M02": {
-      "status": "pending",
+      "status": "passed",
       "trial": 0,
       "upgraded": false,
-      "cost_usd": 0.0,
+      "cost_usd": 3.693218,
       "upgrade_cost_usd": 0.0,
-      "verify_rounds": 0,
-      "started_at": null,
-      "ended_at": null,
-      "tag": null,
+      "verify_rounds": 1,
+      "started_at": "2026-10-15T03:34:41+03:00",
+      "ended_at": "2026-10-15T03:45:46+03:00",
+      "tag": "M02",
       "blocked_reason": null,
       "title": "Tasks",
       "slug": "tasks",
@@ -136,57 +136,109 @@
       "roles": {
         "backend-dev": {
           "tasks": 8,
-          "status": "pending",
-          "iterations": 0,
-          "attempt_iterations": 0,
-          "attempt_cap": null,
-          "started_at": null,
-          "ended_at": null,
-          "tokens_in": 0,
-          "tokens_out": 0,
-          "cache_read": 0,
-          "cache_write": 0,
-          "cost_usd": 0.0,
-          "sessions": [],
-          "models": [],
-          "last_result": null
+          "status": "built",
+          "iterations": 1,
+          "attempt_iterations": 1,
+          "attempt_cap": 5,
+          "started_at": "2026-10-15T03:34:41+03:00",
+          "ended_at": "2026-10-15T03:40:24+03:00",
+          "tokens_in": 64,
+          "tokens_out": 67448,
+          "cache_read": 2747369,
+          "cache_write": 134756,
+          "cost_usd": 0.241543,
+          "sessions": [
+            "0ea9eebd-ce80-4e53-a355-05a332116a6b"
+          ],
+          "models": [
+            "claude-haiku-5-5"
+          ],
+          "last_result": {
+            "milestone": "M02",
+            "result": "built",
+            "tasks_done": [
+              "T017",
+              "T018",
+              "T019",
+              "T020",
+              "T021",
+              "T022",
+              "T023",
+              "T024"
+            ],
+            "open_tasks": 0,
+            "selfcheck": "cd backend && ./mvnw -q verify: PASS (58 tests, 0 failures); backend.sh start --port 8091 --fresh healthy; curl-regression --upto M02: PASS (M01 6/6, M02 14/14); export-swagger --ms M02: PASS (10 operations, no diff); backend.sh stop --port 8091 done",
+            "notes": "All M02 BE tasks ticked with evidence in outputs/evidence/M02/. Assumptions A-backend-dev-M02-1..3 logged. No contract issues found; no contract edits. No commits."
+          },
+          "last_gate": "pass"
         },
         "frontend-dev": {
           "tasks": 6,
-          "status": "pending",
-          "iterations": 0,
-          "attempt_iterations": 0,
-          "attempt_cap": null,
-          "started_at": null,
-          "ended_at": null,
-          "tokens_in": 0,
-          "tokens_out": 0,
-          "cache_read": 0,
-          "cache_write": 0,
-          "cost_usd": 0.0,
-          "sessions": [],
-          "models": [],
-          "last_result": null
+          "status": "built",
+          "iterations": 2,
+          "attempt_iterations": 2,
+          "attempt_cap": 5,
+          "started_at": "2026-10-15T03:34:41+03:00",
+          "ended_at": "2026-10-15T03:40:08+03:00",
+          "tokens_in": 116,
+          "tokens_out": 54194,
+          "cache_read": 4383371,
+          "cache_write": 216378,
+          "cost_usd": 0.284715,
+          "sessions": [
+            "97932feb-8330-4b57-b3f5-0c99298097bb",
+            "a4e5321c-7cba-42e9-a9ce-aa01ffda7bbe"
+          ],
+          "models": [
+            "claude-haiku-5-5"
+          ],
+          "last_result": {
+            "milestone": "M02",
+            "result": "built",
+            "tasks_done": [
+              "T025",
+              "T026",
+              "T027",
+              "T028",
+              "T029",
+              "T030"
+            ],
+            "open_tasks": 0,
+            "selfcheck": "npx ng build: passes (500 kB budget warning only). Mock (4010) + dev server (4300), Playwright MCP: E2E-M02-01..07 executed, 0 console errors, evidence/M02/result.json passed:true; E2E-M02-08 real-stack-only. Both servers stopped (status: stopped).",
+            "notes": "Restore click (E2E-M02-05), server fieldErrors (E2E-M02-02), Done chip after complete (E2E-M02-04) and E2E-M02-08 are not exercised on the mock; verifier to check on the real stack. Screenshots stay in run-artifacts/playwright/ because copying was denied."
+          },
+          "last_gate": "pass"
         },
         "verify": {
           "tasks": 0,
-          "status": "pending",
-          "iterations": 0,
+          "status": "passed",
+          "iterations": 1,
           "attempt_iterations": 0,
           "attempt_cap": null,
-          "started_at": null,
-          "ended_at": null,
-          "tokens_in": 0,
-          "tokens_out": 0,
-          "cache_read": 0,
-          "cache_write": 0,
-          "cost_usd": 0.0,
-          "sessions": [],
-          "models": [],
+          "started_at": "2026-10-15T03:40:24+03:00",
+          "ended_at": "2026-10-15T03:45:46+03:00",
+          "tokens_in": 124,
+          "tokens_out": 21674,
+          "cache_read": 6491281,
+          "cache_write": 179341,
+          "cost_usd": 3.16696,
+          "sessions": [
+            "c384f6c1-6d92-4c78-b4d2-5f662572a438"
+          ],
+          "models": [
+            "claude-opus-5-5"
+          ],
           "last_result": null
         }
       },
-      "events": []
+      "events": [
+        {
+          "at": "2026-10-15T03:45:46+03:00",
+          "type": "verdict",
+          "role": "verify",
+          "detail": "round 1: PASS (1 small fixes)"
+        }
+      ]
     },
     "M03": {
       "status": "pending",
