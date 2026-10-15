@@ -1,0 +1,8 @@
+{
+  "milestone": "M01",
+  "result": "built",
+  "tasks_done": ["T009", "T010", "T011", "T012", "T013", "T014", "T015", "T016"],
+  "open_tasks": 0,
+  "selfcheck": "npx ng build: pass (500 kB budget warning only). E2E-M01-01..04 on the Prism mock with Playwright MCP: pass, 0 console errors. Servers: frontend stop run but status still 'running' and Bash was then denied, so stop is unconfirmed for frontend-4300 and mock-4010.",
+  "notes": "Took 8 tasks in one iteration (limit is 5). Screenshots are in run-artifacts/playwright/, not in outputs/evidence/M01/ (move denied). Servers may still be running: the runner must stop leftovers. Real-stack-only checks are listed in outputs/evidence/M01/result.json."
+}

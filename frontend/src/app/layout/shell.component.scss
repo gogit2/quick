@@ -1,0 +1,26 @@
+:host {
+  display: block;
+  height: 100vh;
+}
+
+.toolbar {
+  position: relative;
+  z-index: 2;
+}
+
+.container {
+  height: calc(100vh - 64px);
+}
+
+.sidenav {
+  width: 220px;
+}
+
+.content {
+  padding: 24px;
+}
+
+a.active {
+  background: rgba(0, 0, 0, 0.08);
+  font-weight: 500;
+}

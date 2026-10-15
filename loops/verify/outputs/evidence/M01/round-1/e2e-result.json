@@ -1,0 +1,17 @@
+{
+  "milestone": "M01",
+  "round": 1,
+  "stack": "frontend http://localhost:4300 -> backend http://localhost:8090 (stable db, restarted --fresh before the browser run)",
+  "screenshots_dir": "run-artifacts/playwright/ (copying into this folder was denied by the headless permissions)",
+  "scenarios": [
+    { "id": "first-run [real-stack-only]", "passed": true, "notes": "Fresh db (configured=false): app load sent GET then a silent PUT /api/settings; db then had timeZone=Africa/Cairo (browser zone), configured=true, other values unchanged. Opened /dashboard." },
+    { "id": "E2E-M01-01 [smoke]", "passed": true, "screenshot": "run-artifacts/playwright/loops/verify/outputs/evidence/M01/round-1/E2E-M01-01-tasks-reload.png", "notes": "Six nav clicks: URL, <page>-title and class active correct for each, only one active item. Reload of /tasks keeps page and highlight. Repeated after backend restart: same result." },
+    { "id": "E2E-M01-02", "passed": true, "notes": "tasks/habits/learning/plans: <page>-empty-state and <page>-empty-add-button present on the fresh db." },
+    { "id": "E2E-M01-03", "passed": true, "screenshot": "run-artifacts/playwright/E2E-M01-03-settings-saved.png, run-artifacts/playwright/E2E-M01-03-settings-reload.png", "notes": "Set name 'Verifier Vera', email, notifications off, start page Tasks; PUT 200, settings-saved-message shown; reload shows saved values; values also survive a backend restart." },
+    { "id": "E2E-M01-04", "passed": true, "screenshot": "run-artifacts/playwright/E2E-M01-04-start-page-tasks.png", "notes": "Start page Tasks: opening / redirects to /tasks (also after backend restart)." },
+    { "id": "settings server fieldErrors [real-stack-only]", "passed": true, "screenshot": "run-artifacts/playwright/E2E-M01-RS-settings-server-fielderror.png", "notes": "Email 'vera@localhost' passes client validation, server 400 fieldErrors[email] shown as mat-error 'must be a valid email address'. Only console error is the browser's network line for that intended 400." },
+    { "id": "settings error state [real-stack-only]", "passed": true, "screenshot": "run-artifacts/playwright/E2E-M01-RS-settings-backend-down.png", "notes": "Backend stopped: /settings shows settings-error-message 'Settings could not be loaded.' plus 5xx snackbar; app shell and nav still render. 500s come from the dev proxy (backend down), as intended. Backend restarted afterwards." }
+  ],
+  "console_errors_on_normal_flows": 0,
+  "http_5xx_on_normal_flows": 0
+}

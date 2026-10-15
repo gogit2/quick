@@ -1,0 +1,12 @@
+{
+  "milestone": "M01",
+  "passed": true,
+  "finished_at": "2026-10-15T03:40:00+03:00",
+  "scenarios": [
+    { "id": "E2E-M01-01", "passed": true, "steps": 5, "screenshot": "run-artifacts/playwright/E2E-M01-02-tasks-empty.png", "console_errors": 0, "notes": "Dashboard, Tasks, Habits, Learning, Plans, Settings highlighted and titled (clicks and direct loads). Reload kept page on /tasks. Dashboard checked by direct load, not by click." },
+    { "id": "E2E-M01-02", "passed": true, "steps": 4, "screenshot": "run-artifacts/playwright/E2E-M01-02-tasks-empty.png", "console_errors": 0, "notes": "Tasks, Habits, Learning, Plans empty states and add buttons present." },
+    { "id": "E2E-M01-03", "passed": true, "steps": 4, "screenshot": "run-artifacts/playwright/E2E-M01-03-settings.png", "console_errors": 0, "notes": "GET 200, Save sends PUT /api/settings 200, settings-saved-message shown. Reload-shows-saved-values part is real-stack-only." },
+    { "id": "E2E-M01-04", "passed": true, "steps": 2, "screenshot": "", "console_errors": 0, "notes": "/ redirected to /dashboard (mock start page DASHBOARD). Non-default start page is real-stack-only." }
+  ],
+  "real_stack_only": ["E2E-M01-03 reload shows saved values", "E2E-M01-04 start page Tasks redirect", "settings server fieldErrors and error states"]
+}

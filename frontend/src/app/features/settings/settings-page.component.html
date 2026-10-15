@@ -1,0 +1,52 @@
+<h1 data-testid="settings-title">Settings</h1>
+
+<form class="form" [formGroup]="form" (ngSubmit)="save()" novalidate>
+  <mat-form-field appearance="outline">
+    <mat-label>Display name</mat-label>
+    <input matInput formControlName="displayName" data-testid="settings-display-name" />
+    <mat-error>{{ errorMessage('displayName') }}</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Email</mat-label>
+    <input matInput type="email" formControlName="email" data-testid="settings-email" />
+    <mat-error>{{ errorMessage('email') }}</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Time zone</mat-label>
+    <mat-select formControlName="timeZone" data-testid="settings-time-zone">
+      @for (zone of timeZones(); track zone) {
+        <mat-option [value]="zone">{{ zone }}</mat-option>
+      }
+    </mat-select>
+    <mat-error>{{ errorMessage('timeZone') }}</mat-error>
+  </mat-form-field>
+
+  <mat-slide-toggle formControlName="notificationsEnabled" data-testid="settings-notifications">
+    Notifications
+  </mat-slide-toggle>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Start page</mat-label>
+    <mat-select formControlName="defaultStartPage" data-testid="settings-start-page">
+      @for (page of startPages; track page.value) {
+        <mat-option [value]="page.value">{{ page.label }}</mat-option>
+      }
+    </mat-select>
+    <mat-error>{{ errorMessage('defaultStartPage') }}</mat-error>
+  </mat-form-field>
+
+  <div class="actions">
+    <button mat-raised-button color="primary" type="submit" data-testid="settings-save-button" [disabled]="saving()">
+      Save
+    </button>
+    @if (saved()) {
+      <span class="saved" data-testid="settings-saved-message">Settings saved</span>
+    }
+  </div>
+
+  @if (errorText(); as message) {
+    <p class="error" data-testid="settings-error-message">{{ message }}</p>
+  }
+</form>

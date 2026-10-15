@@ -1,0 +1,11 @@
+{
+  "milestone": "M01",
+  "round": 1,
+  "verdict": "PASS",
+  "checks": { "review": "pass", "swagger": "pass", "unit": "pass", "curl": "pass", "e2e": "pass", "smoke": "n/a" },
+  "fixes": [],
+  "fix_tasks": [],
+  "contract_issues": [],
+  "escalate": false,
+  "notes": "All T001-T016 present. Swagger PASS, mvnw verify 25/25 and ng build OK, curl 6/6, real-stack E2E-M01-01..04 plus first-run, server fieldError and backend-down error state pass. Backend restarted --fresh before the browser run and is running on 8090. Non-blocking notes and assumption A-verify-M01-1 (~/.m2) are in loops/verify/outputs/M01-round-1.md."
+}

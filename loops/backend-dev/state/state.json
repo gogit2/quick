@@ -1,0 +1,28 @@
+{
+  "spec": "specs/001-quickflow",
+  "milestone": "M01",
+  "milestone_title": "Foundation",
+  "milestone_status": "passed",
+  "status": "built",
+  "trial": 0,
+  "upgraded": false,
+  "model": "claude-haiku-5-5",
+  "iteration": 2,
+  "attempt_iterations": 2,
+  "attempt_cap": 5,
+  "budget_left_usd": 12.3877,
+  "last_session_id": "02f2e09b-1d61-4285-9fcb-6aece5161837",
+  "last_result": {
+    "milestone": "M01",
+    "result": "built",
+    "tasks_done": [
+      "T006",
+      "T007",
+      "T008"
+    ],
+    "open_tasks": 0,
+    "selfcheck": "cd backend && ./mvnw -q verify: green, 25 tests (SettingsServiceTest 10, SettingsControllerTest 6, GlobalExceptionHandlerTest 4, UserTimeTest 5). backend.sh start --port 8091 --db selfcheck --fresh: healthy. curl-regression.sh --upto M01: 6/6 passed. export-swagger.sh --ms M01: PASS, no diff. backend.sh stop --port 8091: done.",
+    "notes": "All 8 BE tasks of M01 are ticked with evidence in loops/backend-dev/outputs/evidence/M01/. Open concern unchanged: Maven repo and wrapper live in ~/.m2, outside the project (constitution II); left for the user."
+  },
+  "updated_at": "2026-10-15T03:31:32+03:00"
+}

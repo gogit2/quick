@@ -1,0 +1,89 @@
+openapi: 3.1.0
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+- url: http://localhost:8091
+  description: Generated server url
+paths:
+  /api/settings:
+    get:
+      tags:
+      - Settings
+      summary: Get the settings of the single user
+      operationId: getSettings
+      responses:
+        "200":
+          description: Settings
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Settings"
+    put:
+      tags:
+      - Settings
+      summary: Replace the settings
+      description: Invalid time zone ids and unknown start pages are rejected with
+        400.
+      operationId: updateSettings
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SettingsUpdate"
+        required: true
+      responses:
+        "200":
+          description: Saved settings
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Settings"
+        "400":
+          description: Validation failed
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Settings"
+components:
+  schemas:
+    SettingsUpdate:
+      type: object
+      properties:
+        displayName:
+          type: string
+        email:
+          type: string
+        timeZone:
+          type: string
+        notificationsEnabled:
+          type: boolean
+        defaultStartPage:
+          type: string
+          enum:
+          - DASHBOARD
+          - TASKS
+          - HABITS
+          - LEARNING
+          - PLANS
+    Settings:
+      type: object
+      properties:
+        displayName:
+          type: string
+        email:
+          type: string
+        timeZone:
+          type: string
+        notificationsEnabled:
+          type: boolean
+        defaultStartPage:
+          type: string
+          enum:
+          - DASHBOARD
+          - TASKS
+          - HABITS
+          - LEARNING
+          - PLANS
+        configured:
+          type: boolean

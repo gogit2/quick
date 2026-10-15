@@ -1,0 +1,33 @@
+{
+  "spec": "specs/001-quickflow",
+  "milestone": "M01",
+  "milestone_title": "Foundation",
+  "milestone_status": "passed",
+  "status": "built",
+  "trial": 0,
+  "upgraded": false,
+  "model": "claude-haiku-5-5",
+  "iteration": 1,
+  "attempt_iterations": 1,
+  "attempt_cap": 5,
+  "budget_left_usd": 12.3877,
+  "last_session_id": "e0bace24-e51f-487f-99e9-9bfa6140c755",
+  "last_result": {
+    "milestone": "M01",
+    "result": "built",
+    "tasks_done": [
+      "T009",
+      "T010",
+      "T011",
+      "T012",
+      "T013",
+      "T014",
+      "T015",
+      "T016"
+    ],
+    "open_tasks": 0,
+    "selfcheck": "npx ng build: pass (500 kB budget warning only). E2E-M01-01..04 on the Prism mock with Playwright MCP: pass, 0 console errors. Servers: frontend stop run but status still 'running' and Bash was then denied, so stop is unconfirmed for frontend-4300 and mock-4010.",
+    "notes": "Took 8 tasks in one iteration (limit is 5). Screenshots are in run-artifacts/playwright/, not in outputs/evidence/M01/ (move denied). Servers may still be running: the runner must stop leftovers. Real-stack-only checks are listed in outputs/evidence/M01/result.json."
+  },
+  "updated_at": "2026-10-15T03:31:32+03:00"
+}
