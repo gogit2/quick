@@ -19,7 +19,7 @@ Follow `loops/_shared/PROTOCOL.md` for reading order, the action log and handoff
 2. **Swagger**: `scripts/export-swagger.sh --base http://localhost:8090 --ms Mxx --out loops/verify/outputs/evidence/Mxx/round-<n>`; the operations of this and earlier milestones must match the contract.
 3. **Backend tests**: `cd backend && ./mvnw -q verify`.
 4. **curl**: `scripts/curl-regression.sh --base http://localhost:8090 --upto Mxx --log loops/verify/outputs/evidence/Mxx/round-<n>/curl.log`.
-5. **Browser (Playwright MCP)** against http://localhost:4300 on the real backend: this milestone's scenarios from `acceptance.md` / `loops/frontend-dev/outputs/e2e/Mxx.md` **end to end with real state**, then every `[smoke]` scenario of earlier milestones. For each: screenshot into the round evidence folder, `browser_console_messages` must show no errors, and no 5xx in `browser_network_requests`.
+5. **Browser (Playwright MCP)** against http://localhost:4300 on the real backend: this milestone's scenarios from `acceptance.md` / `loops/frontend-dev/outputs/e2e/Mxx.md` **end to end with real state**, then every `[smoke]` scenario of earlier milestones. Also execute this milestone's `[real-stack-only]` scenarios (empty and error states, listed under `real_stack_only` in the frontend result.json): empty states on the fresh database before creating data, error states by stopping the backend (`scripts/backend.sh stop --port 8090`) and restarting it afterwards. For each: screenshot into the round evidence folder, `browser_console_messages` must show no errors, and no 5xx in `browser_network_requests`.
 6. Contract issues of this milestone in `loops/_shared/contract-issues.md`: resolve or escalate.
 
 ## Small fixes (do them yourself)

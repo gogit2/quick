@@ -25,12 +25,14 @@ Follow `loops/_shared/PROTOCOL.md` for the iteration cycle. This file adds the f
 3. Write/extend `loops/frontend-dev/outputs/e2e/Mxx.md` (the scenarios of this milestone from `acceptance.md`, step by step, with the `data-testid`s used), then **execute them with the Playwright MCP tools** (`browser_navigate`, `browser_snapshot`, `browser_click`, `browser_type`, `browser_take_screenshot`, `browser_console_messages`, …) against `http://localhost:4300`.
    - The mock is **stateless**: a POST does not change later GETs. Check that requests are sent and the UI handles the mocked responses; state-dependent flows are proven later by the verifier on the real backend.
    - Take a screenshot per scenario into `loops/frontend-dev/outputs/evidence/Mxx/`. Check `browser_console_messages` for errors.
+   - Scenarios tagged `[real-stack-only]` (empty states, error states: the mock always returns data) are **written but not executed**: put their ids in `real_stack_only` in result.json. The verifier executes them on the real stack.
 4. Write `loops/frontend-dev/outputs/evidence/Mxx/result.json`:
 ```json
 { "milestone": "Mxx", "passed": true, "finished_at": "<ISO time>",
-  "scenarios": [ { "id": "E2E-M02-01", "passed": true, "steps": 7, "screenshot": "…png", "console_errors": 0, "notes": "" } ] }
+  "scenarios": [ { "id": "E2E-M02-01", "passed": true, "steps": 7, "screenshot": "…png", "console_errors": 0, "notes": "" } ],
+  "real_stack_only": ["E2E-M02-08"] }
 ```
 5. `scripts/frontend.sh stop` and `scripts/mock.sh stop`.
 
 ## Done means
-All `[FE]` tasks of the milestone ticked with evidence, `ng build` green, every scenario of the milestone passed with the Playwright MCP against the mock, `result.json` written in this iteration with `passed: true`.
+All `[FE]` tasks of the milestone ticked with evidence, `ng build` green, every executable scenario of the milestone passed with the Playwright MCP against the mock (real-stack-only ones are written and listed), `result.json` written in this iteration with `passed: true`.
