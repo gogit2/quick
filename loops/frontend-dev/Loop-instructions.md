@@ -32,7 +32,8 @@ Follow `loops/_shared/PROTOCOL.md` for the iteration cycle. This file adds the f
   "scenarios": [ { "id": "E2E-M02-01", "passed": true, "steps": 7, "screenshot": "…png", "console_errors": 0, "notes": "" } ],
   "real_stack_only": ["E2E-M02-08"] }
 ```
-5. `scripts/frontend.sh stop` and `scripts/mock.sh stop`.
+5. Static checks (when the spec has them): `scripts/testid-check.sh` (no `data-testid` of the baseline may disappear; must PASS) and, for spec 002 (visual polish), `scripts/colour-check.sh` (no colour literal outside `frontend/src/styles/_palette.scss` and `_tokens.scss`; run it with `--enforce` before `built`). The runner gate runs the same checks.
+6. `scripts/frontend.sh stop` and `scripts/mock.sh stop`.
 
 ## Done means
 All `[FE]` tasks of the milestone ticked with evidence, `ng build` green, every executable scenario of the milestone passed with the Playwright MCP against the mock (real-stack-only ones are written and listed), `result.json` written in this iteration with `passed: true`.

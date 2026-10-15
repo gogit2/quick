@@ -58,7 +58,13 @@
       "Bash(npx:*)",
       "Bash(node:*)",
       "Bash(curl:*)",
-      "mcp__playwright"
+      "mcp__playwright",
+      "Bash(scripts/testid-check.sh:*)",
+      "Bash(./scripts/testid-check.sh:*)",
+      "Bash(scripts/colour-check.sh:*)",
+      "Bash(./scripts/colour-check.sh:*)",
+      "Bash(scripts/bundle-size.sh:*)",
+      "Bash(./scripts/bundle-size.sh:*)"
     ],
     "deny": [
       "Bash(git commit:*)",
