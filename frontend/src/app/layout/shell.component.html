@@ -1,32 +1,73 @@
-<mat-toolbar color="primary" class="toolbar">
-  <span>QuickFlow</span>
+<mat-toolbar class="toolbar">
+  @if (prefs.compact()) {
+    <button
+      mat-icon-button
+      type="button"
+      class="menu-button"
+      aria-label="Open navigation"
+      data-testid="menu-button"
+      (click)="prefs.openDrawer()"
+    >
+      <mat-icon svgIcon="menu" />
+    </button>
+  }
+  <span class="qf-title">QuickFlow</span>
   <app-theme-toggle />
+  <app-user-chip />
 </mat-toolbar>
 
 @if (notifications.banner(); as notice) {
   <div class="start-banner" role="status" data-testid="plans-start-banner">
-    <span>Plan {{ notice.title }} has started</span>
+    <mat-icon svgIcon="schedule" class="banner-icon" />
+    <span class="banner-text">Plan {{ notice.title }} has started</span>
     <button mat-button type="button" data-testid="plans-start-banner-dismiss" (click)="notifications.dismiss()">
       Dismiss
     </button>
   </div>
 }
 
-<mat-sidenav-container class="container">
-  <mat-sidenav mode="side" opened class="sidenav">
+<mat-sidenav-container class="container" [class.side-layout]="!prefs.compact()" [class.rail-layout]="prefs.rail()">
+  <mat-sidenav
+    class="sidenav"
+    [class.rail]="prefs.rail()"
+    [mode]="prefs.compact() ? 'over' : 'side'"
+    [opened]="!prefs.compact() || prefs.drawerOpen()"
+    (closedStart)="prefs.closeDrawer()"
+  >
     <mat-nav-list aria-label="Main navigation">
       @for (item of navItems; track item.path) {
         <a
           mat-list-item
+          class="nav-link"
           [routerLink]="item.path"
           routerLinkActive="active"
           ariaCurrentWhenActive="page"
+          [attr.aria-label]="item.label"
+          [matTooltip]="item.label"
+          [matTooltipDisabled]="!prefs.rail()"
           [attr.data-testid]="item.testId"
+          (click)="prefs.closeDrawer()"
         >
-          {{ item.label }}
+          <mat-icon matListItemIcon [svgIcon]="item.icon" />
+          @if (!prefs.rail()) {
+            <span matListItemTitle>{{ item.label }}</span>
+          }
         </a>
       }
     </mat-nav-list>
+
+    @if (!prefs.compact()) {
+      <button
+        mat-icon-button
+        type="button"
+        class="collapse-toggle"
+        data-testid="nav-collapse-toggle"
+        [attr.aria-label]="prefs.collapsed() ? 'Expand navigation' : 'Collapse navigation'"
+        (click)="prefs.toggleCollapsed()"
+      >
+        <mat-icon [svgIcon]="prefs.collapsed() ? 'chevron_right' : 'chevron_left'" />
+      </button>
+    }
   </mat-sidenav>
 
   <mat-sidenav-content>

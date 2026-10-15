@@ -1,7 +1,7 @@
 {
   "spec": "specs/002-visual-polish",
-  "milestone": "M08",
-  "milestone_title": "Design foundation",
+  "milestone": "M09",
+  "milestone_title": "Shell and navigation",
   "milestone_status": "passed",
   "status": "passed",
   "trial": 0,
@@ -10,8 +10,8 @@
   "iteration": 1,
   "attempt_iterations": 0,
   "attempt_cap": null,
-  "budget_left_usd": 11.7323,
-  "last_session_id": "8fc70025-e646-4d16-a9c5-adeef4d1e115",
+  "budget_left_usd": 10.5161,
+  "last_session_id": "c88491dd-58e9-4596-85d7-6cd90e7962c8",
   "last_result": null,
-  "updated_at": "2026-10-15T12:36:21+03:00"
+  "updated_at": "2026-10-15T12:59:17+03:00"
 }

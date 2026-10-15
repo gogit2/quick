@@ -963,15 +963,15 @@
       ]
     },
     "M09": {
-      "status": "pending",
+      "status": "passed",
       "trial": 0,
       "upgraded": false,
-      "cost_usd": 0.0,
+      "cost_usd": 4.483882,
       "upgrade_cost_usd": 0.0,
-      "verify_rounds": 0,
-      "started_at": null,
-      "ended_at": null,
-      "tag": null,
+      "verify_rounds": 1,
+      "started_at": "2026-10-15T12:36:21+03:00",
+      "ended_at": "2026-10-15T12:59:17+03:00",
+      "tag": "M09",
       "blocked_reason": null,
       "title": "Shell and navigation",
       "slug": "shell-and-navigation",
@@ -979,12 +979,12 @@
       "roles": {
         "backend-dev": {
           "tasks": 0,
-          "status": "pending",
+          "status": "built",
           "iterations": 0,
           "attempt_iterations": 0,
           "attempt_cap": null,
           "started_at": null,
-          "ended_at": null,
+          "ended_at": "2026-10-15T12:36:21+03:00",
           "tokens_in": 0,
           "tokens_out": 0,
           "cache_read": 0,
@@ -996,40 +996,78 @@
         },
         "frontend-dev": {
           "tasks": 7,
-          "status": "pending",
-          "iterations": 0,
-          "attempt_iterations": 0,
-          "attempt_cap": null,
-          "started_at": null,
-          "ended_at": null,
-          "tokens_in": 0,
-          "tokens_out": 0,
-          "cache_read": 0,
-          "cache_write": 0,
-          "cost_usd": 0.0,
-          "sessions": [],
-          "models": [],
-          "last_result": null
+          "status": "built",
+          "iterations": 2,
+          "attempt_iterations": 2,
+          "attempt_cap": 5,
+          "started_at": "2026-10-15T12:36:21+03:00",
+          "ended_at": "2026-10-15T12:45:32+03:00",
+          "tokens_in": 198,
+          "tokens_out": 80417,
+          "cache_read": 10242056,
+          "cache_write": 268433,
+          "cost_usd": 0.63894,
+          "sessions": [
+            "e9c1e405-32c9-4d39-b6f5-46276349836b",
+            "9a429d3c-6a70-4bb4-8f0d-23d7fa78abbb"
+          ],
+          "models": [
+            "claude-haiku-5-5"
+          ],
+          "last_result": {
+            "milestone": "M09",
+            "result": "built",
+            "tasks_done": [
+              "T112",
+              "T113",
+              "T114",
+              "T115",
+              "T116",
+              "T117",
+              "T118"
+            ],
+            "open_tasks": 0,
+            "selfcheck": "cd frontend && npx ng build: passes (WARNING only: initial bundle 615.54 kB > 600 kB budget, pre-existing from iter 1). Mock 4010 and dev 4300 started by script. Playwright MCP on the mock: E2E-M09-01..08 all passed at 1440/1024/390 px in light and dark (scenarios in outputs/e2e/M09.md); regression E2E-M01-01 and E2E-M08-02 passed; contrast-check.js dark /tasks 45 checked 0 failures, light /settings 24 checked 0 failures; scrollWidth == innerWidth 390 on all six pages; console errors 0. Evidence in outputs/evidence/M09/ (result.json passed: true). Both servers stopped by script.",
+            "notes": "Fixed two layout bugs during the checks (sidenav position override; rail content offset gap), both in shell.component.scss/html. Snackbar not exercised (not in M09 acceptance); tooltip hover not re-run this iteration. Bundle budget warning remains for M11 to address."
+          },
+          "last_gate": "pass"
         },
         "verify": {
           "tasks": 0,
-          "status": "pending",
-          "iterations": 0,
+          "status": "passed",
+          "iterations": 1,
           "attempt_iterations": 0,
           "attempt_cap": null,
-          "started_at": null,
-          "ended_at": null,
-          "tokens_in": 0,
-          "tokens_out": 0,
-          "cache_read": 0,
-          "cache_write": 0,
-          "cost_usd": 0.0,
-          "sessions": [],
-          "models": [],
+          "started_at": "2026-10-15T12:45:32+03:00",
+          "ended_at": "2026-10-15T12:59:16+03:00",
+          "tokens_in": 138,
+          "tokens_out": 33136,
+          "cache_read": 8096989,
+          "cache_write": 195284,
+          "cost_usd": 3.844942,
+          "sessions": [
+            "c88491dd-58e9-4596-85d7-6cd90e7962c8"
+          ],
+          "models": [
+            "claude-opus-5-5"
+          ],
           "last_result": null
         }
       },
-      "events": []
+      "events": [
+        {
+          "at": "2026-10-15T12:36:21+03:00",
+          "type": "info",
+          "role": "backend-dev",
+          "detail": "no tasks for this role in this milestone"
+        },
+        {
+          "at": "2026-10-15T12:59:16+03:00",
+          "type": "verdict",
+          "role": "verify",
+          "detail": "round 1: PASS (1 small fixes)"
+        }
+      ]
     },
     "M10": {
       "status": "pending",

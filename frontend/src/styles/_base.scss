@@ -31,6 +31,18 @@ a.mat-mdc-list-item:focus-visible {
   outline-offset: -2px;
 }
 
+// Media and tables never push the page wider than the viewport.
+img, svg, table, pre {
+  max-width: 100%;
+}
+
+// Dialogs fit the phone screen with a gutter on each side.
+@media (max-width: 599.98px) {
+  .mat-mdc-dialog-container {
+    max-width: calc(100vw - 2 * var(--qf-space-4)) !important;
+  }
+}
+
 // Load failure with a retry button, shared by every page.
 .error-state {
   display: flex;

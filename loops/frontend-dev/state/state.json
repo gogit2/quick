@@ -1,7 +1,7 @@
 {
   "spec": "specs/002-visual-polish",
-  "milestone": "M08",
-  "milestone_title": "Design foundation",
+  "milestone": "M09",
+  "milestone_title": "Shell and navigation",
   "milestone_status": "passed",
   "status": "built",
   "trial": 0,
@@ -9,28 +9,24 @@
   "model": "claude-haiku-5-5",
   "iteration": 2,
   "attempt_iterations": 2,
-  "attempt_cap": 6,
-  "budget_left_usd": 11.7323,
-  "last_session_id": "58ae77bd-fd12-4afd-9bf5-bd4122ae493d",
+  "attempt_cap": 5,
+  "budget_left_usd": 10.5161,
+  "last_session_id": "9a429d3c-6a70-4bb4-8f0d-23d7fa78abbb",
   "last_result": {
-    "milestone": "M08",
+    "milestone": "M09",
     "result": "built",
     "tasks_done": [
-      "T101",
-      "T102",
-      "T103",
-      "T104",
-      "T105",
-      "T106",
-      "T107",
-      "T108",
-      "T109",
-      "T110",
-      "T111"
+      "T112",
+      "T113",
+      "T114",
+      "T115",
+      "T116",
+      "T117",
+      "T118"
     ],
     "open_tasks": 0,
-    "selfcheck": "npx ng build: passes. Grep over frontend/src/app: no colour literals. Playwright on mock 4010 and dev server 4300: E2E-M08-01..07 all PASS (E2E-M08-04 by comparison only), 0 console errors, network localhost only, all 26 icon URLs 200. Contrast script on Settings, Tasks, Dashboard in light and dark: 0 failures. Evidence: outputs/evidence/M08/result.json (passed: true). Servers stopped.",
-    "notes": "This iteration took T106-T111. Deviations: settings.svg 785 B and light_mode.svg 932 B exceed the 0.5 kB rule. Screenshots are in run-artifacts/playwright/ (the shell could not move them into evidence/M08/). Verifier to check E2E-M08-04 dark-OS branch on the real stack."
+    "selfcheck": "cd frontend && npx ng build: passes (WARNING only: initial bundle 615.54 kB > 600 kB budget, pre-existing from iter 1). Mock 4010 and dev 4300 started by script. Playwright MCP on the mock: E2E-M09-01..08 all passed at 1440/1024/390 px in light and dark (scenarios in outputs/e2e/M09.md); regression E2E-M01-01 and E2E-M08-02 passed; contrast-check.js dark /tasks 45 checked 0 failures, light /settings 24 checked 0 failures; scrollWidth == innerWidth 390 on all six pages; console errors 0. Evidence in outputs/evidence/M09/ (result.json passed: true). Both servers stopped by script.",
+    "notes": "Fixed two layout bugs during the checks (sidenav position override; rail content offset gap), both in shell.component.scss/html. Snackbar not exercised (not in M09 acceptance); tooltip hover not re-run this iteration. Bundle budget warning remains for M11 to address."
   },
-  "updated_at": "2026-10-15T12:36:21+03:00"
+  "updated_at": "2026-10-15T12:59:17+03:00"
 }

@@ -1,0 +1,16 @@
+{
+  "milestone": "M09",
+  "passed": true,
+  "finished_at": "2026-10-15T12:44:48+03:00",
+  "scenarios": [
+    { "id": "E2E-M09-01", "passed": true, "steps": 3, "screenshot": "1440-light-settings.png", "console_errors": 0, "notes": "Six nav items with icon and label; active item aria-current=page, accent background." },
+    { "id": "E2E-M09-02", "passed": true, "steps": 3, "screenshot": "1440-dark-settings.png", "console_errors": 0, "notes": "Rail 72 px after toggle and after reload (localStorage 'true'); expand back to 240 px. Tooltip hover not re-run in iteration 2 (checked in iteration 1)." },
+    { "id": "E2E-M09-03", "passed": true, "steps": 4, "screenshot": "390-light-settings.png", "console_errors": 0, "notes": "menu-button opens drawer, nav-tasks closes it and opens /tasks; scrollWidth == innerWidth (390) on all six pages." },
+    { "id": "E2E-M09-04", "passed": true, "steps": 3, "screenshot": "1024-light-settings.png", "console_errors": 0, "notes": "Side nav 0-240, content from 240, no menu-button, chip and toggle inside bounds." },
+    { "id": "E2E-M09-05", "passed": true, "steps": 3, "screenshot": "1440-light-settings.png", "console_errors": 0, "notes": "Chip shows A / Alex, aria-label 'Profile: Alex', click goes to /settings." },
+    { "id": "E2E-M09-06", "passed": true, "steps": 4, "screenshot": "1440-dark-settings.png", "console_errors": 0, "notes": "Banner light bg rgba(122,79,0,0.12) text rgb(25,28,28); dark bg rgba(245,195,91,0.16) text rgb(224,227,226); radius 12 px; dismiss present." },
+    { "id": "E2E-M09-07", "passed": true, "steps": 3, "screenshot": "1440-dark-settings.png", "console_errors": 0, "notes": "contrast-check.js: dark /tasks checked 45 failures 0, focus ring 10.12; light /settings checked 24 failures 0, focus ring 6.42." },
+    { "id": "E2E-M09-08", "passed": true, "steps": 2, "screenshot": "1440-light-settings.png", "console_errors": 0, "notes": "Regression E2E-M01-01 (six nav pages open with title, active) and E2E-M08-02 (theme toggle sets data-theme, color-scheme, aria-pressed) both pass." }
+  ],
+  "real_stack_only": []
+}

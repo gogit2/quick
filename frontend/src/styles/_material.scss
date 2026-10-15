@@ -11,9 +11,14 @@ html {
   --mat-sidenav-container-shape: 0;
   --mat-card-elevated-container-shape: var(--qf-radius-md);
 
-  // Snackbar
-  --mat-snack-bar-container-shape: var(--qf-radius-md);
-  --mat-snack-bar-container-color: var(--mat-sys-inverse-surface);
-  --mat-snack-bar-supporting-text-color: var(--mat-sys-inverse-on-surface);
+  // Snackbar (Material 19.2 still reads the --mdc-snackbar-* names for the surface)
+  --mdc-snackbar-container-shape: var(--qf-radius-md);
+  --mdc-snackbar-container-color: var(--mat-sys-inverse-surface);
+  --mdc-snackbar-supporting-text-color: var(--mat-sys-inverse-on-surface);
   --mat-snack-bar-button-color: var(--mat-sys-inverse-primary);
+}
+
+// Snackbars: inverse surface from the variables above, capped width for wide screens.
+.mat-mdc-snack-bar-container {
+  max-width: 560px;
 }

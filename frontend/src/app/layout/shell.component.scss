@@ -1,11 +1,20 @@
 :host {
-  display: block;
+  display: flex;
+  flex-direction: column;
   height: 100vh;
 }
 
 .toolbar {
   position: relative;
   z-index: 2;
+  height: var(--qf-toolbar-height);
+  background: var(--qf-surface);
+  color: var(--qf-text);
+  border-bottom: 1px solid var(--qf-outline);
+}
+
+.menu-button {
+  margin-inline-end: var(--qf-space-2);
 }
 
 .start-banner {
@@ -13,26 +22,101 @@
   z-index: 2;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  padding: 8px 16px;
+  gap: var(--qf-space-3);
+  margin: var(--qf-space-2) var(--qf-space-4) 0;
+  padding: var(--qf-space-2) var(--qf-space-4);
   background: var(--qf-warning-bg);
-  border-bottom: 1px solid var(--qf-outline);
+  border: 1px solid var(--qf-outline);
+  border-radius: var(--qf-radius-md);
+  color: var(--qf-text);
+}
+
+.banner-icon {
+  flex: none;
+  color: var(--qf-warning);
+}
+
+.banner-text {
+  flex: 1;
+  min-width: 0;
 }
 
 .container {
-  height: calc(100vh - 64px);
+  flex: 1 1 auto;
+  min-height: 0;
+  --qf-content-offset: var(--qf-sidenav-width);
+
+  // Material sets the content margin inline and does not see CSS width changes,
+  // so the offset follows the rail state here.
+  &.side-layout > .mat-drawer-content {
+    margin-left: var(--qf-content-offset) !important;
+    transition: margin-left var(--qf-motion-base) var(--qf-ease);
+  }
+
+  &.rail-layout {
+    --qf-content-offset: var(--qf-sidenav-rail);
+  }
 }
 
 .sidenav {
-  width: 220px;
+  width: var(--qf-sidenav-width);
+  padding: var(--qf-space-3) var(--qf-space-2);
+  background: var(--qf-surface);
+  border-inline-end: 1px solid var(--qf-outline);
+  transition: width var(--qf-motion-base) var(--qf-ease);
+
+  &.rail {
+    width: var(--qf-sidenav-rail);
+  }
 }
 
-.content {
-  padding: 24px;
+.nav-link {
+  margin-bottom: var(--qf-space-1);
+  border-radius: var(--qf-radius-md);
+  color: var(--qf-text);
+
+  mat-icon {
+    color: var(--qf-text-muted);
+  }
+}
+
+.rail .nav-link {
+  justify-content: center;
+  padding: 0;
 }
 
 a.active {
   background: var(--qf-accent-soft);
   font-weight: 500;
+
+  mat-icon {
+    color: var(--qf-accent);
+  }
+}
+
+.collapse-toggle {
+  position: absolute;
+  bottom: var(--qf-space-3);
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.content {
+  box-sizing: border-box;
+  max-width: 100%;
+  padding: var(--qf-space-4);
+  overflow-wrap: anywhere;
+}
+
+@media (min-width: 600px) {
+  .content {
+    padding: var(--qf-space-5);
+  }
+}
+
+@media (min-width: 1280px) {
+  .content {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
 }
