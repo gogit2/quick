@@ -169,3 +169,56 @@ export interface LearningMilestoneUpdate {
 export interface LearningNoteCreate {
   text: string;
 }
+
+// status is computed on every read from the clock and item completion, never stored.
+export type PlanStatus = 'NOT_STARTED' | 'IN_PROGRESS' | 'COMPLETED';
+
+// ACTIVE_UPCOMING = NOT_STARTED + IN_PROGRESS.
+export type PlanGroup = 'ACTIVE_UPCOMING' | 'COMPLETED';
+
+export type PlanItemSourceType = 'TASK' | 'HABIT' | 'LEARNING_RESOURCE';
+
+export interface PlanItem {
+  id: number;
+  sourceType: PlanItemSourceType;
+  sourceId: number;
+  title: string;
+  done: boolean;
+}
+
+export interface Plan {
+  id: number;
+  title: string;
+  estimatedDurationMinutes: number;
+  startDateTime: string;
+  endDateTime: string;
+  priorityOrder: number;
+  status: PlanStatus;
+  createdAt: string;
+  startNotified: boolean;
+  durationExceedsWindow: boolean;
+  totalItems: number;
+  doneItems: number;
+  completionPercent: number;
+  // Seconds until endDateTime, only while status is IN_PROGRESS (BR12); null otherwise.
+  restSeconds?: number | null;
+  items: PlanItem[];
+}
+
+export interface PlanItemCreate {
+  sourceType: PlanItemSourceType;
+  sourceId: number;
+}
+
+export interface PlanCreate {
+  title: string;
+  estimatedDurationMinutes: number;
+  startDateTime: string;
+  endDateTime: string;
+  priorityOrder: number;
+  items: PlanItemCreate[];
+}
+
+export interface PlanItemUpdate {
+  done: boolean;
+}

@@ -1,8 +1,0 @@
-{
-  "milestone": "M04",
-  "result": "built",
-  "tasks_done": ["T054", "T055", "T056", "T057", "T058", "T059"],
-  "open_tasks": 0,
-  "selfcheck": "npx ng build (frontend/): passes, 500 kB budget warning only. Mock on :4010 and frontend on :4300 started by script. Playwright MCP on the mock: E2E-M04-01..06 passed (requests and UI checked, 0 console errors); E2E-M04-07 real_stack_only. outputs/evidence/M04/result.json passed: true. Servers stopped by script.",
-  "notes": "Screenshots are in run-artifacts/playwright/; copying them into outputs/evidence/M04 was denied by the permission layer. Real-stack checks (persistence, derived status, empty state) are left to the verifier."
-}

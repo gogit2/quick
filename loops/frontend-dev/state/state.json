@@ -1,31 +1,17 @@
 {
   "spec": "specs/001-quickflow",
-  "milestone": "M04",
-  "milestone_title": "Learning",
-  "milestone_status": "passed",
-  "status": "built",
+  "milestone": "M05",
+  "milestone_title": "Plans",
+  "milestone_status": "building",
+  "status": "building",
   "trial": 0,
   "upgraded": false,
   "model": "claude-haiku-5-5",
-  "iteration": 2,
-  "attempt_iterations": 2,
+  "iteration": 1,
+  "attempt_iterations": 1,
   "attempt_cap": 5,
-  "budget_left_usd": 12.0867,
-  "last_session_id": "98548a41-6526-4bac-9b4d-6e14caddc0ae",
-  "last_result": {
-    "milestone": "M04",
-    "result": "built",
-    "tasks_done": [
-      "T054",
-      "T055",
-      "T056",
-      "T057",
-      "T058",
-      "T059"
-    ],
-    "open_tasks": 0,
-    "selfcheck": "npx ng build (frontend/): passes, 500 kB budget warning only. Mock on :4010 and frontend on :4300 started by script. Playwright MCP on the mock: E2E-M04-01..06 passed (requests and UI checked, 0 console errors); E2E-M04-07 real_stack_only. outputs/evidence/M04/result.json passed: true. Servers stopped by script.",
-    "notes": "Screenshots are in run-artifacts/playwright/; copying them into outputs/evidence/M04 was denied by the permission layer. Real-stack checks (persistence, derived status, empty state) are left to the verifier."
-  },
-  "updated_at": "2026-10-15T04:10:54+03:00"
+  "budget_left_usd": 15.0,
+  "last_session_id": null,
+  "last_result": null,
+  "updated_at": "2026-10-15T04:10:55+03:00"
 }

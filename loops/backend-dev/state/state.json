@@ -1,34 +1,17 @@
 {
   "spec": "specs/001-quickflow",
-  "milestone": "M04",
-  "milestone_title": "Learning",
-  "milestone_status": "passed",
-  "status": "built",
+  "milestone": "M05",
+  "milestone_title": "Plans",
+  "milestone_status": "building",
+  "status": "building",
   "trial": 0,
   "upgraded": false,
   "model": "claude-haiku-5-5",
-  "iteration": 2,
-  "attempt_iterations": 2,
+  "iteration": 1,
+  "attempt_iterations": 1,
   "attempt_cap": 5,
-  "budget_left_usd": 12.0867,
-  "last_session_id": "bf5840f4-7d0c-4ebc-b6db-d99ef5e9cd83",
-  "last_result": {
-    "milestone": "M04",
-    "result": "built",
-    "tasks_done": [
-      "T045",
-      "T046",
-      "T047",
-      "T048",
-      "T049",
-      "T050",
-      "T051",
-      "T052",
-      "T053"
-    ],
-    "open_tasks": 0,
-    "selfcheck": "cd backend && ./mvnw -q verify: green, 125 tests, 0 failures. scripts/backend.sh start 8091 --fresh healthy; curl-regression --upto M04: 4 suites, 0 failed (M04.sh 12/12); export-swagger --ms M04: PASS, 28 operations, no diff; server stopped.",
-    "notes": "Iter 2 added T050-T053 and fixed two iter-1 gaps: the missing LearningNoteCreate DTO and null milestone/note ids before flush. Evidence: outputs/evidence/M04/selfcheck-t050-t053.md."
-  },
-  "updated_at": "2026-10-15T04:10:54+03:00"
+  "budget_left_usd": 15.0,
+  "last_session_id": null,
+  "last_result": null,
+  "updated_at": "2026-10-15T04:10:55+03:00"
 }
