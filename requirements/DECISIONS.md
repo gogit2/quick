@@ -31,3 +31,12 @@ Format: `D-<n> (Qx): question -> decision`.
 - **D-16**: API style: ids are integers; lists are not paginated; errors use one `ApiError` body (400 validation with fieldErrors, 404, 409). A duplicate habit completion is 409; a future date or inactive habit is 400. Updating a learning card's status while it has milestones is 409.
 - **D-17**: A plan has no stored status; it is computed from the clock, times and items. Plans cannot be edited after creation in the MVP (create, mark items, acknowledge start, remove).
 - **D-18**: Plan item progress is rounded half up; a plan whose items are all done before its start is Completed.
+
+## Spec 002-visual-polish (frontend enhancement, 2026-10-15)
+
+- **D-19**: Scope of spec 002 -> **frontend-only visual polish**, no API or contract change: spec 002 reuses `specs/001-quickflow/contracts/openapi.yaml` unchanged; no BE tasks. All existing `data-testid`s stay unchanged so every earlier scenario stays valid.
+- **D-20**: Design direction -> **calm and modern**: soft neutral surfaces, one teal/indigo accent, generous spacing, rounded cards with light shadows.
+- **D-21**: Theming -> **light, dark and follow-system**: a toolbar toggle (light / dark / system), choice saved in the browser (localStorage), default = system preference. Both themes must meet WCAG AA contrast.
+- **D-22**: Typeface -> **Inter**, self-hosted (bundled from the `@fontsource-variable/inter` npm package, Latin subset only); no external font requests.
+- **D-23**: Out of scope for 002 -> editing a plan after creation, drag-and-drop plan priority, charts/calendar views, tags (stay in the backlog).
+- **D-24**: Milestones continue the numbering: M08 Design foundation, M09 Shell and navigation, M10 Pages, M11 Polish and regression.
