@@ -10,7 +10,7 @@ It was built by three reusable headless Claude loops that a bash runner coordina
 | `frontend-dev` | Haiku 5.5 | Angular 19 + Material frontend, built to the same contract | `ng build`, Playwright MCP scenarios against a Prism mock of the contract |
 | `verify` | Opus 5.5 | Checks a milestone on the real full stack, fixes small issues itself, otherwise rejects with FIX tasks | code review, Swagger diff, JUnit, curl regression, Playwright MCP (milestone + `[smoke]` + `[real-stack-only]` scenarios) |
 
-Stop condition per milestone: complete and verified, or 3 failed trials, then one retry on Sonnet 5.5, then blocked for the user.
+Stop condition per milestone: complete and verified, or 3 failed trials, then one retry on Sonnet 5.5, then blocked for the user. The loops were used twice: once for the whole PRD (spec 001, M01-M07) and once for a frontend enhancement (spec 002, M08-M11, see below), which shows the reuse.
 
 ## How the work was organised
 
@@ -30,7 +30,23 @@ Stop condition per milestone: complete and verified, or 3 failed trials, then on
 | M06 Dashboard | 0 | 1 | 2 / 2 | 2.91 | M06 |
 | M07 Hardening | 0 | 1 | 1 / 2 | 4.78 | M07 |
 
-33 headless sessions, $23.88 in total (Haiku $4.74, Opus verifier $19.14). Full per-session data (ids, models, tokens, cost) is in `run-artifacts/sessions.csv` and the Excel file; per-milestone start/end times, tokens, cost and session ids are in each loop's `progress.md`.
+Spec 002 (visual polish, frontend only; M08-M11 continue the numbering):
+
+| Milestone | Trials | Verify rounds | BE / FE iterations | Cost USD | Tag |
+|---|---|---|---|---|---|
+| M08 Design foundation | 0 | 1 | 0 / 2 | 3.27 | M08 |
+| M09 Shell and navigation | 0 | 1 | 0 / 2 | 4.48 | M09 |
+| M10 Pages | 0 | 1 | 0 / 4 | 6.03 | M10 |
+| M11 Polish and regression | blocked once (3 trials + the Sonnet retry), then unblocked by two user decisions (D-25, D-26) and reset | 1 | 0 / 11 | 8.51 | M11 |
+
+**Totals: 56 headless sessions, $46.17** (Haiku 5.5: 44 sessions, $10.93; Opus 5.5 verifier: 11 sessions, $34.98; Sonnet 5.5 retry: 1 session, $0.27). The verifier is about three quarters of the cost. Full per-session data (ids, models, tokens, cost) is in `run-artifacts/sessions.csv` and the Excel file; per-milestone start/end times, tokens, cost and session ids are in each loop's `progress.md`.
+
+## Enhancement run: spec 002 visual polish
+A new spec, planned interactively with Spec Kit like spec 001 and run with the same loops and scripts:
+- **Scope**: restyle the Angular app (calm modern look, light/dark/system theme, self-hosted Inter, SVG icons, shared building blocks, responsive shell) with no backend, contract or `data-testid` change. The backend loop found 0 tasks in every milestone and finished at once.
+- **Spec folder**: `specs/002-visual-polish/` (spec, plan, research, data model, 38 tasks, acceptance). Its contract is spec 001's, resolved through `contracts/contract-source.txt` (`loopctl.py get-contract`).
+- **Decisions**: `requirements/DECISIONS.md` D-19 to D-26. D-25 and D-26 were taken by the user when M11 blocked: the raw bundle warning budget was raised to 650 kB (transfer size 150 kB against a 500 kB goal), and four old scenarios that a stateless mock cannot pass were ignored in the M11 regression.
+- **Design system**: tokens, theme handling and the colour rule are described in [`frontend/README.md`](frontend/README.md#design-system).
 
 ## Quick start
 ```bash

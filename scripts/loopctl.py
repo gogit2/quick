@@ -717,7 +717,8 @@ def cmd_swagger_diff(a):
 def read_csv(path: Path) -> list[dict]:
     if not path.exists():
         return []
-    with open(path, newline="") as fh:
+    # utf-8-sig: tolerate a BOM added by a spreadsheet program that re-saved the file
+    with open(path, newline="", encoding="utf-8-sig") as fh:
         return list(csv.DictReader(fh))
 
 
