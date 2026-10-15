@@ -56,7 +56,7 @@ run_ms() {
     roles="$(loopctl roles-to-run --ms "$ms")"
     declare -A pids=()
     for r in $roles; do
-      scripts/run-loop.sh --role "$r" --milestone "$ms" ${REF:+--ref "$REF"} >"$PIPE_LOG_DIR/$ms-$r.log" 2>&1 &
+      scripts/run-loop.sh --role "$r" --milestone "$ms" ${REF:+--ref "$REF"} </dev/null >"$PIPE_LOG_DIR/$ms-$r.log" 2>&1 &
       pids[$r]=$!
       log "$ms: $r started (pid ${pids[$r]}, log $PIPE_LOG_DIR/$ms-$r.log)"
     done
@@ -69,7 +69,7 @@ run_ms() {
       return 3
     fi
     log "$ms: both loops built - verifying"
-    outcome="$(scripts/verify.sh --milestone "$ms" --base-ref HEAD 2>>"$PIPE_LOG_DIR/$ms-verify.log" | tail -1)" || true
+    outcome="$(scripts/verify.sh --milestone "$ms" --base-ref HEAD </dev/null 2>>"$PIPE_LOG_DIR/$ms-verify.log" | tail -1)" || true
     log "$ms: verify -> $outcome"
     case "$outcome" in
       pass) commit_milestone "$ms" "$title"; return 0;;
@@ -80,7 +80,10 @@ run_ms() {
 }
 
 started=0
-while IFS=$'\t' read -r ms status title; do
+# read the list first: child processes must never share this loop's stdin
+mapfile -t PENDING < <(loopctl ms-list --pending)
+for row in "${PENDING[@]}"; do
+  IFS=$'\t' read -r ms status title <<<"$row"
   [[ -n "$ONLY" && "$ms" != "$ONLY" ]] && continue
   if [[ -n "$FROM" && $started == 0 && "$ms" < "$FROM" ]]; then continue; fi
   started=1
@@ -88,13 +91,13 @@ while IFS=$'\t' read -r ms status title; do
     log "$ms is blocked: $(loopctl get --ms "$ms" blocked_reason). Resolve it (see README 'Blocked milestones') and re-run."
     exit 3
   fi
-  st=0; run_ms "$ms" "$title" || st=$?
+  st=0; run_ms "$ms" "$title" </dev/null || st=$?
   if [[ "$st" != 0 ]]; then
     loopctl status
     log "PIPELINE STOPPED: $ms is blocked - $(loopctl get --ms "$ms" blocked_reason)"
     exit 3
   fi
-done < <(loopctl ms-list --pending)
+done
 
 loopctl summary
 loopctl status
