@@ -201,7 +201,7 @@ The polished app loads as quickly as before, makes no requests to outside server
 
 **Acceptance Scenarios**:
 
-1. **Given** a production build, **When** measured, **Then** the initial download is under 500 kB (gzipped transfer or the build's initial budget, whichever the build reports) with no budget warning. (FR-V26)
+1. **Given** a production build, **When** measured, **Then** the initial download (the estimated transfer size reported by the build) is under 500 kB and the build prints no warning. (FR-V26)
 2. **Given** a page load, **When** the network log is inspected, **Then** every font and style file comes from the app itself. (FR-V26)
 
 ---
@@ -261,7 +261,7 @@ The polished app loads as quickly as before, makes no requests to outside server
 - **SC-V01**: in both themes, 100% of checked text and icon pairs meet WCAG AA (4.5:1 normal text, 3:1 large text and controls).
 - **SC-V02**: at 390 px, 1024 px and 1440 px, none of the six pages scrolls horizontally or clips a control.
 - **SC-V03**: switching the theme takes effect in under 300 ms and survives a reload with no visible flash of the other theme.
-- **SC-V04**: the production build has no size-budget warning and its initial download stays under 500 kB.
+- **SC-V04**: the production build prints no warning and its initial download (estimated transfer size reported by the build) stays under 500 kB.
 - **SC-V05**: a network log of a full page load shows 0 requests to external hosts.
 - **SC-V06**: all earlier scenarios (E2E-M01-01 to E2E-M07-04 as defined in spec 001) pass unchanged on the polished app, with no console errors.
 - **SC-V07**: a search of all style code finds no colour defined outside the shared design values.

@@ -66,7 +66,7 @@ Tags: **[smoke]** = re-run by the verifier in every later milestone. **[real-sta
 | E2E-M11-04 | Keyboard: tabbing through Tasks and Settings, every control shows a focus ring (computed outline width >= 2 px) in both themes; the theme toggle exposes `aria-pressed`; every icon-only button has an `aria-label` | US-VIS-14, FR-V24 |
 | E2E-M11-05 | Bundle and network: `npx ng build` prints no warnings and the initial transfer size is under 500 kB; every network request is on localhost; the only Inter file loaded is the Latin variable file | US-VIS-15, FR-V26, SC-V04, SC-V05 |
 | E2E-M11-06 | Responsive: no horizontal scroll and no clipped control on the six pages at 390, 1024 and 1440 px, in both themes | US-VIS-04, FR-V11, SC-V02 |
-| E2E-M11-07 | Full regression: `regression.json` shows every executable scenario of specs 001 and 002 passed with no console errors (the verifier additionally runs E2E-M07-01 and all [real-stack-only] scenarios on the real stack) | FR-V25, SC-V06 |
+| E2E-M11-07 | Full regression: `regression-m01-m05.json` and `regression-m06-m10.json` show every executable scenario of specs 001 and 002 passed with no console errors (the verifier additionally runs E2E-M07-01 and all [real-stack-only] scenarios on the real stack) | FR-V25, SC-V06 |
 
 ---
 

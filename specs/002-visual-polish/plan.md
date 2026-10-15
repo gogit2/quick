@@ -98,12 +98,12 @@ Spec 002 has no `contracts/openapi.yaml`. A file `specs/002-visual-polish/contra
 
 ## Milestones (FE-only; BE loop finds 0 tasks and finishes at once)
 
-| Milestone | Scope | Spec stories | FE tasks (approx.) |
+| Milestone | Scope | Spec stories | FE tasks |
 |---|---|---|---|
-| **M08 Design foundation** | Dependency and font, remove prebuilt theme, `mat.theme`, tokens, typography, base styles, `ThemeService` + pre-paint script + toggle in the existing toolbar, icon service and assets, contrast-check script, colour hygiene across existing components (replace hard-coded colours) | US-VIS-01, 02, 15 (font part) | 9 |
+| **M08 Design foundation** | Dependency and font, remove prebuilt theme, `mat.theme`, tokens, typography, base styles, `ThemeService` + pre-paint script + toggle in the existing toolbar, icon service and assets, contrast-check script, colour hygiene across existing components (replace hard-coded colours) | US-VIS-01, 02, 15 (font part) | 11 |
 | **M09 Shell and navigation** | Redesigned toolbar and sidenav (icons, collapsible rail, drawer < 960 px), `NavPrefs`, `UserChip`, restyled start banner and snackbars, responsive container | US-VIS-03, 04 | 7 |
-| **M10 Pages** | Shared `UiCard`, `UiChip`, `UiListRow`, `UiPageHeader`, `UiSkeleton`, restyled `EmptyState` with illustrations; restyle Tasks, Habits, Learning, Plans, Dashboard, Settings (+ theme choice); loading skeletons | US-VIS-05, 06, 07-12 | 14 |
-| **M11 Polish and regression** | Motion + reduced motion, contrast fixes found by the measurement, focus rings, bundle check (transfer size, warnings), 390/1024/1440 screenshot review in both themes, full E2E-M01..M07 regression, README section | US-VIS-13, 14, 15 | 7 |
+| **M10 Pages** | Shared `UiCard`, `UiChip`, `UiListRow`, `UiPageHeader`, `UiSkeleton`, restyled `EmptyState` with illustrations; restyle Tasks, Habits, Learning, Plans, Dashboard, Settings (+ theme choice); loading skeletons | US-VIS-05, 06, 07-12 | 12 |
+| **M11 Polish and regression** | Motion + reduced motion, contrast fixes found by the measurement, focus rings, bundle check (transfer size, warnings), 390/1024/1440 screenshot review in both themes, full E2E-M01..M07 regression, README section | US-VIS-13, 14, 15 | 8 |
 
 Dependencies: M09 needs M08 tokens and icons; M10 needs M08 and M09; M11 needs all. The pipeline runs them in order.
 
