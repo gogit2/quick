@@ -8,7 +8,24 @@
 
 **Input**: User description: "QuickFlow: one spec for the WHOLE PRD in requirements/PRD.md (tasks, habits, learning resources with milestones and notes, time-boxed Todo Plans with live rest time and progress, dashboard, settings, six pages with persistent navigation)."
 
-**Traceability**: user stories are `US-<AREA>-<NN>` (AREA = NAV, TSK, HAB, LRN, PLN, DSH, SET, numbered in PRD section 5 order). Functional requirements keep the PRD ids `FR-01..FR-09`; business rules keep `BR1..BR14` (PRD section 7). Sub-items are written `FR-02.a`. Open points are `[NEEDS CLARIFICATION: ...]` markers and are resolved by `speckit-clarify` into `requirements/DECISIONS.md`.
+**Traceability**: user stories are `US-<AREA>-<NN>` (AREA = NAV, TSK, HAB, LRN, PLN, DSH, SET, numbered in PRD section 5 order). Functional requirements keep the PRD ids `FR-01..FR-09`; business rules keep `BR1..BR14` (PRD section 7). Sub-items are written `FR-02.a`. Decisions `D-n` are in `requirements/DECISIONS.md` and override the PRD.
+
+## Clarifications
+
+### Session 2026-10-15
+
+- Q: Does the app need sign-in? → A: No, one implicit user with no authentication (D-1).
+- Q: When is a plan Completed? → A: When every item is done, or when its end time passes, whichever comes first; computed from stored times and the clock (D-2).
+- Q: What does ticking a plan item do to its source? → A: Task items complete the task (un-tick reopens it to Todo); habit and learning items only change the plan item's own flag (D-3).
+- Q: Which time zone defines today, overdue and weeks? → A: The time zone saved in Settings (default: the browser's); weeks run Monday to Sunday; plan times are exact moments (D-4).
+- Q: What happens to plans when a source is archived or deleted? → A: Archived tasks stay in plans; deleting a source removes its plan items, and a plan left empty is deleted (D-5).
+- Q: What does done and streak mean for a weekly habit? → A: One completion per calendar week makes it done for that week; streak counts consecutive days or weeks (D-6).
+- Q: Is learning card status manual or derived? → A: Derived from milestones; set by hand only when the card has none (D-7).
+- Q: How is the plan start notified? → A: In-app banner with catch-up once on next open if it started while closed; no browser notifications (D-8).
+- Q: How does estimated duration relate to the window? → A: Required positive minutes, informational, a warning is shown when longer than the window (D-9).
+- Q: Where are settings stored and which fields? → A: On the server; display name, email, time zone, notifications on/off, default start page (D-10).
+
+Full decisions: `requirements/DECISIONS.md` (they override the PRD).
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -127,7 +144,7 @@ A person assembles existing tasks, habits and learning resources into a plan wit
 4. **Given** a plan whose start time arrives, **When** the app is open, **Then** the user is notified and the plan is highlighted and becomes In Progress. (US-PLN-07, FR-08)
 5. **Given** an In Progress plan, **When** time passes, **Then** the rest time counts down and refreshes at least once a minute until the end; outside the start-end window no rest-time display is active. (US-PLN-08, BR12)
 6. **Given** a plan with N items, **When** the user marks an item done or not done, **Then** the plan's completion percentage is done items divided by N, immediately, and the dashboard reflects it. (US-PLN-05, US-PLN-09, FR-08)
-7. **Given** a task-type plan item, **When** it is marked done, **Then** the underlying task is completed; for other item types the source is not changed beyond its own completion action. (BR13) [NEEDS CLARIFICATION: Q3 - behaviour of BR13 for habit and learning items, and when an item is marked not done again]
+7. **Given** a task-type plan item, **When** it is marked done, **Then** the underlying task is completed; for other item types the source is not changed beyond its own completion action. (BR13) For habit and learning items only the plan item's own flag changes; un-ticking a task item reopens the task (Todo). (D-3)
 8. **Given** the Todo Plans page, **When** it opens, **Then** plans are grouped into active/upcoming and completed, each with percent complete and rest time, and past plans show how much was completed. (US-PLN-10)
 9. **Given** a plan, **When** the user removes it, **Then** it is no longer returned; the items' sources are untouched. (US-PLN-06, BR14)
 10. **Given** the app is closed and reopened, **When** it loads, **Then** every plan's status is consistent with the stored times and item completion. (FR-08, reliability)
@@ -184,7 +201,7 @@ A person views and edits their profile information and application preferences (
 **Acceptance Scenarios**:
 
 1. **Given** the Settings page, **When** it opens, **Then** profile information and application preferences are shown. (US-SET-01)
-2. **Given** a changed preference (e.g. default view or notification behaviour), **When** the user saves and reopens the app, **Then** it is kept and applied. (US-SET-02) [NEEDS CLARIFICATION: Q10 - where settings are stored and which fields exist]
+2. **Given** a changed preference (e.g. default view or notification behaviour), **When** the user saves and reopens the app, **Then** it is kept and applied. (US-SET-02) Settings are saved on the server: display name, email, time zone, notifications on/off, default start page; the app opens on the chosen start page. (D-10)
 
 User stories:
 - **US-SET-01**: As a user, I want to see and edit my profile information.
@@ -198,14 +215,14 @@ User stories:
 
 - Task title exactly 200 characters, description exactly 2,000 characters; one more is rejected (BR1, BR2).
 - Invalid status or priority values are rejected (BR3).
-- Archived tasks are excluded from the default list, filters still find them when asked, and they do not count as "today" or "overdue" on the dashboard unless decided otherwise. [NEEDS CLARIFICATION: Q5 - archived or deleted sources inside a plan and on the dashboard]
-- A source (task, habit, learning card) is deleted or archived while a plan still contains it (BR14). [NEEDS CLARIFICATION: Q5]
-- A habit is completed twice for the same date, or for a future or past date (BR7). [NEEDS CLARIFICATION: Q6 - what "today", completion and streak mean for weekly habits]
-- A plan whose end time passes before all items are done, or whose items are all done before its start. [NEEDS CLARIFICATION: Q2 - when a plan counts as Completed]
-- A plan whose estimated duration is longer or shorter than its start-end window. [NEEDS CLARIFICATION: Q9]
-- The app is closed during a plan's start time: the start notification must not be lost on the next open. [NEEDS CLARIFICATION: Q8 - notification mechanism]
-- Day boundaries ("today", "overdue", weekly periods) when the user changes time zone. [NEEDS CLARIFICATION: Q4 - time zone]
-- Card status moves to Completed while a milestone is still open, or all milestones are done but the status says In Progress. [NEEDS CLARIFICATION: Q7]
+- Archived tasks are excluded from the default list, filters still find them when asked, and they do not count as "today" or "overdue" on the dashboard unless decided otherwise.
+- A source (task, habit, learning card) is deleted or archived while a plan still contains it (BR14). Deleting a source removes its items from plans (a plan left with none is deleted); archived tasks stay in plans. (D-5)
+- A habit is completed twice for the same date, or for a future or past date (BR7). A habit can be completed for today or an earlier date, never a future one; weekly habits are done for the whole Monday-Sunday week after one completion. (D-6)
+- A plan whose end time passes before all items are done, or whose items are all done before its start. It becomes Completed when its end passes or all items are done, with its final percentage kept. (D-2)
+- A plan whose estimated duration is longer or shorter than its start-end window. It is saved with a warning, never rejected. (D-9)
+- The app is closed during a plan's start time: the start notification must not be lost on the next open. The notice is shown once on the next open. (D-8)
+- Day boundaries ("today", "overdue", weekly periods) when the user changes time zone. "Today" uses the time zone saved in Settings. (D-4)
+- Card status moves to Completed while a milestone is still open, or all milestones are done but the status says In Progress. Status is derived from milestones when there are any. (D-7)
 - Searching with an empty string, text with special characters, or no results shows the whole list or a "no results" state rather than an error.
 - Two plans overlapping in time, or with the same priority order.
 
@@ -219,12 +236,12 @@ User stories:
 - **FR-04 Habit completion**: the system MUST record completion events (Id, HabitId, CompletionDate), let the user mark a habit complete for a date, and prevent duplicate completions for the same habit and date. (US-HAB-03, US-HAB-04)
 - **FR-05 Learning resources**: the system MUST store learning cards with Id, Title, Description/source, CreatedAt and Status (Not Started, In Progress, Completed), and let the user add and remove them. (US-LRN-01, 02)
 - **FR-06 Learning milestones and notes**: each card MUST support milestones (title, IsDone, optional target date) and free-form notes (text, timestamp); the user MUST be able to add, complete and remove milestones and add and remove notes. (US-LRN-03..05)
-- **FR-07 Plan composition**: the system MUST store plans with Id, Title, plan items (reference to an existing task, habit or learning resource by id and type, plus its own IsDone), EstimatedDuration, StartDateTime, EndDateTime, PriorityOrder, Status (Not Started, In Progress, Completed) and CreatedAt; the user MUST be able to create a plan from one or more existing items, set duration, start, end and priority order, mark items done or not done, and remove a plan. (US-PLN-01..06)
-- **FR-08 Plan progress and rest time**: the system MUST notify the user when a plan's start is reached; from start to end continuously compute and display the remaining rest time (refreshed at least once a minute); compute completion percentage as items done divided by total items; update a plan's status automatically from the current time and item completion; and reflect item-level changes immediately in the plan's progress and in the dashboard. (US-PLN-07..10) [NEEDS CLARIFICATION: Q2, Q3, Q8]
+- **FR-07 Plan composition**: the system MUST store plans with Id, Title, plan items (reference to an existing task, habit or learning resource by id and type, plus its own IsDone), EstimatedDuration (required, positive whole minutes), StartDateTime, EndDateTime, PriorityOrder, Status (Not Started, In Progress, Completed) and CreatedAt; the user MUST be able to create a plan from one or more existing items, set duration, start, end and priority order, mark items done or not done, and remove a plan. (US-PLN-01..06)
+- **FR-08 Plan progress and rest time** (status: Not Started before the start; In Progress from the start while items remain; Completed when all items are done or the end passes): the system MUST notify the user when a plan's start is reached; from start to end continuously compute and display the remaining rest time (refreshed at least once a minute); compute completion percentage as items done divided by total items; update a plan's status automatically from the current time and item completion; and reflect item-level changes immediately in the plan's progress and in the dashboard. (US-PLN-07..10) (D-2, D-3, D-8)
 - **FR-09 Dashboard**: the dashboard MUST show tasks due today, overdue tasks, tasks completed today, active habits and habits completed today, task completion percentage, active plans with live rest time and progress, and a learning snapshot (cards in progress, milestones completed recently). (US-DSH-01..06)
 - **FR-10 Navigation and shell**: the app MUST provide persistent navigation to the six pages, each independently reachable, empty states that point to the add action, and add and remove actions directly on every list-style page. (US-NAV-01, 02)
-- **FR-11 Settings**: the app MUST provide a Settings page for profile information and application preferences. (US-SET-01, 02)
-- **FR-12 Users and access**: QuickFlow serves one individual. [NEEDS CLARIFICATION: Q1 - is there sign-in, or is the app a single implicit user with no authentication?]
+- **FR-11 Settings**: the app MUST provide a Settings page for profile information and application preferences, saved on the server: display name, email, time zone (default: the browser's), notifications on/off (default on) and default start page (default Dashboard). (US-SET-01, 02)
+- **FR-12 Users and access**: QuickFlow serves one individual with no sign-in and no authentication; all data belongs to that single implicit user. (D-1)
 
 ### Business Rules
 
@@ -240,7 +257,7 @@ User stories:
 - **BR10**: a plan references at least one existing task, habit or learning-resource item.
 - **BR11**: a plan's end must be after its start.
 - **BR12**: a plan's rest-time display is active only between its start and end.
-- **BR13**: marking a plan item done does not change the original task, habit or learning card outside the plan, except where the item directly represents that entity's own completion action (completing a task-type item completes the task). [NEEDS CLARIFICATION: Q3]
+- **BR13**: marking a plan item done does not change the original task, habit or learning card outside the plan, except where the item directly represents that entity's own completion action (completing a task-type item completes the task). (D-3)
 - **BR14**: deleted resources are never returned by normal queries.
 
 ### Non-Functional Requirements
@@ -258,7 +275,7 @@ User stories:
 - **Learning Card**: a resource being studied, with title, description/source, status and created time. Has many **Learning Milestones** (title, done flag, optional target date) and many **Learning Notes** (text, created time).
 - **Plan**: a scheduled, prioritised block of work with title, estimated duration, start, end, priority order, status and created time. Has many **Plan Items**.
 - **Plan Item**: a reference to one existing task, habit or learning card (by type and id) with its own done flag, belonging to exactly one plan.
-- **Settings**: profile information and application preferences of the user. [NEEDS CLARIFICATION: Q10]
+- **Settings**: the single user's display name, email, time zone, notifications on/off and default start page, stored on the server.
 
 ## Success Criteria *(mandatory)*
 
@@ -277,22 +294,5 @@ User stories:
 
 - QuickFlow is used by a single individual; team features, real-time chat, external calendar sync, file attachments, social features and advanced AI are out of scope (PRD non-goals).
 - Reasonable defaults apply wherever the PRD is silent and no marker is shown: new tasks default to Todo and Medium priority; lists are sorted by creation date, newest first, unless the user sorts; plans are listed by priority order.
-- Defaults are subject to `requirements/DECISIONS.md`, which overrides this spec after `speckit-clarify`.
+- Defaults are subject to `requirements/DECISIONS.md`, which overrides this spec (D-11 to D-14 are defaults that were not asked).
 - Future enhancements in PRD section 14 (tags, recurring tasks, analytics, calendar integration, email/push reminders, drag-and-drop reordering, multi-user) are out of scope.
-
-## Open Points for Clarification
-
-The following are resolved with the user in `speckit-clarify` and recorded in `requirements/DECISIONS.md`:
-
-| Id | Topic |
-|---|---|
-| Q1 | Single user: sign-in or no authentication (FR-12) |
-| Q2 | When a plan counts as Completed (all items done, end time passed, or either) (FR-08) |
-| Q3 | BR13 for habit and learning items, and behaviour when an item is un-ticked |
-| Q4 | Time zone and the meaning of "today" / "overdue" |
-| Q5 | Archived or deleted sources inside plans and on the dashboard (BR14) |
-| Q6 | Weekly habits: what "today", completion and streak mean |
-| Q7 | Learning card status: set by hand or derived from milestones |
-| Q8 | Start notification: in-app only, or also browser notification; what if the app was closed |
-| Q9 | Estimated duration versus the start-end window |
-| Q10 | Settings: stored where, which profile and preference fields |

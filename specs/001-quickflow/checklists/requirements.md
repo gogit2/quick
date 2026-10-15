@@ -13,7 +13,7 @@
 
 ## Requirement Completeness
 
-- [ ] No [NEEDS CLARIFICATION] markers remain — **10 open points (Q1-Q10) on purpose**; the user asked for them to be resolved in `speckit-clarify`, so the 3-marker limit of `speckit-specify` was not applied
+- [x] No [NEEDS CLARIFICATION] markers remain (all 10 resolved in speckit-clarify, see requirements/DECISIONS.md)
 - [x] Requirements are testable and unambiguous (except the open points)
 - [x] Success criteria are measurable
 - [x] Success criteria are technology-agnostic (no implementation details)
