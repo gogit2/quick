@@ -1,0 +1,15 @@
+# M04 - Learning [FE] (frontend-dev)
+
+- Spec: `specs/001-quickflow` · source: `specs/001-quickflow/tasks.md` · split: 2026-10-15T03:16:03+03:00
+- Goal: Users can add and remove learning cards with milestones (completable) and notes, and see the card status follow its milestones.
+- Acceptance: `specs/001-quickflow/acceptance.md` section M04
+- Tick a task only when done and self-checked: `- [x] T012 ... - done: <note, evidence>`
+
+## Tasks
+
+- [ ] T054 [FE] [US-LRN-01] Learning API client: add types LearningStatus, LearningCard, LearningCardCreate, LearningCardUpdate, LearningMilestone, LearningMilestoneCreate, LearningMilestoneUpdate, LearningNote, LearningNoteCreate to frontend/src/app/core/api/models.ts per the contract and frontend/src/app/core/api/learning.api.ts with one method per contract operation under /api/learning-cards.
+- [ ] T055 [FE] [US-LRN-01] [US-LRN-02] [US-NAV-02] Learning page card grid frontend/src/app/features/learning/learning-page.component.*: `learning-title`, `learning-add-button`, a responsive Material card per learning card `learning-card-<id>` showing title, description/source, status chip `learning-status-<id>` and milestone progress `learning-progress-<id>` ('1/3 milestones'); loading `learning-loading`; empty state testId learning-empty-state guiding to the add action.
+- [ ] T056 [FE] [US-LRN-01] [US-LRN-02] Card add/edit dialog frontend/src/app/features/learning/learning-card-dialog.component.*: `learning-form-title` (required, max 200), `learning-form-description`, `learning-form-status` (enabled only when the card has no milestones, hint explaining it is derived otherwise), `learning-form-save`, `learning-form-cancel`; remove button `learning-delete-<id>` with the shared confirm dialog.
+- [ ] T057 [FE] [US-LRN-03] [US-LRN-04] Expandable card detail: expand toggle `learning-expand-<id>` shows milestones; add milestone form `learning-milestone-title-<id>` + `learning-milestone-target-<id>` + `learning-milestone-add-<id>` (title required); each milestone row `learning-milestone-<mid>` with checkbox `learning-milestone-done-<mid>` (PUT done true/false) and remove `learning-milestone-delete-<mid>`; the card status/progress update after each change.
+- [ ] T058 [FE] [US-LRN-05] Notes in the expanded card: textarea `learning-note-text-<id>`, button `learning-note-add-<id>` (text required), list `learning-note-<nid>` with timestamp and remove `learning-note-delete-<nid>`.
+- [ ] T059 [FE] [US-LRN-01] [US-LRN-02] [US-LRN-03] [US-LRN-04] [US-LRN-05] Write the Playwright MCP scenarios loops/frontend-dev/outputs/e2e/M04.md and execute them against the Prism mock: E2E-M04-01 [smoke] add a learning card, E2E-M04-02 title validation, E2E-M04-03 expand card and add a milestone with a target date, E2E-M04-04 complete a milestone (PUT done=true sent), E2E-M04-05 add and remove a note, E2E-M04-06 remove milestone and remove card with confirm, E2E-M04-07 [real-stack-only] empty state (written, not executed against the mock; list under `real_stack_only`). List all data-testids; screenshots + result.json.
