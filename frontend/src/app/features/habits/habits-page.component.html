@@ -1,16 +1,19 @@
-<header class="page-header">
-  <h1 data-testid="habits-title">Habits</h1>
-  <button mat-raised-button color="primary" type="button" data-testid="habits-add-button" (click)="openCreate()">
+<ui-page-header title="Habits" titleTestId="habits-title">
+  <button actions mat-raised-button color="primary" type="button" data-testid="habits-add-button" (click)="openCreate()">
     Add habit
   </button>
-</header>
+</ui-page-header>
 
-<section class="toolbar" aria-label="Habit filters">
-  <mat-slide-toggle [formControl]="showInactive" data-testid="habits-show-inactive">Show inactive</mat-slide-toggle>
-</section>
+<ui-card class="toolbar-card">
+  <section class="toolbar" aria-label="Habit filters">
+    <mat-slide-toggle [formControl]="showInactive" data-testid="habits-show-inactive">Show inactive</mat-slide-toggle>
+  </section>
+</ui-card>
 
 @if (loading()) {
-  <mat-progress-bar mode="indeterminate" data-testid="habits-loading" />
+  <div class="loading" data-testid="habits-loading">
+    <ui-skeleton variant="card" [count]="3" />
+  </div>
 }
 
 @if (loadFailed()) {
@@ -21,6 +24,7 @@
 } @else if (!loading() && habits().length === 0) {
   <qf-empty-state
     testId="habits"
+    illustration="habits"
     icon="↻"
     title="No habits yet"
     message="Add a habit to track what you do every day or every week."
@@ -29,55 +33,84 @@
   />
 }
 
-<ul class="habit-list">
+<ul class="habit-grid">
   @for (habit of habits(); track habit.id) {
-    <li class="habit-card" [class.inactive]="!habit.active" [attr.data-testid]="'habits-card-' + habit.id">
-      <div class="habit-main">
-        <h2 class="habit-name">{{ habit.name }}</h2>
-        @if (habit.description) {
-          <p class="habit-description">{{ habit.description }}</p>
-        }
-        <div class="habit-meta">
-          <span class="chip" [attr.data-testid]="'habits-frequency-' + habit.id">{{ frequencyLabel(habit) }}</span>
-          <span [attr.data-testid]="'habits-streak-' + habit.id">{{ streakLabel(habit) }}</span>
-          <span [attr.data-testid]="'habits-progress-' + habit.id">{{ progressLabel(habit) }}</span>
-          @if (!habit.active) {
-            <span class="chip" [attr.data-testid]="'habits-inactive-' + habit.id">Inactive</span>
+    <li>
+      <ui-card
+        class="habit-card"
+        [interactive]="habit.active"
+        [class.inactive]="!habit.active"
+        [class.done]="habit.doneForCurrentPeriod"
+        [attr.data-testid]="'habits-card-' + habit.id"
+      >
+        <div class="habit-main">
+          <h2 class="habit-name qf-title">{{ habit.name }}</h2>
+          @if (habit.description) {
+            <p class="habit-description qf-body">{{ habit.description }}</p>
           }
+          <div class="habit-tags">
+            <span class="tag qf-label" [attr.data-testid]="'habits-frequency-' + habit.id">{{ frequencyLabel(habit) }}</span>
+            @if (!habit.active) {
+              <span class="tag qf-label" [attr.data-testid]="'habits-inactive-' + habit.id">Inactive</span>
+            }
+          </div>
         </div>
-      </div>
 
-      <div class="habit-actions">
-        <button
-          mat-stroked-button
-          type="button"
-          [attr.data-testid]="'habits-toggle-' + habit.id"
-          [disabled]="!habit.active"
-          (click)="toggleCompletion(habit)"
-        >
-          {{ habit.doneForCurrentPeriod ? 'Undo' : 'Mark done' }}
-        </button>
-        <button mat-button type="button" [attr.data-testid]="'habits-edit-' + habit.id" (click)="openEdit(habit)">
-          Edit
-        </button>
-        <button
-          mat-button
-          type="button"
-          [attr.data-testid]="'habits-deactivate-' + habit.id"
-          (click)="toggleActive(habit)"
-        >
-          {{ habit.active ? 'Deactivate' : 'Activate' }}
-        </button>
-        <button
-          mat-button
-          color="warn"
-          type="button"
-          [attr.data-testid]="'habits-delete-' + habit.id"
-          (click)="confirmDelete(habit)"
-        >
-          Delete
-        </button>
-      </div>
+        <div class="habit-status">
+          <span class="progress qf-label" [class.progress-done]="habit.doneForCurrentPeriod">
+            @if (habit.doneForCurrentPeriod) {
+              <mat-icon svgIcon="check" aria-hidden="true" />
+            }
+            <span [attr.data-testid]="'habits-progress-' + habit.id">{{ progressLabel(habit) }}</span>
+          </span>
+          <span class="streak qf-caption" [attr.data-testid]="'habits-streak-' + habit.id">{{ streakLabel(habit) }}</span>
+        </div>
+
+        <div class="habit-actions">
+          <button
+            mat-icon-button
+            type="button"
+            [attr.aria-label]="habit.doneForCurrentPeriod ? 'Undo completion' : 'Mark done'"
+            [attr.title]="habit.doneForCurrentPeriod ? 'Undo' : 'Mark done'"
+            [attr.data-testid]="'habits-toggle-' + habit.id"
+            [disabled]="!habit.active"
+            (click)="toggleCompletion(habit)"
+          >
+            <mat-icon svgIcon="check" aria-hidden="true" />
+          </button>
+          <button
+            mat-icon-button
+            type="button"
+            aria-label="Edit habit"
+            title="Edit"
+            [attr.data-testid]="'habits-edit-' + habit.id"
+            (click)="openEdit(habit)"
+          >
+            <mat-icon svgIcon="edit" aria-hidden="true" />
+          </button>
+          <button
+            mat-icon-button
+            type="button"
+            [attr.aria-label]="habit.active ? 'Deactivate habit' : 'Activate habit'"
+            [attr.title]="habit.active ? 'Deactivate' : 'Activate'"
+            [attr.data-testid]="'habits-deactivate-' + habit.id"
+            (click)="toggleActive(habit)"
+          >
+            <mat-icon [svgIcon]="habit.active ? 'archive' : 'unarchive'" aria-hidden="true" />
+          </button>
+          <button
+            mat-icon-button
+            color="warn"
+            type="button"
+            aria-label="Delete habit"
+            title="Delete"
+            [attr.data-testid]="'habits-delete-' + habit.id"
+            (click)="confirmDelete(habit)"
+          >
+            <mat-icon svgIcon="delete" aria-hidden="true" />
+          </button>
+        </div>
+      </ui-card>
     </li>
   }
 </ul>

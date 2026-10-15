@@ -48,7 +48,10 @@ img, svg, table, pre {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 12px;
-  margin: 16px 0;
+  gap: var(--qf-space-3);
+  margin: var(--qf-space-4) 0;
+  padding: var(--qf-space-3) var(--qf-space-4);
+  border-radius: var(--qf-radius-md);
+  background: var(--qf-danger-bg);
   color: var(--qf-danger);
 }

@@ -62,7 +62,7 @@ function windowOrder(group: AbstractControl): ValidationErrors | null {
     MatInputModule,
   ],
   template: `
-    <h2 mat-dialog-title>Create plan</h2>
+    <h2 mat-dialog-title class="qf-title">Create plan</h2>
     <mat-dialog-content>
       <form [formGroup]="form" class="form" (ngSubmit)="save()">
         <mat-form-field appearance="outline">
@@ -122,7 +122,7 @@ function windowOrder(group: AbstractControl): ValidationErrors | null {
           </p>
         }
 
-        <section data-testid="plans-pick-tasks">
+        <section class="picker" data-testid="plans-pick-tasks">
           <h3>Tasks</h3>
           @for (task of tasks(); track task.id) {
             <mat-checkbox
@@ -137,7 +137,7 @@ function windowOrder(group: AbstractControl): ValidationErrors | null {
           }
         </section>
 
-        <section data-testid="plans-pick-habits">
+        <section class="picker" data-testid="plans-pick-habits">
           <h3>Habits</h3>
           @for (habit of habits(); track habit.id) {
             <mat-checkbox
@@ -152,7 +152,7 @@ function windowOrder(group: AbstractControl): ValidationErrors | null {
           }
         </section>
 
-        <section data-testid="plans-pick-learning">
+        <section class="picker" data-testid="plans-pick-learning">
           <h3>Learning resources</h3>
           @for (card of cards(); track card.id) {
             <mat-checkbox
@@ -194,8 +194,8 @@ function windowOrder(group: AbstractControl): ValidationErrors | null {
     .form {
       display: flex;
       flex-direction: column;
-      gap: 4px;
-      min-width: min(560px, 90vw);
+      gap: var(--qf-space-2);
+      width: 100%;
     }
 
     .row {
@@ -205,20 +205,43 @@ function windowOrder(group: AbstractControl): ValidationErrors | null {
 
     .row mat-form-field {
       flex: 1;
+      min-width: 0;
+    }
+
+    .picker {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: var(--qf-space-1) var(--qf-space-4);
+      margin-top: var(--qf-space-4);
+      padding: var(--qf-space-3) var(--qf-space-4);
+      border: 1px solid var(--qf-outline);
+      border-radius: var(--qf-radius-md);
+      background: var(--qf-surface);
+    }
+
+    h3,
+    .muted,
+    .picker p {
+      grid-column: 1 / -1;
     }
 
     h3 {
-      margin: 16px 0 4px;
-      font-size: 15px;
+      margin: 0 0 var(--qf-space-1);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--qf-text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
     }
 
-    section mat-checkbox {
+    .picker mat-checkbox {
       display: block;
+      min-width: 0;
     }
 
     .muted {
       color: var(--qf-text-muted);
-      margin: 4px 0;
+      margin: var(--qf-space-1) 0;
     }
 
     .error {

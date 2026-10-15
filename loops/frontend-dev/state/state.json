@@ -1,32 +1,27 @@
 {
   "spec": "specs/002-visual-polish",
-  "milestone": "M09",
-  "milestone_title": "Shell and navigation",
+  "milestone": "M10",
+  "milestone_title": "Pages",
   "milestone_status": "passed",
   "status": "built",
   "trial": 0,
   "upgraded": false,
   "model": "claude-haiku-5-5",
-  "iteration": 2,
-  "attempt_iterations": 2,
-  "attempt_cap": 5,
-  "budget_left_usd": 10.5161,
-  "last_session_id": "9a429d3c-6a70-4bb4-8f0d-23d7fa78abbb",
+  "iteration": 4,
+  "attempt_iterations": 4,
+  "attempt_cap": 6,
+  "budget_left_usd": 8.967,
+  "last_session_id": "af2e0024-9568-45b3-b690-b3fba08a6417",
   "last_result": {
-    "milestone": "M09",
+    "milestone": "M10",
     "result": "built",
     "tasks_done": [
-      "T112",
-      "T113",
-      "T114",
-      "T115",
-      "T116",
-      "T117",
-      "T118"
+      "T126",
+      "T130"
     ],
     "open_tasks": 0,
-    "selfcheck": "cd frontend && npx ng build: passes (WARNING only: initial bundle 615.54 kB > 600 kB budget, pre-existing from iter 1). Mock 4010 and dev 4300 started by script. Playwright MCP on the mock: E2E-M09-01..08 all passed at 1440/1024/390 px in light and dark (scenarios in outputs/e2e/M09.md); regression E2E-M01-01 and E2E-M08-02 passed; contrast-check.js dark /tasks 45 checked 0 failures, light /settings 24 checked 0 failures; scrollWidth == innerWidth 390 on all six pages; console errors 0. Evidence in outputs/evidence/M09/ (result.json passed: true). Both servers stopped by script.",
-    "notes": "Fixed two layout bugs during the checks (sidenav position override; rail content offset gap), both in shell.component.scss/html. Snackbar not exercised (not in M09 acceptance); tooltip hover not re-run this iteration. Bundle budget warning remains for M11 to address."
+    "selfcheck": "npx ng build passed (budget WARNING only, bundle 616.77 kB). Mock 4010 and frontend 4300 started by script. Playwright MCP on the mock: E2E-M10-01..07 and 09 PASS (dashboard light and dark, chips, skeleton, learning expand, plans clock check, dashboard grid, settings radios, contrast 12 runs 0 failures); E2E-M10-10 smoke set M02-01, M03-01, M04-01, M05-01, M06-01 PASS (POST 201 with expected bodies); E2E-M10-08 real-stack-only, written. evidence/M10/result.json passed true. Servers stopped by script.",
+    "notes": "Iter 4 fixed the Dashboard overdue and habit-row gaps (chip and streak in ui-list-row actions slot) and closed T130. Screenshots are in run-artifacts/playwright/ (evidence copy denied). Frontend-dev has no more M10 work; verifier runs E2E-M10-08 on the real stack."
   },
-  "updated_at": "2026-10-15T12:59:17+03:00"
+  "updated_at": "2026-10-15T13:36:12+03:00"
 }

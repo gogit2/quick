@@ -1,6 +1,6 @@
 # Run summary
 
-_Generated 2026-10-15T12:59:17+03:00 from `loops/_shared/milestones.json` and `run-artifacts/sessions.csv`._
+_Generated 2026-10-15T13:36:12+03:00 from `loops/_shared/milestones.json` and `run-artifacts/sessions.csv`._
 
 | Milestone | Status | Start | End | Trials | Upgraded | Verify rounds | BE it. | FE it. | Sessions | Cost USD | Tag |
 |---|---|---|---|---|---|---|---|---|---|---|---|
@@ -13,15 +13,15 @@ _Generated 2026-10-15T12:59:17+03:00 from `loops/_shared/milestones.json` and `r
 | M07 Hardening | passed | 2026-10-15T10:51:47+03:00 | 2026-10-15T11:14:10+03:00 | 0 | no | 1 | 1 | 2 | 4 | 4.7849 | M07 |
 | M08 Design foundation | passed | 2026-10-15T12:18:58+03:00 | 2026-10-15T12:36:21+03:00 | 0 | no | 1 | 0 | 2 | 3 | 3.2677 | M08 |
 | M09 Shell and navigation | passed | 2026-10-15T12:36:21+03:00 | 2026-10-15T12:59:17+03:00 | 0 | no | 1 | 0 | 2 | 3 | 4.4839 | M09 |
-| M10 Pages | pending |  |  | 0 | no | 0 | 0 | 0 | 0 | 0.0000 |  |
+| M10 Pages | passed | 2026-10-15T12:59:18+03:00 | 2026-10-15T13:36:12+03:00 | 0 | no | 1 | 0 | 4 | 5 | 6.0330 | M10 |
 | M11 Polish and regression | pending |  |  | 0 | no | 0 | 0 | 0 | 0 | 0.0000 |  |
 
-**Total cost (headless loops)**: $31.6322 over 39 sessions.
+**Total cost (headless loops)**: $37.6653 over 44 sessions.
 
 | Model | Sessions | Input | Output | Cache read | Cache write | Cost USD |
 |---|---|---|---|---|---|---|
-| claude-haiku-5-5 | 30 | 2.0k | 1.15M | 90.27M | 3.38M | 5.8385 |
-| claude-opus-5-5 | 9 | 1.0k | 215.3k | 51.17M | 1.41M | 25.7937 |
+| claude-haiku-5-5 | 34 | 2.4k | 1.32M | 104.83M | 3.94M | 6.8795 |
+| claude-opus-5-5 | 10 | 1.2k | 260.3k | 62.11M | 1.64M | 30.7858 |
 
 ## Events
 - 2026-10-15T03:31:32+03:00 · M01 · verify · verdict · round 1: PASS (0 small fixes)
@@ -36,3 +36,5 @@ _Generated 2026-10-15T12:59:17+03:00 from `loops/_shared/milestones.json` and `r
 - 2026-10-15T12:36:20+03:00 · M08 · verify · verdict · round 1: PASS (1 small fixes)
 - 2026-10-15T12:36:21+03:00 · M09 · backend-dev · info · no tasks for this role in this milestone
 - 2026-10-15T12:59:16+03:00 · M09 · verify · verdict · round 1: PASS (1 small fixes)
+- 2026-10-15T12:59:18+03:00 · M10 · backend-dev · info · no tasks for this role in this milestone
+- 2026-10-15T13:36:11+03:00 · M10 · verify · verdict · round 1: PASS (3 small fixes)

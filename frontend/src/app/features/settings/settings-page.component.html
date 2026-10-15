@@ -1,7 +1,9 @@
-<h1 data-testid="settings-title">Settings</h1>
+<ui-page-header title="Settings" titleTestId="settings-title" subtitle="Your profile, preferences and appearance." />
 
 @if (loading()) {
-  <mat-progress-bar mode="indeterminate" data-testid="settings-loading" />
+  <div class="loading" data-testid="settings-loading">
+    <ui-skeleton variant="line" [count]="6" />
+  </div>
 }
 
 @if (loadFailed()) {
@@ -12,52 +14,77 @@
 }
 
 <form class="form" [formGroup]="form" (ngSubmit)="save()" novalidate>
-  <mat-form-field appearance="outline">
-    <mat-label>Display name</mat-label>
-    <input matInput formControlName="displayName" data-testid="settings-display-name" />
-    <mat-error>{{ errorMessage('displayName') }}</mat-error>
-  </mat-form-field>
+  <ui-card class="section">
+    <h2 class="qf-title">Profile</h2>
+    <div class="fields">
+      <mat-form-field appearance="outline">
+        <mat-label>Display name</mat-label>
+        <input matInput formControlName="displayName" data-testid="settings-display-name" />
+        <mat-error>{{ errorMessage('displayName') }}</mat-error>
+      </mat-form-field>
 
-  <mat-form-field appearance="outline">
-    <mat-label>Email</mat-label>
-    <input matInput type="email" formControlName="email" data-testid="settings-email" />
-    <mat-error>{{ errorMessage('email') }}</mat-error>
-  </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" formControlName="email" data-testid="settings-email" />
+        <mat-error>{{ errorMessage('email') }}</mat-error>
+      </mat-form-field>
+    </div>
+  </ui-card>
 
-  <mat-form-field appearance="outline">
-    <mat-label>Time zone</mat-label>
-    <mat-select formControlName="timeZone" data-testid="settings-time-zone">
-      @for (zone of timeZones(); track zone) {
-        <mat-option [value]="zone">{{ zone }}</mat-option>
-      }
-    </mat-select>
-    <mat-error>{{ errorMessage('timeZone') }}</mat-error>
-  </mat-form-field>
+  <ui-card class="section">
+    <h2 class="qf-title">Preferences</h2>
+    <div class="fields">
+      <mat-form-field appearance="outline">
+        <mat-label>Time zone</mat-label>
+        <mat-select formControlName="timeZone" data-testid="settings-time-zone">
+          @for (zone of timeZones(); track zone) {
+            <mat-option [value]="zone">{{ zone }}</mat-option>
+          }
+        </mat-select>
+        <mat-error>{{ errorMessage('timeZone') }}</mat-error>
+      </mat-form-field>
 
-  <mat-slide-toggle formControlName="notificationsEnabled" data-testid="settings-notifications">
-    Notifications
-  </mat-slide-toggle>
+      <mat-form-field appearance="outline">
+        <mat-label>Start page</mat-label>
+        <mat-select formControlName="defaultStartPage" data-testid="settings-start-page">
+          @for (page of startPages; track page.value) {
+            <mat-option [value]="page.value">{{ page.label }}</mat-option>
+          }
+        </mat-select>
+        <mat-error>{{ errorMessage('defaultStartPage') }}</mat-error>
+      </mat-form-field>
+    </div>
 
-  <mat-form-field appearance="outline">
-    <mat-label>Start page</mat-label>
-    <mat-select formControlName="defaultStartPage" data-testid="settings-start-page">
-      @for (page of startPages; track page.value) {
-        <mat-option [value]="page.value">{{ page.label }}</mat-option>
-      }
-    </mat-select>
-    <mat-error>{{ errorMessage('defaultStartPage') }}</mat-error>
-  </mat-form-field>
+    <mat-slide-toggle formControlName="notificationsEnabled" data-testid="settings-notifications">
+      Notifications
+    </mat-slide-toggle>
+  </ui-card>
+
+  <ui-card class="section">
+    <h2 class="qf-title">Appearance</h2>
+    <p class="qf-caption hint">Same choice as the theme button in the toolbar.</p>
+    <mat-radio-group
+      class="theme-choice"
+      aria-label="Theme"
+      [value]="theme.mode()"
+      (change)="theme.setMode($event.value)"
+    >
+      <mat-radio-button value="light" data-testid="settings-theme-light">Light</mat-radio-button>
+      <mat-radio-button value="dark" data-testid="settings-theme-dark">Dark</mat-radio-button>
+      <mat-radio-button value="system" data-testid="settings-theme-system">System</mat-radio-button>
+    </mat-radio-group>
+  </ui-card>
 
   <div class="actions">
     <button mat-raised-button color="primary" type="submit" data-testid="settings-save-button" [disabled]="saving()">
       Save
     </button>
     @if (saved()) {
-      <span class="saved" data-testid="settings-saved-message">Settings saved</span>
+      <span class="saved qf-label" data-testid="settings-saved-message">Settings saved</span>
     }
   </div>
 
   @if (errorText(); as message) {
-    <p class="error" data-testid="settings-error-message">{{ message }}</p>
+    <p class="error qf-body" data-testid="settings-error-message">{{ message }}</p>
   }
 </form>

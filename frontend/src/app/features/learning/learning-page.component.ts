@@ -1,34 +1,56 @@
 import { Component, DestroyRef, OnInit, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
 import { MatDialog } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subject, catchError, of, switchMap, tap } from 'rxjs';
 
 import { ApiRequestError } from '../../core/api/error.interceptor';
 import { LearningApi } from '../../core/api/learning.api';
-import { LearningCard, LearningStatus } from '../../core/api/models';
+import { LearningCard } from '../../core/api/models';
 import { ConfirmDialogComponent, ConfirmDialogData } from '../../shared/confirm-dialog.component';
 import { EmptyStateComponent } from '../../shared/empty-state.component';
+import { UiCardComponent } from '../../shared/ui-card.component';
+import { UiChipComponent } from '../../shared/ui-chip.component';
+import { UiPageHeaderComponent } from '../../shared/ui-page-header.component';
+import { UiSkeletonComponent } from '../../shared/ui-skeleton.component';
 import { LearningCardDetailsComponent } from './learning-card-details.component';
 import { LearningCardDialogComponent, LearningCardDialogData } from './learning-card-dialog.component';
 
 @Component({
   selector: 'qf-learning-page',
   standalone: true,
-  imports: [MatButtonModule, MatCardModule, MatProgressBarModule, EmptyStateComponent, LearningCardDetailsComponent],
+  imports: [
+    MatButtonModule,
+    MatIconModule,
+    MatProgressBarModule,
+    EmptyStateComponent,
+    LearningCardDetailsComponent,
+    UiCardComponent,
+    UiChipComponent,
+    UiPageHeaderComponent,
+    UiSkeletonComponent,
+  ],
   template: `
-    <header class="page-header">
-      <h1 data-testid="learning-title">Learning</h1>
-      <button mat-raised-button color="primary" type="button" data-testid="learning-add-button" (click)="openCreate()">
+    <ui-page-header title="Learning" titleTestId="learning-title">
+      <button
+        actions
+        mat-raised-button
+        color="primary"
+        type="button"
+        data-testid="learning-add-button"
+        (click)="openCreate()"
+      >
         Add learning resource
       </button>
-    </header>
+    </ui-page-header>
 
     @if (loading()) {
-      <mat-progress-bar mode="indeterminate" data-testid="learning-loading" />
+      <div class="loading" data-testid="learning-loading">
+        <ui-skeleton variant="card" [count]="3" />
+      </div>
     }
 
     @if (loadFailed()) {
@@ -39,6 +61,7 @@ import { LearningCardDialogComponent, LearningCardDialogData } from './learning-
     } @else if (!loading() && cards().length === 0) {
       <qf-empty-state
         testId="learning"
+        illustration="learning"
         icon="✎"
         title="No learning resources yet"
         message="Add a course, book or video to track milestones and notes."
@@ -47,96 +70,175 @@ import { LearningCardDialogComponent, LearningCardDialogData } from './learning-
       />
     }
 
-    <div class="card-grid">
+    <ul class="card-grid">
       @for (card of cards(); track card.id) {
-        <mat-card class="learning-card" [attr.data-testid]="'learning-card-' + card.id">
-          <mat-card-header>
-            <mat-card-title class="card-title">{{ card.title }}</mat-card-title>
-            @if (card.description) {
-              <mat-card-subtitle class="card-description">{{ card.description }}</mat-card-subtitle>
-            }
-          </mat-card-header>
-
-          <mat-card-content>
-            <div class="meta">
-              <span class="chip" [attr.data-testid]="'learning-status-' + card.id">{{ statusLabel(card.status) }}</span>
-              <span [attr.data-testid]="'learning-progress-' + card.id">{{ progressLabel(card) }}</span>
+        <li>
+          <ui-card class="learning-card" [attr.data-testid]="'learning-card-' + card.id">
+            <div class="card-head">
+              <h2 class="card-title qf-title">{{ card.title }}</h2>
+              @if (card.description) {
+                <p class="card-description qf-body">{{ card.description }}</p>
+              }
             </div>
-          </mat-card-content>
 
-          <mat-card-actions align="end">
-            <button
-              mat-button
-              type="button"
-              [attr.data-testid]="'learning-expand-' + card.id"
-              [attr.aria-expanded]="isExpanded(card.id)"
-              (click)="toggleExpanded(card.id)"
-            >
-              {{ isExpanded(card.id) ? 'Hide details' : 'Show details' }}
-            </button>
-            <button mat-button type="button" [attr.data-testid]="'learning-edit-' + card.id" (click)="openEdit(card)">
-              Edit
-            </button>
-            <button
-              mat-button
-              color="warn"
-              type="button"
-              [attr.data-testid]="'learning-delete-' + card.id"
-              (click)="confirmDelete(card)"
-            >
-              Delete
-            </button>
-          </mat-card-actions>
+            <div class="meta">
+              <ui-chip kind="learning-status" [value]="card.status" [testId]="'learning-status-' + card.id" />
+              <div class="progress">
+                <mat-progress-bar
+                  mode="determinate"
+                  class="bar"
+                  [value]="progressPercent(card)"
+                  aria-hidden="true"
+                />
+                <span class="qf-caption" [attr.data-testid]="'learning-progress-' + card.id">
+                  {{ progressLabel(card) }}
+                </span>
+              </div>
+            </div>
 
-          @if (isExpanded(card.id)) {
-            <qf-learning-card-details [card]="card" (changed)="load()" />
-          }
-        </mat-card>
+            <div class="card-actions">
+              <button
+                mat-button
+                type="button"
+                [attr.data-testid]="'learning-expand-' + card.id"
+                [attr.aria-expanded]="isExpanded(card.id)"
+                (click)="toggleExpanded(card.id)"
+              >
+                <mat-icon [svgIcon]="isExpanded(card.id) ? 'expand_less' : 'expand_more'" aria-hidden="true" />
+                {{ isExpanded(card.id) ? 'Hide details' : 'Show details' }}
+              </button>
+              <span class="spacer"></span>
+              <button mat-button type="button" [attr.data-testid]="'learning-edit-' + card.id" (click)="openEdit(card)">
+                Edit
+              </button>
+              <button
+                mat-button
+                color="warn"
+                type="button"
+                [attr.data-testid]="'learning-delete-' + card.id"
+                (click)="confirmDelete(card)"
+              >
+                Delete
+              </button>
+            </div>
+
+            <!-- Details render on first open and stay in the DOM, so collapsing animates. -->
+            @if (rendered(card.id)) {
+              <div class="collapse" [class.open]="isExpanded(card.id)">
+                <div class="collapse-inner">
+                  <qf-learning-card-details [card]="card" (changed)="load()" />
+                </div>
+              </div>
+            }
+          </ui-card>
+        </li>
       }
-    </div>
+    </ul>
   `,
   styles: `
-    .page-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-    }
-
-    .notice {
-      color: var(--qf-danger);
-      margin: 16px 0;
+    .loading {
+      margin: var(--qf-space-4) 0;
     }
 
     .card-grid {
+      list-style: none;
+      margin: 0;
+      padding: 0;
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 16px;
-      margin-top: 16px;
+      gap: var(--qf-space-4);
+
+      > li {
+        display: flex;
+      }
     }
 
     .learning-card {
       display: flex;
       flex-direction: column;
+      gap: var(--qf-space-3);
+      flex: 1 1 auto;
+      min-width: 0;
     }
 
-    .card-title,
+    .card-head {
+      display: flex;
+      flex-direction: column;
+      gap: var(--qf-space-1);
+    }
+
+    .card-title {
+      margin: 0;
+      color: var(--qf-text);
+      overflow-wrap: anywhere;
+    }
+
     .card-description {
+      margin: 0;
+      color: var(--qf-text-muted);
       overflow-wrap: anywhere;
     }
 
     .meta {
       display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 8px;
-      font-size: 13px;
+      flex-direction: column;
+      gap: var(--qf-space-2);
+      align-items: flex-start;
     }
 
-    .chip {
-      padding: 2px 8px;
-      border-radius: 12px;
-      background: var(--qf-surface-raised);
+    .progress {
+      display: flex;
+      flex-direction: column;
+      gap: var(--qf-space-1);
+      width: 100%;
+      color: var(--qf-text-muted);
+    }
+
+    .bar {
+      --mdc-linear-progress-active-indicator-color: var(--qf-accent);
+      --mdc-linear-progress-track-color: var(--qf-outline);
+    }
+
+    .card-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--qf-space-1);
+      margin-top: auto;
+    }
+
+    .spacer {
+      flex: 1 1 auto;
+    }
+
+    // Expand and collapse animate the grid row height from 0fr to 1fr.
+    .collapse {
+      display: grid;
+      grid-template-rows: 0fr;
+      visibility: hidden;
+      transition:
+        grid-template-rows var(--qf-motion-base) var(--qf-ease),
+        visibility 0s linear var(--qf-motion-base);
+
+      &.open {
+        grid-template-rows: 1fr;
+        visibility: visible;
+        transition:
+          grid-template-rows var(--qf-motion-base) var(--qf-ease),
+          visibility 0s;
+      }
+    }
+
+    .collapse-inner {
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .collapse,
+      .collapse.open {
+        transition: none;
+      }
     }
   `,
 })
@@ -152,6 +254,8 @@ export class LearningPageComponent implements OnInit {
   readonly loadFailed = signal(false);
   // Ids of the cards whose details (milestones, notes) are open. Survives reloads.
   readonly expandedIds = signal<ReadonlySet<number>>(new Set());
+  // Ids of the cards whose details have been opened at least once; their details stay mounted.
+  readonly renderedIds = signal<ReadonlySet<number>>(new Set());
 
   // Every list request goes through here; switchMap drops responses to superseded requests.
   private readonly reload = new Subject<void>();
@@ -237,25 +341,30 @@ export class LearningPageComponent implements OnInit {
     return this.expandedIds().has(id);
   }
 
+  rendered(id: number): boolean {
+    return this.renderedIds().has(id);
+  }
+
   toggleExpanded(id: number): void {
     const next = new Set(this.expandedIds());
     if (next.has(id)) {
       next.delete(id);
+    } else if (!this.rendered(id)) {
+      // First open: render the details closed, then open them a frame later so the height animates.
+      this.renderedIds.set(new Set(this.renderedIds()).add(id));
+      requestAnimationFrame(() => requestAnimationFrame(() => this.expandedIds.set(new Set(this.expandedIds()).add(id))));
+      return;
     } else {
       next.add(id);
     }
     this.expandedIds.set(next);
   }
 
-  statusLabel(status: LearningStatus): string {
-    switch (status) {
-      case 'NOT_STARTED':
-        return 'Not started';
-      case 'IN_PROGRESS':
-        return 'In progress';
-      case 'COMPLETED':
-        return 'Completed';
+  progressPercent(card: LearningCard): number {
+    if (card.milestones.length === 0) {
+      return 0;
     }
+    return (card.milestones.filter((milestone) => milestone.done).length / card.milestones.length) * 100;
   }
 
   progressLabel(card: LearningCard): string {

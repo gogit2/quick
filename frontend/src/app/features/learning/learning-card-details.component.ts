@@ -10,6 +10,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ApiRequestError } from '../../core/api/error.interceptor';
 import { LearningApi } from '../../core/api/learning.api';
 import { LearningCard, LearningMilestone } from '../../core/api/models';
+import { UiListRowComponent } from '../../shared/ui-list-row.component';
 
 interface MilestoneForm {
   title: FormControl<string>;
@@ -25,30 +26,41 @@ interface NoteForm {
 @Component({
   selector: 'qf-learning-card-details',
   standalone: true,
-  imports: [ReactiveFormsModule, DatePipe, MatButtonModule, MatCheckboxModule, MatFormFieldModule, MatInputModule],
+  imports: [
+    ReactiveFormsModule,
+    DatePipe,
+    MatButtonModule,
+    MatCheckboxModule,
+    MatFormFieldModule,
+    MatInputModule,
+    UiListRowComponent,
+  ],
   template: `
     <section class="details" [attr.aria-label]="'Details of ' + card().title">
       <h3>Milestones</h3>
       <ul class="milestones">
         @for (milestone of card().milestones; track milestone.id) {
-          <li class="row" [attr.data-testid]="'learning-milestone-' + milestone.id">
-            <mat-checkbox
-              [checked]="milestone.done"
-              [attr.data-testid]="'learning-milestone-done-' + milestone.id"
-              (change)="setDone(milestone, $event.checked)"
-            >
-              {{ milestone.title }}
-            </mat-checkbox>
-            <span class="muted">{{ targetLabel(milestone) }}</span>
-            <button
-              mat-button
-              color="warn"
-              type="button"
-              [attr.data-testid]="'learning-milestone-delete-' + milestone.id"
-              (click)="removeMilestone(milestone)"
-            >
-              Remove
-            </button>
+          <li>
+            <ui-list-row [attr.data-testid]="'learning-milestone-' + milestone.id">
+              <mat-checkbox
+                [checked]="milestone.done"
+                [attr.data-testid]="'learning-milestone-done-' + milestone.id"
+                (change)="setDone(milestone, $event.checked)"
+              >
+                {{ milestone.title }}
+              </mat-checkbox>
+              <span class="muted">{{ targetLabel(milestone) }}</span>
+              <button
+                actions
+                mat-button
+                color="warn"
+                type="button"
+                [attr.data-testid]="'learning-milestone-delete-' + milestone.id"
+                (click)="removeMilestone(milestone)"
+              >
+                Remove
+              </button>
+            </ui-list-row>
           </li>
         } @empty {
           <li class="muted">No milestones yet.</li>
@@ -83,20 +95,23 @@ interface NoteForm {
       <h3>Notes</h3>
       <ul class="notes">
         @for (note of card().notes; track note.id) {
-          <li class="row" [attr.data-testid]="'learning-note-' + note.id">
-            <div class="note-body">
-              <p>{{ note.text }}</p>
-              <span class="muted">{{ note.createdAt | date: 'medium' }}</span>
-            </div>
-            <button
-              mat-button
-              color="warn"
-              type="button"
-              [attr.data-testid]="'learning-note-delete-' + note.id"
-              (click)="removeNote(note.id)"
-            >
-              Remove
-            </button>
+          <li>
+            <ui-list-row [attr.data-testid]="'learning-note-' + note.id">
+              <div class="note-body">
+                <p>{{ note.text }}</p>
+                <span class="muted">{{ note.createdAt | date: 'medium' }}</span>
+              </div>
+              <button
+                actions
+                mat-button
+                color="warn"
+                type="button"
+                [attr.data-testid]="'learning-note-delete-' + note.id"
+                (click)="removeNote(note.id)"
+              >
+                Remove
+              </button>
+            </ui-list-row>
           </li>
         } @empty {
           <li class="muted">No notes yet.</li>
@@ -122,33 +137,33 @@ interface NoteForm {
   `,
   styles: `
     .details {
-      padding: 0 16px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: var(--qf-space-2);
+      padding-top: var(--qf-space-3);
+      border-top: 1px solid var(--qf-outline);
+      margin-top: var(--qf-space-2);
     }
 
     h3 {
-      font-size: 16px;
-      font-weight: 500;
-      margin: 12px 0 4px;
+      font: var(--qf-text-label);
+      color: var(--qf-text-muted);
+      margin: var(--qf-space-2) 0 0;
     }
 
     ul {
       list-style: none;
       margin: 0;
       padding: 0;
-    }
-
-    .row {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-      padding: 4px 0;
+      background: var(--qf-surface-raised);
+      border-radius: var(--qf-radius-sm);
+      overflow: hidden;
     }
 
     .note-body {
       display: flex;
       flex-direction: column;
+      gap: var(--qf-space-1);
       min-width: 0;
 
       p {
@@ -162,12 +177,12 @@ interface NoteForm {
       display: flex;
       flex-wrap: wrap;
       align-items: flex-start;
-      gap: 8px;
+      gap: var(--qf-space-2);
     }
 
     .muted {
       color: var(--qf-text-muted);
-      font-size: 13px;
+      font: var(--qf-text-caption);
     }
   `,
 })

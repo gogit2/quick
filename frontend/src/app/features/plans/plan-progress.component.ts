@@ -10,19 +10,24 @@ import { Plan } from '../../core/api/models';
   imports: [MatProgressBarModule],
   template: `
     <div class="progress" [attr.data-testid]="'plans-progress-' + plan().id">
-      <mat-progress-bar mode="determinate" [value]="plan().completionPercent" aria-hidden="true" />
-      <span class="label">{{ plan().doneItems }} of {{ plan().totalItems }} items ({{ plan().completionPercent }}%)</span>
+      <mat-progress-bar mode="determinate" class="bar" [value]="plan().completionPercent" aria-hidden="true" />
+      <span class="qf-caption label">{{ plan().doneItems }} of {{ plan().totalItems }} items ({{ plan().completionPercent }}%)</span>
     </div>
   `,
   styles: `
     .progress {
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: var(--qf-space-1);
+    }
+
+    .bar {
+      --mdc-linear-progress-active-indicator-color: var(--qf-accent);
+      --mdc-linear-progress-track-color: var(--qf-outline);
     }
 
     .label {
-      font-size: 13px;
+      color: var(--qf-text-muted);
     }
   `,
 })

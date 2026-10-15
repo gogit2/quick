@@ -4,8 +4,8 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -16,6 +16,11 @@ import { Task, TaskDueFilter, TaskPriority, TaskSort, TaskStatus } from '../../c
 import { TaskListParams, TasksApi } from '../../core/api/tasks.api';
 import { ConfirmDialogComponent, ConfirmDialogData } from '../../shared/confirm-dialog.component';
 import { EmptyStateComponent } from '../../shared/empty-state.component';
+import { UiCardComponent } from '../../shared/ui-card.component';
+import { UiChipComponent } from '../../shared/ui-chip.component';
+import { UiListRowComponent } from '../../shared/ui-list-row.component';
+import { UiPageHeaderComponent } from '../../shared/ui-page-header.component';
+import { UiSkeletonComponent } from '../../shared/ui-skeleton.component';
 import { TaskFormDialogComponent, TaskFormDialogData } from './task-form-dialog.component';
 
 // Empty value of a select means "all".
@@ -39,10 +44,15 @@ const DEFAULT_SORT: TaskSort = 'CREATED_DESC';
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
-    MatProgressBarModule,
+    MatIconModule,
     MatSelectModule,
     MatSlideToggleModule,
     EmptyStateComponent,
+    UiCardComponent,
+    UiChipComponent,
+    UiListRowComponent,
+    UiPageHeaderComponent,
+    UiSkeletonComponent,
   ],
   templateUrl: './tasks-page.component.html',
   styleUrl: './tasks-page.component.scss',

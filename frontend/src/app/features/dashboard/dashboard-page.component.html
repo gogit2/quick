@@ -1,7 +1,7 @@
 <header class="page-header">
-  <div>
-    <h1 data-testid="dashboard-title">Dashboard</h1>
-    <p class="greeting" data-testid="dashboard-greeting">{{ greeting() }}</p>
+  <div class="intro">
+    <h1 class="qf-title" data-testid="dashboard-title">Dashboard</h1>
+    <p class="greeting qf-display" data-testid="dashboard-greeting">{{ greeting() }}</p>
   </div>
   <div class="quick-add">
     <button mat-stroked-button type="button" data-testid="dashboard-quick-add-task" (click)="addTask()">Task</button>
@@ -12,7 +12,9 @@
 </header>
 
 @if (loading()) {
-  <mat-progress-bar mode="indeterminate" data-testid="dashboard-loading" />
+  <div class="loading" data-testid="dashboard-loading">
+    <ui-skeleton variant="card" [count]="4" />
+  </div>
 }
 
 @if (loadFailed()) {
@@ -24,165 +26,197 @@
 
 @if (data(); as dash) {
   <section class="metrics">
-    <mat-card class="metric" data-testid="dashboard-metric-tasks">
-      <mat-card-title>Tasks</mat-card-title>
-      <p>Due today <strong data-testid="dashboard-tasks-due-today">{{ dash.tasks.dueToday }}</strong></p>
-      <p>Overdue <strong data-testid="dashboard-tasks-overdue">{{ dash.tasks.overdue }}</strong></p>
-      <p>
-        Completed
-        <strong data-testid="dashboard-completion-percent">{{ dash.tasks.completionPercent }}%</strong>
-        <span class="muted">({{ dash.tasks.completed }} of {{ dash.tasks.total }})</span>
+    <ui-card class="metric" data-testid="dashboard-metric-tasks">
+      <h2 class="metric-label qf-label">Tasks</h2>
+      <p class="metric-value qf-display">
+        <strong data-testid="dashboard-tasks-due-today">{{ dash.tasks.dueToday }}</strong>
       </p>
-    </mat-card>
+      <p class="metric-caption qf-caption">due today</p>
+      <div class="completion">
+        <mat-progress-bar mode="determinate" class="bar" [value]="dash.tasks.completionPercent" aria-hidden="true" />
+        <span class="qf-caption">
+          Completed
+          <strong data-testid="dashboard-completion-percent">{{ dash.tasks.completionPercent }}%</strong>
+          <span class="muted">({{ dash.tasks.completed }} of {{ dash.tasks.total }})</span>
+        </span>
+      </div>
+      <p class="qf-caption">Overdue <strong data-testid="dashboard-tasks-overdue">{{ dash.tasks.overdue }}</strong></p>
+    </ui-card>
 
-    <mat-card class="metric" data-testid="dashboard-metric-habits">
-      <mat-card-title>Habits</mat-card-title>
-      <p>
-        Done today <strong data-testid="dashboard-habits-done">{{ dash.habits.completedToday }}</strong>
-        <span class="muted">of {{ dash.habits.active }} active</span>
+    <ui-card class="metric" data-testid="dashboard-metric-habits">
+      <h2 class="metric-label qf-label">Habits</h2>
+      <p class="metric-value qf-display">
+        <strong data-testid="dashboard-habits-done">{{ dash.habits.completedToday }}</strong>
       </p>
-    </mat-card>
+      <p class="metric-caption qf-caption">done today of {{ dash.habits.active }} active</p>
+    </ui-card>
 
-    <mat-card class="metric" data-testid="dashboard-metric-plans">
-      <mat-card-title>Plans</mat-card-title>
-      <p>Active <strong data-testid="dashboard-plans-active">{{ dash.plans.active }}</strong></p>
-      <p>Upcoming <strong data-testid="dashboard-plans-upcoming">{{ dash.plans.upcoming }}</strong></p>
-      <p>Completed <strong data-testid="dashboard-plans-completed">{{ dash.plans.completed }}</strong></p>
-    </mat-card>
+    <ui-card class="metric" data-testid="dashboard-metric-plans">
+      <h2 class="metric-label qf-label">Plans</h2>
+      <p class="metric-value qf-display">
+        <strong data-testid="dashboard-plans-active">{{ dash.plans.active }}</strong>
+      </p>
+      <p class="metric-caption qf-caption">
+        active · <span data-testid="dashboard-plans-upcoming">{{ dash.plans.upcoming }}</span> upcoming ·
+        <span data-testid="dashboard-plans-completed">{{ dash.plans.completed }}</span> completed
+      </p>
+    </ui-card>
 
-    <mat-card class="metric" data-testid="dashboard-metric-learning">
-      <mat-card-title>Learning</mat-card-title>
-      <p>In progress <strong data-testid="dashboard-learning-in-progress">{{ dash.learning.inProgress }}</strong></p>
-      <p>
-        Milestones
+    <ui-card class="metric" data-testid="dashboard-metric-learning">
+      <h2 class="metric-label qf-label">Learning</h2>
+      <p class="metric-value qf-display">
+        <strong data-testid="dashboard-learning-in-progress">{{ dash.learning.inProgress }}</strong>
+      </p>
+      <p class="metric-caption qf-caption">
+        in progress · milestones
         <strong data-testid="dashboard-learning-milestones">
           {{ dash.learning.milestonesDone }}/{{ dash.learning.milestonesTotal }}
         </strong>
       </p>
-    </mat-card>
+    </ui-card>
   </section>
 
   <div class="columns">
-    <section class="panel" data-testid="dashboard-today-tasks-section">
-      <h2>Today's tasks</h2>
-      <ul class="rows" data-testid="dashboard-today-tasks">
-        @for (task of dash.todayTasks; track task.id) {
-          <li class="row" [attr.data-testid]="'dashboard-task-' + task.id">
-            <span class="row-title">{{ task.title }}</span>
-            @if (task.status === 'DONE') {
-              <span class="chip">Done</span>
-            } @else {
-              <button
-                mat-stroked-button
-                type="button"
-                [attr.data-testid]="'dashboard-task-complete-' + task.id"
-                (click)="completeTask(task)"
-              >
-                Complete
-              </button>
-            }
-          </li>
+    <div class="column">
+      <ui-card class="panel" data-testid="dashboard-today-tasks-section">
+        <h2 class="qf-title">Today's tasks</h2>
+        <ul class="rows" data-testid="dashboard-today-tasks">
+          @for (task of dash.todayTasks; track task.id) {
+            <li>
+              <ui-list-row [attr.data-testid]="'dashboard-task-' + task.id">
+                <span class="row-title">{{ task.title }}</span>
+                @if (task.status === 'DONE') {
+                  <ui-chip actions kind="task-status" value="DONE" />
+                } @else {
+                  <button
+                    actions
+                    mat-stroked-button
+                    type="button"
+                    [attr.data-testid]="'dashboard-task-complete-' + task.id"
+                    (click)="completeTask(task)"
+                  >
+                    Complete
+                  </button>
+                }
+              </ui-list-row>
+            </li>
+          }
+        </ul>
+        @if (dash.todayTasks.length === 0) {
+          <p class="empty qf-body" data-testid="dashboard-today-empty">
+            Nothing due today. Add a task with a due date to plan the day.
+          </p>
         }
-      </ul>
-      @if (dash.todayTasks.length === 0) {
-        <p class="empty" data-testid="dashboard-today-empty">Nothing due today. Add a task with a due date to plan the day.</p>
-      }
-    </section>
+      </ui-card>
 
-    <section class="panel" data-testid="dashboard-overdue-section">
-      <h2>Overdue</h2>
-      <ul class="rows" data-testid="dashboard-overdue-tasks">
-        @for (task of dash.overdueTasks; track task.id) {
-          <li class="row" [attr.data-testid]="'dashboard-overdue-' + task.id">
-            <span class="row-title">{{ task.title }}</span>
-            <span class="overdue-marker" [attr.data-testid]="'dashboard-overdue-marker-' + task.id">Overdue</span>
-          </li>
+      <ui-card class="panel" data-testid="dashboard-overdue-section">
+        <h2 class="qf-title">Overdue</h2>
+        <ul class="rows" data-testid="dashboard-overdue-tasks">
+          @for (task of dash.overdueTasks; track task.id) {
+            <li>
+              <ui-list-row [attr.data-testid]="'dashboard-overdue-' + task.id">
+                <span class="row-title">{{ task.title }}</span>
+                <ui-chip actions kind="overdue" [testId]="'dashboard-overdue-marker-' + task.id" />
+              </ui-list-row>
+            </li>
+          }
+        </ul>
+        @if (dash.overdueTasks.length === 0) {
+          <p class="empty qf-body" data-testid="dashboard-overdue-empty">No overdue tasks.</p>
         }
-      </ul>
-      @if (dash.overdueTasks.length === 0) {
-        <p class="empty" data-testid="dashboard-overdue-empty">No overdue tasks.</p>
-      }
-    </section>
+      </ui-card>
 
-    <section class="panel" data-testid="dashboard-habits">
-      <h2>Habit checklist</h2>
-      <ul class="rows">
-        @for (habit of dash.habits.items; track habit.id) {
-          <li class="row" [attr.data-testid]="'dashboard-habit-' + habit.id">
-            <mat-checkbox
-              [attr.data-testid]="'dashboard-habit-toggle-' + habit.id"
-              [checked]="habit.doneForCurrentPeriod"
-              [attr.aria-label]="'Mark ' + habit.name + ' as ' + (habit.doneForCurrentPeriod ? 'not done' : 'done')"
-              (change)="toggleHabit(habit, $event)"
+      <ui-card class="panel" data-testid="dashboard-plans">
+        <h2 class="qf-title">Active plans</h2>
+        @for (plan of dash.plans.items; track plan.id) {
+          <article class="plan" [attr.data-testid]="'dashboard-plan-' + plan.id">
+            <div class="plan-head">
+              <strong class="row-title">{{ plan.title }}</strong>
+              <span class="rest qf-label" [attr.data-testid]="'dashboard-plan-rest-' + plan.id">
+                Rest {{ rest(plan) | restTime }}
+              </span>
+            </div>
+            <mat-progress-bar
+              mode="determinate"
+              class="bar"
+              [value]="plan.completionPercent"
+              [attr.data-testid]="'dashboard-plan-progress-' + plan.id"
             />
-            <span class="row-title">{{ habit.name }}</span>
-            <span class="muted" [attr.data-testid]="'dashboard-habit-streak-' + habit.id">{{ streakLabel(habit) }}</span>
-          </li>
+            <ul class="rows">
+              @for (item of plan.items; track item.id) {
+                <li>
+                  <ui-list-row [attr.data-testid]="'dashboard-plan-item-' + item.id">
+                    <mat-checkbox
+                      leading
+                      [attr.data-testid]="'dashboard-plan-item-toggle-' + item.id"
+                      [checked]="item.done"
+                      [attr.aria-label]="'Mark ' + item.title + ' as ' + (item.done ? 'not done' : 'done')"
+                      (change)="togglePlanItem(plan, item, $event)"
+                    />
+                    <span class="row-title" [class.item-done]="item.done">{{ item.title }}</span>
+                  </ui-list-row>
+                </li>
+              }
+            </ul>
+          </article>
         }
-      </ul>
-      @if (dash.habits.items.length === 0) {
-        <p class="empty" data-testid="dashboard-habits-empty">No active habits yet. Add one on the Habits page.</p>
-      }
-    </section>
-
-    <section class="panel" data-testid="dashboard-learning">
-      <h2>Learning</h2>
-      <p>
-        Cards in progress <strong>{{ dash.learning.inProgress }}</strong>
-        <span class="muted">of {{ dash.learning.totalCards }}</span>
-      </p>
-      <p class="muted">
-        Not started {{ dash.learning.notStarted }} · Completed {{ dash.learning.completed }}
-      </p>
-      <p>
-        Milestones done <strong>{{ dash.learning.milestonesDone }}</strong>
-        <span class="muted">of {{ dash.learning.milestonesTotal }}</span>
-      </p>
-      <h3>Completed in the last 7 days</h3>
-      <ul class="rows">
-        @for (milestone of dash.learning.recentMilestones; track milestone.id) {
-          <li class="row" [attr.data-testid]="'dashboard-recent-milestone-' + milestone.id">
-            <span class="row-title">{{ milestone.title }}</span>
-            <span class="muted">{{ milestone.completedAt | date: 'MMM d' }}</span>
-          </li>
+        @if (dash.plans.items.length === 0) {
+          <p class="empty qf-body" data-testid="dashboard-plans-empty">No plan in progress right now.</p>
         }
-      </ul>
-      @if (dash.learning.recentMilestones.length === 0) {
-        <p class="empty" data-testid="dashboard-recent-milestones-empty">No milestones completed this week.</p>
-      }
-    </section>
+      </ui-card>
+    </div>
 
-    <section class="panel plans-panel" data-testid="dashboard-plans">
-      <h2>Active plans</h2>
-      @for (plan of dash.plans.items; track plan.id) {
-        <article class="plan" [attr.data-testid]="'dashboard-plan-' + plan.id">
-          <div class="plan-head">
-            <strong>{{ plan.title }}</strong>
-            <span [attr.data-testid]="'dashboard-plan-rest-' + plan.id">Rest {{ rest(plan) | restTime }}</span>
-          </div>
-          <mat-progress-bar
-            mode="determinate"
-            [value]="plan.completionPercent"
-            [attr.data-testid]="'dashboard-plan-progress-' + plan.id"
-          />
-          <ul class="rows">
-            @for (item of plan.items; track item.id) {
-              <li class="row" [attr.data-testid]="'dashboard-plan-item-' + item.id">
+    <div class="column">
+      <ui-card class="panel" data-testid="dashboard-habits">
+        <h2 class="qf-title">Habit checklist</h2>
+        <ul class="rows">
+          @for (habit of dash.habits.items; track habit.id) {
+            <li>
+              <ui-list-row [attr.data-testid]="'dashboard-habit-' + habit.id">
                 <mat-checkbox
-                  [attr.data-testid]="'dashboard-plan-item-toggle-' + item.id"
-                  [checked]="item.done"
-                  [attr.aria-label]="'Mark ' + item.title + ' as ' + (item.done ? 'not done' : 'done')"
-                  (change)="togglePlanItem(plan, item, $event)"
+                  leading
+                  [attr.data-testid]="'dashboard-habit-toggle-' + habit.id"
+                  [checked]="habit.doneForCurrentPeriod"
+                  [attr.aria-label]="'Mark ' + habit.name + ' as ' + (habit.doneForCurrentPeriod ? 'not done' : 'done')"
+                  (change)="toggleHabit(habit, $event)"
                 />
-                <span class="row-title" [class.item-done]="item.done">{{ item.title }}</span>
-              </li>
-            }
-          </ul>
-        </article>
-      }
-      @if (dash.plans.items.length === 0) {
-        <p class="empty" data-testid="dashboard-plans-empty">No plan in progress right now.</p>
-      }
-    </section>
+                <span class="row-title">{{ habit.name }}</span>
+                <span actions class="muted" [attr.data-testid]="'dashboard-habit-streak-' + habit.id">{{ streakLabel(habit) }}</span>
+              </ui-list-row>
+            </li>
+          }
+        </ul>
+        @if (dash.habits.items.length === 0) {
+          <p class="empty qf-body" data-testid="dashboard-habits-empty">No active habits yet. Add one on the Habits page.</p>
+        }
+      </ui-card>
+
+      <ui-card class="panel" data-testid="dashboard-learning">
+        <h2 class="qf-title">Learning</h2>
+        <p class="qf-body">
+          Cards in progress <strong>{{ dash.learning.inProgress }}</strong>
+          <span class="muted">of {{ dash.learning.totalCards }}</span>
+        </p>
+        <p class="muted">Not started {{ dash.learning.notStarted }} · Completed {{ dash.learning.completed }}</p>
+        <p class="qf-body">
+          Milestones done <strong>{{ dash.learning.milestonesDone }}</strong>
+          <span class="muted">of {{ dash.learning.milestonesTotal }}</span>
+        </p>
+        <h3 class="qf-label">Completed in the last 7 days</h3>
+        <ul class="rows">
+          @for (milestone of dash.learning.recentMilestones; track milestone.id) {
+            <li>
+              <ui-list-row [attr.data-testid]="'dashboard-recent-milestone-' + milestone.id">
+                <span class="row-title">{{ milestone.title }}</span>
+                <span class="muted">{{ milestone.completedAt | date: 'MMM d' }}</span>
+              </ui-list-row>
+            </li>
+          }
+        </ul>
+        @if (dash.learning.recentMilestones.length === 0) {
+          <p class="empty qf-body" data-testid="dashboard-recent-milestones-empty">No milestones completed this week.</p>
+        }
+      </ui-card>
+    </div>
   </div>
 }

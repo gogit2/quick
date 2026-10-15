@@ -1,104 +1,159 @@
 .page-header {
   display: flex;
-  align-items: center;
+  flex-wrap: wrap;
+  align-items: flex-end;
   justify-content: space-between;
-  gap: 16px;
+  gap: var(--qf-space-3) var(--qf-space-4);
+  margin-bottom: var(--qf-space-5);
+}
+
+.intro {
+  display: flex;
+  flex-direction: column;
+  gap: var(--qf-space-1);
+
+  h1 {
+    margin: 0;
+    color: var(--qf-text-muted);
+  }
+}
+
+.greeting {
+  margin: 0;
+  color: var(--qf-text);
 }
 
 .quick-add {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: var(--qf-space-2);
 }
 
-.greeting {
-  margin: 4px 0 0;
-  font-size: 16px;
-}
-
-.notice {
-  color: var(--qf-danger);
-  margin: 16px 0;
+.loading {
+  margin: var(--qf-space-4) 0;
 }
 
 .muted {
-  opacity: 0.7;
-  font-size: 13px;
+  color: var(--qf-text-muted);
 }
 
+// Four metric cards in one row when they fit (>= 220 px each), stacked on phones.
 .metrics {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 16px;
-  margin-top: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--qf-space-4);
+  margin-bottom: var(--qf-space-5);
 }
 
-.metric p {
-  margin: 6px 0;
+.metric {
+  display: flex;
+  flex-direction: column;
+  gap: var(--qf-space-2);
 }
 
+.metric-label {
+  margin: 0;
+  color: var(--qf-text-muted);
+}
+
+.metric-value {
+  margin: 0;
+  color: var(--qf-text);
+  font-variant-numeric: tabular-nums;
+}
+
+.metric-caption {
+  margin: 0;
+  color: var(--qf-text-muted);
+}
+
+.completion {
+  display: flex;
+  flex-direction: column;
+  gap: var(--qf-space-1);
+  margin-top: auto;
+}
+
+.bar {
+  --mdc-linear-progress-active-indicator-color: var(--qf-accent);
+  --mdc-linear-progress-track-color: var(--qf-outline);
+}
+
+// Two columns from 960 px; below that the columns stack in the same order.
 .columns {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 16px;
-  margin-top: 24px;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--qf-space-4);
 }
 
-.panel h2 {
-  font-size: 18px;
-  margin: 0 0 8px;
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: var(--qf-space-4);
+  min-width: 0;
+}
+
+@media (min-width: 960px) {
+  .columns {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.panel {
+  display: block;
+
+  h2 {
+    margin: 0 0 var(--qf-space-2);
+    color: var(--qf-text);
+  }
+
+  h3 {
+    margin: var(--qf-space-4) 0 var(--qf-space-2);
+    color: var(--qf-text-muted);
+  }
 }
 
 .rows {
   list-style: none;
   margin: 0;
   padding: 0;
-}
-
-.row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  min-height: 40px;
+  border: 1px solid var(--qf-outline);
+  border-radius: var(--qf-radius-sm);
+  overflow: hidden;
 }
 
 .row-title {
-  flex: 1;
+  flex: 1 1 auto;
+  min-width: 0;
   overflow-wrap: anywhere;
-}
-
-.chip {
-  padding: 2px 8px;
-  border-radius: 12px;
-  background: var(--qf-surface-raised);
-  font-size: 13px;
-}
-
-.overdue-marker {
-  padding: 2px 8px;
-  border-radius: 12px;
-  background: var(--qf-danger-bg);
-  color: var(--qf-danger);
-  font-size: 13px;
 }
 
 .item-done {
   text-decoration: line-through;
-  opacity: 0.6;
+  color: var(--qf-text-muted);
 }
 
 .empty {
-  opacity: 0.7;
-  margin: 8px 0;
+  margin: var(--qf-space-2) 0 0;
+  color: var(--qf-text-muted);
 }
 
 .plan {
-  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--qf-space-2);
+  margin-bottom: var(--qf-space-4);
 }
 
 .plan-head {
   display: flex;
   justify-content: space-between;
-  gap: 8px;
-  margin-bottom: 4px;
+  align-items: baseline;
+  gap: var(--qf-space-2);
+}
+
+.rest {
+  color: var(--qf-text-muted);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }

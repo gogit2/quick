@@ -22,3 +22,29 @@ html {
 .mat-mdc-snack-bar-container {
   max-width: 560px;
 }
+
+// Dialogs (task, habit, learning card, plan builder, confirm): one header, content and action spacing.
+.mat-mdc-dialog-title {
+  padding: var(--qf-space-4) var(--qf-space-5) 0;
+}
+
+.mat-mdc-dialog-content {
+  max-height: calc(100vh - 160px);
+  overflow-y: auto;
+  padding: var(--qf-space-4) var(--qf-space-5);
+}
+
+.mat-mdc-dialog-actions {
+  justify-content: flex-end;
+  padding: var(--qf-space-3) var(--qf-space-5) var(--qf-space-4);
+  gap: var(--qf-space-2);
+}
+
+// Phones: the dialog takes the full width.
+@media (max-width: 600px) {
+  .mat-mdc-dialog-container .mdc-dialog__surface {
+    width: 100vw;
+    max-width: 100vw;
+    border-radius: 0;
+  }
+}

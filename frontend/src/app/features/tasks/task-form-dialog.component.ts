@@ -104,6 +104,7 @@ interface TaskForm {
     .form {
       display: flex;
       flex-direction: column;
+      gap: var(--qf-space-3);
       min-width: 320px;
     }
 

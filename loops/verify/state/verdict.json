@@ -1,13 +1,15 @@
 {
-  "milestone": "M09",
+  "milestone": "M10",
   "round": 1,
   "verdict": "PASS",
   "checks": { "review": "pass", "swagger": "pass", "unit": "pass", "curl": "pass", "e2e": "pass", "smoke": "pass" },
   "fixes": [
-    { "file": "frontend/src/styles/_material.scss", "summary": "Snackbar radius/colours set through --mdc-snackbar-* tokens (Material 19.2 ignores --mat-snack-bar-container-*); removed the .mdc-snackbar__surface override that had no effect. Radius now 12px in light and dark", "lines": 13 }
+    { "file": "frontend/src/app/features/learning/learning-page.component.ts", "summary": "F1: first expand of a learning card now animates (render closed, open two animation frames later); F2: progress track --qf-outline instead of saturated --qf-accent-soft", "lines": 7 },
+    { "file": "frontend/src/app/features/plans/plan-progress.component.ts", "summary": "F2: progress track --qf-outline so a 0 % bar no longer looks full in light theme", "lines": 1 },
+    { "file": "frontend/src/app/features/dashboard/dashboard-page.component.scss", "summary": "F2: progress track --qf-outline", "lines": 1 }
   ],
   "fix_tasks": [],
   "contract_issues": [],
   "escalate": false,
-  "notes": "T112-T118 verified on the real stack at 1440/1024/390 in light and dark; mvnw 188/188; curl M01..M07 0 failed; contrast 0 failures. ng build passes with a budget WARNING (615 kB > 600 kB) that M09 introduced; M11 T134/E2E-M11-05 must remove it. The stack was shared with another client, which acknowledged plans 1-3; the banner was proven with plan 4."
+  "notes": "Real stack: E2E-M10-01..09 (empty states light+dark on fresh db, real-clock plan start banner/highlight, contrast 12 runs 0 failures), backend-down error state, smoke M01-01..M06-01, M08-01, M09-01; mvnw 188/188; curl M01..M07 0 failed; swagger PASS; ng build OK (known budget warning, M11). Backlog: empty-state add button not filled (T122 wording), reverted to stay within 3 files. Report loops/verify/outputs/M10-round-1.md."
 }

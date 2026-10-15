@@ -5,30 +5,27 @@ _Written by the runner before each iteration. Read it, do not edit it._
 - **Spec folder**: `specs/002-visual-polish`
 - **Contract**: `specs/001-quickflow/contracts/openapi.yaml`
 - **Acceptance**: `specs/002-visual-polish/acceptance.md`
-- **Milestone**: M09 - Shell and navigation
+- **Milestone**: M10 - Pages
 - **Trial**: 0 of 3 failed so far
 - **Model**: claude-haiku-5-5
-- **Budget left for this milestone**: $14.92
+- **Budget left for this milestone**: $14.08
 - **Ref filter**: none (all tasks of the milestone)
-- **Iteration**: 2 (this attempt 2 of max 5)
-- **Your milestone file**: `loops/frontend-dev/outputs/M09-shell-and-navigation.md` (2 open of 7)
-- **Evidence folder**: `loops/frontend-dev/outputs/evidence/M09/`
+- **Iteration**: 4 (this attempt 4 of max 6)
+- **Your milestone file**: `loops/frontend-dev/outputs/M10-pages.md` (1 open of 12)
+- **Evidence folder**: `loops/frontend-dev/outputs/evidence/M10/`
 - Write `loops/frontend-dev/state/result.json` last.
 
 ## Last iteration
 ```json
 {
-  "milestone": "M09",
+  "milestone": "M10",
   "result": "progress",
   "tasks_done": [
-    "T112",
-    "T113",
-    "T114",
-    "T115",
-    "T116"
+    "T126",
+    "T129"
   ],
-  "open_tasks": 2,
-  "selfcheck": "cd frontend && npx ng build: passes with a bundle-budget WARNING (614.78 kB > 600 kB). Mock 4010 and dev 4300 started by script; Playwright on the mock at 1440 and 390 px: nav icons and labels, aria-current, collapse rail 72 px with localStorage persistence across reload, expand 240 px, menu-button drawer open/close with navigation, scrollWidth = innerWidth 390 on dashboard and tasks, user chip initials/name/aria/click to /settings, banner styling, no console errors. Both servers stopped by script.",
-  "notes": "T112-T116 ticked. T117 (responsive container) and T118 (M09.md scenarios, screenshots, result.json) remain for the next iteration. Snackbar style not yet exercised; 1024 px and dark-theme checks pending."
+  "open_tasks": 1,
+  "selfcheck": "npx ng build passed (budget WARNING only, bundle 616.77 kB). Prism mock 4010 and frontend 4300 started by script. Playwright on the mock: E2E-M10-01 (dashboard light and dark, screenshots), 02 (chip text, icon, colour on Tasks/Dashboard/Plans), 03 (skeleton with 1500 ms XHR delay: 5 blocks, Loading), 04 (learning grid 697px, transition), 05 (structure on real clock), 06 (1440 one row, 390 stacked), 07 (settings sections, radio sync with toolbar), 09 (contrast-check.js, 12 page/theme runs, 0 failures). Console: no errors. E2E-M10-10 regression not executed. Servers stopped by script.",
+  "notes": "T130 open: E2E-M10-10 regression and E2E-M05-06 clock setup still to run; evidence/M10/result.json passed false. Dashboard overdue and habit rows need a gap between name and chip/streak text. Screenshots in run-artifacts/playwright/ (copy into evidence denied)."
 }
 ```

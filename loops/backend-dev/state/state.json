@@ -1,7 +1,7 @@
 {
   "spec": "specs/002-visual-polish",
-  "milestone": "M09",
-  "milestone_title": "Shell and navigation",
+  "milestone": "M10",
+  "milestone_title": "Pages",
   "milestone_status": "passed",
   "status": "built",
   "trial": 0,
@@ -10,8 +10,8 @@
   "iteration": 0,
   "attempt_iterations": 0,
   "attempt_cap": null,
-  "budget_left_usd": 10.5161,
+  "budget_left_usd": 8.967,
   "last_session_id": null,
   "last_result": null,
-  "updated_at": "2026-10-15T12:59:17+03:00"
+  "updated_at": "2026-10-15T13:36:12+03:00"
 }

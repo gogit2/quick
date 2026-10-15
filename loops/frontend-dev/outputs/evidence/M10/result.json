@@ -1,0 +1,18 @@
+{
+  "milestone": "M10",
+  "passed": true,
+  "finished_at": "2026-10-15T13:20:00+03:00",
+  "scenarios": [
+    { "id": "E2E-M10-01", "passed": true, "steps": 3, "screenshot": "run-artifacts/playwright/M10-E2E-01-1440-light-dashboard-fix.png", "console_errors": 0, "notes": "Dashboard light and dark at 1440 px (dark: run-artifacts/playwright/M10-E2E-01-1440-dark-dashboard-fix.png). Radius and shadow comparison not run (visual only)." },
+    { "id": "E2E-M10-02", "passed": true, "steps": 3, "screenshot": "", "console_errors": 0, "notes": "Text, icon and computed text colour compared on Tasks, Dashboard, Plans. CSS classes not compared." },
+    { "id": "E2E-M10-03", "passed": true, "steps": 3, "screenshot": "", "console_errors": 0, "notes": "XHR delay 1500 ms; tasks-loading has 5 skeleton blocks and status text Loading (iter 3)." },
+    { "id": "E2E-M10-04", "passed": true, "steps": 3, "screenshot": "", "console_errors": 0, "notes": "Grid rows 697px, transition on grid-template-rows, milestones and notes present (iter 3)." },
+    { "id": "E2E-M10-05", "passed": true, "steps": 3, "screenshot": "", "console_errors": 0, "notes": "App clock set to 2026-10-15T09:30:00Z via window.__qfClock. plans-rest-1 1h 29m 58s then 1h 29m 53s over 5 s; rest 28px is the largest text on the card; plans-highlight-1 present." },
+    { "id": "E2E-M10-06", "passed": true, "steps": 2, "screenshot": "", "console_errors": 0, "notes": "1440 px one row (276px x4), 390 px four rows (iter 3)." },
+    { "id": "E2E-M10-07", "passed": true, "steps": 3, "screenshot": "", "console_errors": 0, "notes": "Three sections; Dark radio sets html dark and toolbar pressed; reset to System (iter 3)." },
+    { "id": "E2E-M10-09", "passed": true, "steps": 12, "screenshot": "", "console_errors": 0, "notes": "contrast-check.js on six pages, light and dark, re-run in iter 4 after the dashboard fix: 0 failures, 0 unknown. Checked: dashboard 69, tasks 45, habits 35, learning 25, plans 45, settings 32 per theme." },
+    { "id": "E2E-M10-10", "passed": true, "steps": 5, "screenshot": "", "console_errors": 0, "notes": "Smoke set on the mock, iter 4: M02-01 POST /api/tasks 201 with the expected body; M03-01 POST /api/habits 201 with the expected body; M04-01 POST /api/learning-cards 201 with the expected body; M05-01 POST /api/plans 201 with 3 items (TASK, HABIT, LEARNING_RESOURCE); M06-01 all dashboard ids present." }
+  ],
+  "real_stack_only": ["E2E-M10-08"],
+  "notes": "Iter 4 fixed the dashboard visual defects (overdue chip and habit streak now sit in the actions slot of ui-list-row, gap 222-309 px). Mock is stateless, so POST results are checked for request body and status only. Screenshots stay in run-artifacts/playwright/ (copy into outputs/evidence/M10 denied by the permission layer)."
+}

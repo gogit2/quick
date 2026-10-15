@@ -2,7 +2,6 @@ import { DatePipe } from '@angular/common';
 import { Component, DestroyRef, OnInit, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxChange, MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialog } from '@angular/material/dialog';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
@@ -22,6 +21,10 @@ import { restSecondsAt } from '../plans/plan-clock';
 import { PlanBuilderDialogComponent } from '../plans/plan-builder-dialog.component';
 import { TaskFormDialogComponent, TaskFormDialogData } from '../tasks/task-form-dialog.component';
 import { RestTimePipe } from '../../shared/rest-time.pipe';
+import { UiCardComponent } from '../../shared/ui-card.component';
+import { UiChipComponent } from '../../shared/ui-chip.component';
+import { UiListRowComponent } from '../../shared/ui-list-row.component';
+import { UiSkeletonComponent } from '../../shared/ui-skeleton.component';
 
 // The dashboard is reloaded this often and on window focus, so it matches the lists behind it.
 const RELOAD_INTERVAL_MS = 30_000;
@@ -29,7 +32,17 @@ const RELOAD_INTERVAL_MS = 30_000;
 @Component({
   selector: 'qf-dashboard-page',
   standalone: true,
-  imports: [DatePipe, RestTimePipe, MatButtonModule, MatCardModule, MatCheckboxModule, MatProgressBarModule],
+  imports: [
+    DatePipe,
+    RestTimePipe,
+    MatButtonModule,
+    MatCheckboxModule,
+    MatProgressBarModule,
+    UiCardComponent,
+    UiChipComponent,
+    UiListRowComponent,
+    UiSkeletonComponent,
+  ],
   templateUrl: './dashboard-page.component.html',
   styleUrl: './dashboard-page.component.scss',
 })

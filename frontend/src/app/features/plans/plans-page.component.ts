@@ -2,7 +2,6 @@ import { Component, DestroyRef, OnInit, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { forkJoin, fromEvent, interval, merge, Subject, catchError, of, switchMap, tap } from 'rxjs';
 
@@ -12,6 +11,8 @@ import { PlansApi } from '../../core/api/plans.api';
 import { NotificationService } from '../../core/notification.service';
 import { ConfirmDialogComponent, ConfirmDialogData } from '../../shared/confirm-dialog.component';
 import { EmptyStateComponent } from '../../shared/empty-state.component';
+import { UiPageHeaderComponent } from '../../shared/ui-page-header.component';
+import { UiSkeletonComponent } from '../../shared/ui-skeleton.component';
 import { PlanBuilderDialogComponent } from './plan-builder-dialog.component';
 import { PlanCardComponent } from './plan-card.component';
 
@@ -21,17 +22,31 @@ const RELOAD_INTERVAL_MS = 30_000;
 @Component({
   selector: 'qf-plans-page',
   standalone: true,
-  imports: [MatButtonModule, MatProgressBarModule, EmptyStateComponent, PlanCardComponent],
+  imports: [
+    MatButtonModule,
+    EmptyStateComponent,
+    PlanCardComponent,
+    UiPageHeaderComponent,
+    UiSkeletonComponent,
+  ],
   template: `
-    <header class="page-header">
-      <h1 data-testid="plans-title">Plans</h1>
-      <button mat-raised-button color="primary" type="button" data-testid="plans-create-button" (click)="openCreate()">
+    <ui-page-header title="Plans" titleTestId="plans-title">
+      <button
+        actions
+        mat-raised-button
+        color="primary"
+        type="button"
+        data-testid="plans-create-button"
+        (click)="openCreate()"
+      >
         Create plan
       </button>
-    </header>
+    </ui-page-header>
 
     @if (loading()) {
-      <mat-progress-bar mode="indeterminate" data-testid="plans-loading" />
+      <div class="loading" data-testid="plans-loading">
+        <ui-skeleton variant="card" [count]="3" />
+      </div>
     }
 
     @if (loadFailed()) {
@@ -42,6 +57,7 @@ const RELOAD_INTERVAL_MS = 30_000;
     } @else if (!loading() && active().length === 0 && completed().length === 0) {
       <qf-empty-state
         testId="plans"
+        illustration="plans"
         icon="▤"
         title="No plans yet"
         message="Create a plan to group tasks, habits and learning into a timed block."
@@ -51,8 +67,8 @@ const RELOAD_INTERVAL_MS = 30_000;
     }
 
     @if (active().length > 0) {
-      <section data-testid="plans-group-active">
-        <h2>Active and upcoming</h2>
+      <section class="group" data-testid="plans-group-active">
+        <h2 class="qf-title">Active and upcoming</h2>
         <div class="card-grid">
           @for (plan of active(); track plan.id) {
             <qf-plan-card
@@ -67,8 +83,8 @@ const RELOAD_INTERVAL_MS = 30_000;
     }
 
     @if (completed().length > 0) {
-      <section data-testid="plans-group-completed">
-        <h2>History</h2>
+      <section class="group" data-testid="plans-group-completed">
+        <h2 class="qf-title">History</h2>
         <div class="card-grid">
           @for (plan of completed(); track plan.id) {
             <qf-plan-card [plan]="plan" (updated)="onUpdated($event)" (deleteRequested)="confirmDelete(plan)" />
@@ -78,28 +94,24 @@ const RELOAD_INTERVAL_MS = 30_000;
     }
   `,
   styles: `
-    .page-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
+    .loading {
+      margin: var(--qf-space-4) 0;
     }
 
-    .notice {
-      color: var(--qf-danger);
-      margin: 16px 0;
-    }
+    .group {
+      margin-top: var(--qf-space-5);
 
-    section h2 {
-      margin-top: 24px;
-      font-size: 18px;
+      h2 {
+        margin: 0 0 var(--qf-space-3);
+        color: var(--qf-text);
+      }
     }
 
     .card-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 16px;
-      margin-top: 8px;
+      gap: var(--qf-space-4);
+      align-items: stretch;
     }
   `,
 })

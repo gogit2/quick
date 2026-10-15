@@ -3,13 +3,17 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 import { ApiRequestError } from '../../core/api/error.interceptor';
 import { Settings, StartPage } from '../../core/api/models';
 import { SettingsStore } from '../../core/settings.store';
+import { ThemeService } from '../../core/theme.service';
+import { UiCardComponent } from '../../shared/ui-card.component';
+import { UiPageHeaderComponent } from '../../shared/ui-page-header.component';
+import { UiSkeletonComponent } from '../../shared/ui-skeleton.component';
 
 interface SettingsForm {
   displayName: FormControl<string>;
@@ -33,15 +37,19 @@ function timeZoneOptions(): string[] {
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
-    MatProgressBarModule,
+    MatRadioModule,
     MatSelectModule,
     MatSlideToggleModule,
+    UiCardComponent,
+    UiPageHeaderComponent,
+    UiSkeletonComponent,
   ],
   templateUrl: './settings-page.component.html',
   styleUrl: './settings-page.component.scss',
 })
 export class SettingsPageComponent implements OnInit {
   private readonly store = inject(SettingsStore);
+  readonly theme = inject(ThemeService);
 
   readonly startPages: { value: StartPage; label: string }[] = [
     { value: 'DASHBOARD', label: 'Dashboard' },

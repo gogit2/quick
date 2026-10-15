@@ -1070,15 +1070,15 @@
       ]
     },
     "M10": {
-      "status": "pending",
+      "status": "passed",
       "trial": 0,
       "upgraded": false,
-      "cost_usd": 0.0,
+      "cost_usd": 6.033032,
       "upgrade_cost_usd": 0.0,
-      "verify_rounds": 0,
-      "started_at": null,
-      "ended_at": null,
-      "tag": null,
+      "verify_rounds": 1,
+      "started_at": "2026-10-15T12:59:18+03:00",
+      "ended_at": "2026-10-15T13:36:12+03:00",
+      "tag": "M10",
       "blocked_reason": null,
       "title": "Pages",
       "slug": "pages",
@@ -1086,12 +1086,12 @@
       "roles": {
         "backend-dev": {
           "tasks": 0,
-          "status": "pending",
+          "status": "built",
           "iterations": 0,
           "attempt_iterations": 0,
           "attempt_cap": null,
           "started_at": null,
-          "ended_at": null,
+          "ended_at": "2026-10-15T12:59:18+03:00",
           "tokens_in": 0,
           "tokens_out": 0,
           "cache_read": 0,
@@ -1103,40 +1103,75 @@
         },
         "frontend-dev": {
           "tasks": 12,
-          "status": "pending",
-          "iterations": 0,
-          "attempt_iterations": 0,
-          "attempt_cap": null,
-          "started_at": null,
-          "ended_at": null,
-          "tokens_in": 0,
-          "tokens_out": 0,
-          "cache_read": 0,
-          "cache_write": 0,
-          "cost_usd": 0.0,
-          "sessions": [],
-          "models": [],
-          "last_result": null
+          "status": "built",
+          "iterations": 4,
+          "attempt_iterations": 4,
+          "attempt_cap": 6,
+          "started_at": "2026-10-15T12:59:18+03:00",
+          "ended_at": "2026-10-15T13:21:16+03:00",
+          "tokens_in": 322,
+          "tokens_out": 172617,
+          "cache_read": 14562252,
+          "cache_write": 562213,
+          "cost_usd": 1.040969,
+          "sessions": [
+            "891ab029-2bd5-47b2-b931-79dc6496d3af",
+            "a7847923-c292-4b9b-b1ac-27adb88c7cb4",
+            "d6892d77-7cfe-4c9a-be43-d8b83549fc21",
+            "af2e0024-9568-45b3-b690-b3fba08a6417"
+          ],
+          "models": [
+            "claude-haiku-5-5"
+          ],
+          "last_result": {
+            "milestone": "M10",
+            "result": "built",
+            "tasks_done": [
+              "T126",
+              "T130"
+            ],
+            "open_tasks": 0,
+            "selfcheck": "npx ng build passed (budget WARNING only, bundle 616.77 kB). Mock 4010 and frontend 4300 started by script. Playwright MCP on the mock: E2E-M10-01..07 and 09 PASS (dashboard light and dark, chips, skeleton, learning expand, plans clock check, dashboard grid, settings radios, contrast 12 runs 0 failures); E2E-M10-10 smoke set M02-01, M03-01, M04-01, M05-01, M06-01 PASS (POST 201 with expected bodies); E2E-M10-08 real-stack-only, written. evidence/M10/result.json passed true. Servers stopped by script.",
+            "notes": "Iter 4 fixed the Dashboard overdue and habit-row gaps (chip and streak in ui-list-row actions slot) and closed T130. Screenshots are in run-artifacts/playwright/ (evidence copy denied). Frontend-dev has no more M10 work; verifier runs E2E-M10-08 on the real stack."
+          },
+          "last_gate": "pass"
         },
         "verify": {
           "tasks": 0,
-          "status": "pending",
-          "iterations": 0,
+          "status": "passed",
+          "iterations": 1,
           "attempt_iterations": 0,
           "attempt_cap": null,
-          "started_at": null,
-          "ended_at": null,
-          "tokens_in": 0,
-          "tokens_out": 0,
-          "cache_read": 0,
-          "cache_write": 0,
-          "cost_usd": 0.0,
-          "sessions": [],
-          "models": [],
+          "started_at": "2026-10-15T13:21:17+03:00",
+          "ended_at": "2026-10-15T13:36:11+03:00",
+          "tokens_in": 164,
+          "tokens_out": 45029,
+          "cache_read": 10940696,
+          "cache_write": 237836,
+          "cost_usd": 4.992063,
+          "sessions": [
+            "07d02b0c-7a6c-41ed-b6c8-b35eadd13082"
+          ],
+          "models": [
+            "claude-opus-5-5"
+          ],
           "last_result": null
         }
       },
-      "events": []
+      "events": [
+        {
+          "at": "2026-10-15T12:59:18+03:00",
+          "type": "info",
+          "role": "backend-dev",
+          "detail": "no tasks for this role in this milestone"
+        },
+        {
+          "at": "2026-10-15T13:36:11+03:00",
+          "type": "verdict",
+          "role": "verify",
+          "detail": "round 1: PASS (3 small fixes)"
+        }
+      ]
     },
     "M11": {
       "status": "pending",

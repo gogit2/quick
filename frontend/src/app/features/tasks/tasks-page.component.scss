@@ -1,46 +1,43 @@
-.page-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
+.toolbar-card {
+  display: block;
+  margin-bottom: var(--qf-space-4);
 }
 
 .toolbar {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 16px;
+  gap: var(--qf-space-3);
 
   .search {
     min-width: 240px;
   }
 }
 
-.notice {
-  color: var(--qf-text-muted);
-  margin: 16px 0;
+.loading {
+  margin: var(--qf-space-4) 0;
 }
 
+.notice {
+  color: var(--qf-text-muted);
+  margin: var(--qf-space-4) 0;
+}
+
+// One surface holds all rows; each row draws its own separator.
 .task-list {
   list-style: none;
   margin: 0;
   padding: 0;
-}
-
-.task-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  padding: 12px 0;
-  border-bottom: 1px solid var(--qf-outline);
+  background: var(--qf-surface);
+  border: 1px solid var(--qf-outline);
+  border-radius: var(--qf-radius-md);
+  overflow: hidden;
 }
 
 .task-main {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: var(--qf-space-1);
   min-width: 0;
 }
 
@@ -53,27 +50,16 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 8px;
-  font-size: 13px;
-}
-
-.chip {
-  padding: 2px 8px;
-  border-radius: 12px;
-  background: var(--qf-surface-raised);
+  gap: var(--qf-space-2);
 }
 
 .due {
+  font: var(--qf-text-caption);
   color: var(--qf-text-muted);
-}
-
-.overdue {
-  color: var(--qf-danger);
-  font-weight: 500;
 }
 
 .task-actions {
   display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
+  flex-wrap: nowrap;
+  gap: var(--qf-space-1);
 }

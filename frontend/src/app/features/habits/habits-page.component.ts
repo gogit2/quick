@@ -3,7 +3,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatIconModule } from '@angular/material/icon';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subject, catchError, of, switchMap, tap } from 'rxjs';
@@ -13,6 +13,9 @@ import { HabitsApi } from '../../core/api/habits.api';
 import { Habit } from '../../core/api/models';
 import { ConfirmDialogComponent, ConfirmDialogData } from '../../shared/confirm-dialog.component';
 import { EmptyStateComponent } from '../../shared/empty-state.component';
+import { UiCardComponent } from '../../shared/ui-card.component';
+import { UiPageHeaderComponent } from '../../shared/ui-page-header.component';
+import { UiSkeletonComponent } from '../../shared/ui-skeleton.component';
 import { HabitCompletionService } from './habit-completion.service';
 import { HabitFormDialogComponent, HabitFormDialogData } from './habit-form-dialog.component';
 
@@ -22,9 +25,12 @@ import { HabitFormDialogComponent, HabitFormDialogData } from './habit-form-dial
   imports: [
     ReactiveFormsModule,
     MatButtonModule,
-    MatProgressBarModule,
+    MatIconModule,
     MatSlideToggleModule,
     EmptyStateComponent,
+    UiCardComponent,
+    UiPageHeaderComponent,
+    UiSkeletonComponent,
   ],
   templateUrl: './habits-page.component.html',
   styleUrl: './habits-page.component.scss',

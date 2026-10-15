@@ -1,61 +1,64 @@
-<header class="page-header">
-  <h1 data-testid="tasks-title">Tasks</h1>
-  <button mat-raised-button color="primary" type="button" data-testid="tasks-add-button" (click)="openCreate()">
+<ui-page-header title="Tasks" titleTestId="tasks-title">
+  <button actions mat-raised-button color="primary" type="button" data-testid="tasks-add-button" (click)="openCreate()">
     Add task
   </button>
-</header>
+</ui-page-header>
 
-<section class="toolbar" aria-label="Task filters">
-  <mat-form-field appearance="outline" class="search">
-    <mat-label>Search by title</mat-label>
-    <input matInput type="search" [formControl]="search" data-testid="tasks-search-input" />
-  </mat-form-field>
+<ui-card class="toolbar-card">
+  <section class="toolbar" aria-label="Task filters">
+    <mat-form-field appearance="outline" class="search">
+      <mat-label>Search by title</mat-label>
+      <input matInput type="search" [formControl]="search" data-testid="tasks-search-input" />
+    </mat-form-field>
 
-  <mat-form-field appearance="outline">
-    <mat-label>Status</mat-label>
-    <mat-select [formControl]="filters.controls.status" data-testid="tasks-filter-status">
-      @for (option of statusOptions; track option.value) {
-        <mat-option [value]="option.value">{{ option.label }}</mat-option>
-      }
-    </mat-select>
-  </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Status</mat-label>
+      <mat-select [formControl]="filters.controls.status" data-testid="tasks-filter-status">
+        @for (option of statusOptions; track option.value) {
+          <mat-option [value]="option.value">{{ option.label }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
 
-  <mat-form-field appearance="outline">
-    <mat-label>Priority</mat-label>
-    <mat-select [formControl]="filters.controls.priority" data-testid="tasks-filter-priority">
-      @for (option of priorityOptions; track option.value) {
-        <mat-option [value]="option.value">{{ option.label }}</mat-option>
-      }
-    </mat-select>
-  </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Priority</mat-label>
+      <mat-select [formControl]="filters.controls.priority" data-testid="tasks-filter-priority">
+        @for (option of priorityOptions; track option.value) {
+          <mat-option [value]="option.value">{{ option.label }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
 
-  <mat-form-field appearance="outline">
-    <mat-label>Due</mat-label>
-    <mat-select [formControl]="filters.controls.due" data-testid="tasks-filter-due">
-      @for (option of dueOptions; track option.value) {
-        <mat-option [value]="option.value">{{ option.label }}</mat-option>
-      }
-    </mat-select>
-  </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Due</mat-label>
+      <mat-select [formControl]="filters.controls.due" data-testid="tasks-filter-due">
+        @for (option of dueOptions; track option.value) {
+          <mat-option [value]="option.value">{{ option.label }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
 
-  <mat-form-field appearance="outline">
-    <mat-label>Sort</mat-label>
-    <mat-select [formControl]="filters.controls.sort" data-testid="tasks-sort">
-      @for (option of sortOptions; track option.value) {
-        <mat-option [value]="option.value">{{ option.label }}</mat-option>
-      }
-    </mat-select>
-  </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Sort</mat-label>
+      <mat-select [formControl]="filters.controls.sort" data-testid="tasks-sort">
+        @for (option of sortOptions; track option.value) {
+          <mat-option [value]="option.value">{{ option.label }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
 
-  <mat-slide-toggle [formControl]="filters.controls.archived" data-testid="tasks-show-archived">
-    Show archived
-  </mat-slide-toggle>
+    <mat-slide-toggle [formControl]="filters.controls.archived" data-testid="tasks-show-archived">
+      Show archived
+    </mat-slide-toggle>
 
-  <button mat-button type="button" data-testid="tasks-clear-filters" (click)="clearFilters()">Clear filters</button>
-</section>
+    <button mat-button type="button" data-testid="tasks-clear-filters" (click)="clearFilters()">Clear filters</button>
+  </section>
+</ui-card>
 
 @if (loading()) {
-  <mat-progress-bar mode="indeterminate" data-testid="tasks-loading" />
+  <div class="loading" data-testid="tasks-loading">
+    <ui-skeleton variant="row" [count]="5" />
+  </div>
 }
 
 @if (loadFailed()) {
@@ -71,6 +74,7 @@
   } @else {
     <qf-empty-state
       testId="tasks"
+      illustration="tasks"
       icon="☑"
       title="No tasks yet"
       message="Add your first task to start tracking what you need to do."
@@ -83,35 +87,66 @@
 @if (tasks().length > 0) {
   <ul class="task-list">
     @for (task of tasks(); track task.id) {
-      <li class="task-row" [attr.data-testid]="'tasks-row-' + task.id">
-        <div class="task-main">
-          <span class="task-title">{{ task.title }}</span>
-          <span class="task-meta">
-            <span class="chip" [attr.data-testid]="'tasks-status-' + task.id">{{ statusLabel(task.status) }}</span>
-            <span class="chip" [attr.data-testid]="'tasks-priority-' + task.id">{{ priorityLabel(task.priority) }}</span>
-            @if (task.dueDate) {
-              <span class="due">Due {{ task.dueDate }}</span>
-            }
-            @if (task.overdue) {
-              <span class="overdue" [attr.data-testid]="'tasks-overdue-' + task.id">Overdue</span>
-            }
-          </span>
-        </div>
+      <li>
+        <ui-list-row [attr.data-testid]="'tasks-row-' + task.id">
+          <div class="task-main">
+            <span class="task-title">{{ task.title }}</span>
+            <span class="task-meta">
+              <ui-chip kind="task-status" [value]="task.status" [testId]="'tasks-status-' + task.id" />
+              <ui-chip kind="priority" [value]="task.priority" [testId]="'tasks-priority-' + task.id" />
+              @if (task.overdue) {
+                <ui-chip kind="overdue" [testId]="'tasks-overdue-' + task.id" />
+              }
+              @if (task.dueDate) {
+                <span class="due">Due {{ task.dueDate }}</span>
+              }
+            </span>
+          </div>
 
-        <div class="task-actions">
-          <button mat-button type="button" [attr.data-testid]="'tasks-complete-' + task.id" (click)="complete(task)">
-            Complete
-          </button>
-          <button mat-button type="button" [attr.data-testid]="'tasks-edit-' + task.id" (click)="openEdit(task)">
-            Edit
-          </button>
-          <button mat-button type="button" [attr.data-testid]="'tasks-archive-' + task.id" (click)="toggleArchive(task)">
-            {{ task.archived ? 'Restore' : 'Archive' }}
-          </button>
-          <button mat-button color="warn" type="button" [attr.data-testid]="'tasks-delete-' + task.id" (click)="confirmDelete(task)">
-            Delete
-          </button>
-        </div>
+          <div actions class="task-actions">
+            <button
+              mat-icon-button
+              type="button"
+              aria-label="Complete task"
+              title="Complete"
+              [attr.data-testid]="'tasks-complete-' + task.id"
+              (click)="complete(task)"
+            >
+              <mat-icon svgIcon="check" aria-hidden="true" />
+            </button>
+            <button
+              mat-icon-button
+              type="button"
+              aria-label="Edit task"
+              title="Edit"
+              [attr.data-testid]="'tasks-edit-' + task.id"
+              (click)="openEdit(task)"
+            >
+              <mat-icon svgIcon="edit" aria-hidden="true" />
+            </button>
+            <button
+              mat-icon-button
+              type="button"
+              [attr.aria-label]="task.archived ? 'Restore task' : 'Archive task'"
+              [attr.title]="task.archived ? 'Restore' : 'Archive'"
+              [attr.data-testid]="'tasks-archive-' + task.id"
+              (click)="toggleArchive(task)"
+            >
+              <mat-icon [svgIcon]="task.archived ? 'unarchive' : 'archive'" aria-hidden="true" />
+            </button>
+            <button
+              mat-icon-button
+              color="warn"
+              type="button"
+              aria-label="Delete task"
+              title="Delete"
+              [attr.data-testid]="'tasks-delete-' + task.id"
+              (click)="confirmDelete(task)"
+            >
+              <mat-icon svgIcon="delete" aria-hidden="true" />
+            </button>
+          </div>
+        </ui-list-row>
       </li>
     }
   </ul>
