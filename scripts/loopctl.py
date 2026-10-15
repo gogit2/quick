@@ -228,7 +228,7 @@ def write_task(data: dict, role: str, ms: str, ref: str | None, base_ref: str | 
         f"# Task - {role}", "",
         "_Written by the runner before each iteration. Read it, do not edit it._", "",
         f"- **Spec folder**: `{spec}`",
-        f"- **Contract**: `{spec}/contracts/openapi.yaml`",
+        f"- **Contract**: `{resolve_contract(spec)}`",
         f"- **Acceptance**: `{spec}/acceptance.md`",
         f"- **Milestone**: {ms} - {m.get('title','')}",
         f"- **Trial**: {m.get('trial',0)} of {CFG['MAX_TRIALS']} failed so far{' (UPGRADE RETRY on ' + CFG['MODEL_UPGRADE'] + ' - last chance before blocked)' if m.get('upgraded') else ''}",
@@ -286,6 +286,26 @@ def fail_trial(m: dict, ms: str, role: str, reason: str) -> str:
 
 
 # ----------------------------------------------------------------------------- commands
+def resolve_contract(spec: str) -> str:
+    """Path of the OpenAPI contract of a spec. A spec without its own contracts/openapi.yaml may name another
+    one in contracts/contract-source.txt (used by frontend-only enhancement specs)."""
+    own = ROOT / spec / "contracts" / "openapi.yaml"
+    if own.exists():
+        return f"{spec}/contracts/openapi.yaml"
+    src = ROOT / spec / "contracts" / "contract-source.txt"
+    if src.exists():
+        return src.read_text().strip()
+    sys.exit(f"loopctl: no contract for {spec} (neither contracts/openapi.yaml nor contracts/contract-source.txt)")
+
+
+def cmd_get_contract(a):
+    data = load()
+    spec = data.get("spec")
+    if a.ms:
+        spec = ms_entry(data, a.ms).get("spec") or spec
+    print(resolve_contract(spec))
+
+
 def cmd_get_spec(a):
     data = load()
     if not data.get("spec"):
@@ -848,6 +868,7 @@ def main():
     sp = p.add_subparsers(dest="cmd", required=True)
 
     sp.add_parser("get-spec", help="print the active spec folder").set_defaults(fn=cmd_get_spec)
+    x = sp.add_parser("get-contract", help="print the OpenAPI contract path of a milestone's spec (or the active spec)"); x.add_argument("--ms"); x.set_defaults(fn=cmd_get_contract)
     sp.add_parser("status", help="print milestone status").set_defaults(fn=cmd_status)
     x = sp.add_parser("ms-list", help="milestones in order (tab separated)"); x.add_argument("--pending", action="store_true"); x.set_defaults(fn=cmd_ms_list)
     x = sp.add_parser("get", help="print one field"); x.add_argument("--ms", required=True); x.add_argument("--role"); x.add_argument("field"); x.set_defaults(fn=cmd_get)

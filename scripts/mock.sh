@@ -17,7 +17,7 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 NAME="mock-$PORT"
-if [[ "$cmd" == start && -z "$SPEC" ]]; then SPEC="$(loopctl get-spec)/contracts/openapi.yaml"; fi
+if [[ "$cmd" == start && -z "$SPEC" ]]; then SPEC="$(loopctl get-contract)"; fi
 
 case "$cmd" in
   start)

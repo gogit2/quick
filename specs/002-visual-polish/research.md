@@ -1,0 +1,52 @@
+# Research: QuickFlow Visual Polish
+
+Findings verified against the **installed** versions: Angular Material and CDK 19.2.19, Angular 19.2, Node 18.20, `@fontsource-variable/inter` 5.3.0 (npm). Decisions D-19..D-24 apply.
+
+## R1 Theming: Material 3 system tokens, no prebuilt CSS
+- **Finding**: the app currently loads `@angular/material/prebuilt-themes/azure-blue.css` (a fixed light M3 theme that defines `--mat-sys-*` variables) from `angular.json` `styles`. Material 19.2 exposes the M3 mixin `mat.theme($config, $overrides)` (`core/tokens/_m3-system.scss`) that emits the same `--mat-sys-*` variables from a palette, plus typography and density.
+- **Decision**: remove the prebuilt CSS from `angular.json` (both `build` and `test` style lists) and call `mat.theme((color: (primary: mat.$cyan-palette, tertiary: mat.$violet-palette, theme-type: color-scheme), typography: (plain-family: 'Inter Variable, ...', brand-family: same), density: 0))` once on `html` in `frontend/src/styles/_theme.scss`. Teal comes from the M3 `$cyan-palette`, the indigo secondary from `$violet-palette` (the closest M3 hues to D-20; final hue is checked by the contrast measurement in R6, and `$azure-palette` is the fallback if AA fails).
+- **Rationale**: `theme-type: color-scheme` makes Material emit `light-dark()` colour values and `color-scheme: light dark`, so one stylesheet serves both themes and the browser switches by the `color-scheme` property. No second CSS file, no JS recolouring.
+- **Alternatives**: two prebuilt CSS files swapped at runtime (extra request, flash); custom Sass theme maps (M2 API, deprecated direction); a CSS framework (new dependency, violates the fixed stack).
+
+## R2 Light / dark / system switching
+- **Decision**: the user choice is `light | dark | system`, stored in `localStorage` key `qf.theme`. `ThemeService` writes `data-theme` on `<html>`; CSS maps it to the browser's `color-scheme`: `html[data-theme="light"] {color-scheme: light}`, `html[data-theme="dark"] {color-scheme: dark}`, `html[data-theme="system"], html:not([data-theme]) {color-scheme: light dark}`. With `system` the browser follows `prefers-color-scheme` by itself, including live OS changes (FR-V05). `ThemeService` also exposes the effective theme (via `matchMedia`) as a signal for icons and tests.
+- **App colours**: app-level semantic variables (`--qf-surface`, `--qf-surface-variant`, `--qf-outline`, `--qf-success`, `--qf-warning`, ...) are defined with `light-dark(<light>, <dark>)` or as aliases of `--mat-sys-*`, so they follow the same switch.
+- **Storage failure**: reads and writes of `localStorage` are wrapped in try/catch; on failure the mode lives in memory for the session and defaults to `system` (spec edge cases).
+
+## R3 No flash of the wrong theme on reload
+- **Decision**: a tiny inline script in the `<head>` of `frontend/src/index.html` runs before first paint: it reads `qf.theme` (try/catch), validates it against `light|dark|system` and sets `document.documentElement.dataset.theme`; the same `<head>` has `<meta name="color-scheme" content="light dark">` and an inline `<style>` giving `html` a neutral background per scheme so the page is never white-on-dark while the bundle loads. Angular's `ThemeService` later reads the same value, so state is consistent.
+- **Alternatives**: applying the theme only from Angular (visible flash until bootstrap); server-side rendering (not used, out of scope).
+
+## R4 Font: Inter, Latin variable subset, self-hosted
+- **Finding**: `@fontsource-variable/inter` 5.3.0 ships per-subset woff2 files; the Latin weight-axis file `inter-latin-wght-normal.woff2` is **48.3 kB** (the opsz/standard variants are 72.9 kB, other scripts are separate files and are never loaded).
+- **Decision**: add the package as a normal dependency of `frontend/package.json`; in `frontend/src/styles/_typography.scss` declare one `@font-face` for family `Inter Variable` (weight range 100 900, `font-display: swap`) whose `src` points at the package file via `url()` so the Angular build copies it into the output (`@use '@fontsource-variable/inter/wght.css'` would pull all subsets, so it is NOT used). Subset restricted to Latin by only referencing the latin file with `unicode-range` for Latin. Fallback stack: `'Inter Variable', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif`.
+- **Self-contained check**: network log must show only `localhost` requests (SC-V05).
+- **Alternatives**: Google Fonts link (external, forbidden by the project rule); copying the font file by hand (no version tracking).
+
+## R5 Bundle size and budget (measured)
+- **Measured** today with `ng build` (production): initial total **553.93 kB raw / 136.55 kB estimated transfer** (main 145.76 / 31.34, polyfills 34.59 / 11.33, styles 7.30 / 1.23, plus Material chunks). `angular.json` budgets: initial warning **600 kB**, error 1 MB; component styles warning 4 kB, error 8 kB. The default Angular budget is 500 kB; a previous loop raised it to 600 kB to silence the warning in spec 001 (M07).
+- **Decision**: SC-V04 "initial download under 500 kB" is measured as the build's **estimated transfer size** (136.55 kB today, budget 500 kB), and the raw initial warning stays at 600 kB; the build must print no warnings. A task in M11 reports both numbers in its evidence. The font (48.3 kB) is not part of the initial JS bundle (it loads lazily with `font-display: swap`) and is reported separately. Component style budget: shared tokens live in global styles so component SCSS stays under 4 kB.
+- **Risk**: new shared components and SVG illustrations must stay small; illustrations are inline SVG, each under 2 kB.
+
+## R6 Contrast verification with the Playwright MCP
+- **Decision**: a small script `loops/frontend-dev/outputs/e2e/contrast-check.js` (written in M08) is executed with `browser_evaluate` on each page in each theme. It walks all visible text elements, reads computed `color` and the first non-transparent ancestor `background-color` (resolving `light-dark()`/CSS variables through `getComputedStyle`), computes the WCAG ratio and returns the list of elements below 4.5:1 (3:1 for large text, >= 24 px or >= 18.66 px bold) plus focus-ring and icon-button checks (3:1 against the surface). Zero failures is the acceptance condition (SC-V01). Theme is forced with `localStorage.setItem('qf.theme','dark')` + reload, and `browser_evaluate` of `document.documentElement.dataset.theme`.
+- **Why not an external tool**: no new dependencies; the check runs in the real browser against real rendering.
+
+## R7 Motion and reduced motion
+- **Decision**: motion tokens `--qf-motion-fast: 120ms`, `--qf-motion-base: 200ms`, `--qf-motion-slow: 280ms` (all < 300 ms, FR-V23) and one easing `cubic-bezier(0.2, 0, 0, 1)`. `@media (prefers-reduced-motion: reduce)` sets the three durations to `0ms`, disables smooth scroll, and `ThemeService`/components skip programmatic animations when `matchMedia('(prefers-reduced-motion: reduce)')` matches. Angular Material animations (`provideAnimationsAsync`) are switched to `'noop'` when reduced motion is requested at bootstrap. Expand/collapse of Learning cards uses CSS (`grid-template-rows` transition), not Angular animations.
+- **Testing**: Playwright MCP cannot emulate media features in 0.0.40; the test sets the preference through a documented query flag `?reduceMotion=1` honoured by `ThemeService` (same pattern as the clock override) and checks computed durations are `0s`.
+
+## R8 Responsive layout
+- **Decision**: breakpoints as tokens: phone `< 600 px`, tablet `600-959 px`, desktop `>= 960 px`, wide `>= 1280 px`. Below 960 px the side navigation becomes a drawer (`mat-sidenav mode="over"`) opened from a toolbar menu button; at >= 960 px it is `mode="side"` and collapsible to a 72 px icon rail (preference `qf.nav.collapsed`). Layout uses CSS grid/flex with `minmax()` and `clamp()` for spacing; no horizontal scroll at 390 px (SC-V02), checked with `document.documentElement.scrollWidth <= innerWidth` through `browser_evaluate` after `browser_resize`.
+
+## R9 Regression strategy (nothing may break)
+- **Test ids**: `scripts/testid-check.sh` compares the set of static `data-testid` values in `frontend/src` against `specs/002-visual-polish/testids.baseline.txt` (generated before M08); any id that disappears fails the check; new ids are allowed. Dynamic ids (`tasks-row-<id>`) are compared by their literal prefix.
+- **Behavioural**: the verifier re-runs every `[smoke]` scenario of spec 001 in every milestone, and the whole E2E-M01..M07 set in M11 (SC-V06).
+- **API**: backend and contract untouched; the backend curl regression still runs unchanged as a guard.
+- **Colour hygiene**: `scripts/colour-check.sh` searches `frontend/src/app` and `frontend/src/styles` (except the token files) for hex, `rgb()`, `hsl()` literals; zero hits (SC-V07).
+
+## R10 Icons and illustrations
+- **Finding**: the current app uses **no icons at all** (`grep` finds 0 `<mat-icon>`; the Google icon font links were removed from `index.html` in spec 001 for the self-contained rule). FR-V07, FR-V14 and the theme toggle need icons. The classic Material Icons font is about 128 kB and Material Symbols is larger, both disproportionate for ~25 icons.
+- **Decision**: a curated set of about 25 SVG icons (dashboard, task_alt, repeat, school, event_available, settings, menu, chevron_left/right, add, edit, delete, archive, unarchive, check, expand_more/less, error, warning, schedule, light_mode, dark_mode, brightness_auto, person, search, close) stored as individual files in `frontend/src/assets/icons/<name>.svg` (each about 0.3 kB, copied once from the Apache-2.0 `@material-design-icons/svg` package into the repo, so no runtime or build dependency on it) and registered through Angular Material's `MatIconRegistry.addSvgIcon` in an `IconService`; they use `fill: currentColor`, so they follow both themes. Total size about 8 kB, loaded on demand.
+- **Illustrations**: empty-state illustrations are inline SVG components in `frontend/src/app/shared/illustrations/` using `currentColor` and CSS variables, one per list page (Tasks, Habits, Learning, Plans) plus a generic one, each under 2 kB.
+- **Self-contained check**: icons, illustrations and the font all come from `localhost` (SC-V05).
