@@ -66,13 +66,7 @@
       "Bash(curl:*)",
       "Bash(bash loops/*)",
       "Bash(loops/*)",
-      "mcp__playwright",
-      "Bash(scripts/testid-check.sh:*)",
-      "Bash(./scripts/testid-check.sh:*)",
-      "Bash(scripts/colour-check.sh:*)",
-      "Bash(./scripts/colour-check.sh:*)",
-      "Bash(scripts/bundle-size.sh:*)",
-      "Bash(./scripts/bundle-size.sh:*)"
+      "mcp__playwright"
     ],
     "deny": [
       "Bash(git commit:*)",

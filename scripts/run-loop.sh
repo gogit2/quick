@@ -85,10 +85,6 @@ if not r.get("scenarios") or bad:
     sys.exit(f"{p}: no scenarios or failing scenarios {bad}")
 print(f"{p}: {len(r['scenarios'])} scenarios passed")
 PY
-    scripts/testid-check.sh || st=1
-    if [[ "$(loopctl get --ms "$ms" spec 2>/dev/null)" == "specs/002-visual-polish" ]]; then
-      scripts/colour-check.sh --enforce || st=1
-    fi
     echo "== FE gate result: $([[ $st == 0 ]] && echo PASS || echo FAIL)"
   } >"$GATE_LOG" 2>&1
   return $st

@@ -40,10 +40,10 @@ Findings verified against the **installed** versions: Angular Material and CDK 1
 - **Decision**: breakpoints as tokens: phone `< 600 px`, tablet `600-959 px`, desktop `>= 960 px`, wide `>= 1280 px`. Below 960 px the side navigation becomes a drawer (`mat-sidenav mode="over"`) opened from a toolbar menu button; at >= 960 px it is `mode="side"` and collapsible to a 72 px icon rail (preference `qf.nav.collapsed`). Layout uses CSS grid/flex with `minmax()` and `clamp()` for spacing; no horizontal scroll at 390 px (SC-V02), checked with `document.documentElement.scrollWidth <= innerWidth` through `browser_evaluate` after `browser_resize`.
 
 ## R9 Regression strategy (nothing may break)
-- **Test ids**: `scripts/testid-check.sh` compares the set of static `data-testid` values in `frontend/src` against `specs/002-visual-polish/testids.baseline.txt` (generated before M08); any id that disappears fails the check; new ids are allowed. Dynamic ids (`tasks-row-<id>`) are compared by their literal prefix.
-- **Behavioural**: the verifier re-runs every `[smoke]` scenario of spec 001 in every milestone, and the whole E2E-M01..M07 set in M11 (SC-V06).
+- **Test ids**: the existing `data-testid`s are the contract between the UI and the Playwright scenarios. Every template task says to keep them unchanged, the scenarios of spec 001 (which use them) are re-run by the verifier, and the verifier compares the ids in `git diff` of the templates for removed `data-testid` attributes.
+- **Behavioural**: the verifier re-runs every `[smoke]` scenario of spec 001 in every milestone, and the whole executable E2E-M01..M07 set in M11 (SC-V06).
 - **API**: backend and contract untouched; the backend curl regression still runs unchanged as a guard.
-- **Colour hygiene**: `scripts/colour-check.sh` searches `frontend/src/app` and `frontend/src/styles` (except the token files) for hex, `rgb()`, `hsl()` literals; zero hits (SC-V07).
+- **Colour hygiene** (SC-V07): one command, `grep -rnE '#[0-9a-fA-F]{3,8}\b|rgba?\(|hsla?\(' frontend/src/app frontend/src/styles`, must print only lines from `frontend/src/styles/_palette.scss` and `_tokens.scss`; the milestone tasks that remove literals use it as their "done" test and the verifier runs it.
 
 ## R10 Icons and illustrations
 - **Finding**: the current app uses **no icons at all** (`grep` finds 0 `<mat-icon>`; the Google icon font links were removed from `index.html` in spec 001 for the self-contained rule). FR-V07, FR-V14 and the theme toggle need icons. The classic Material Icons font is about 128 kB and Material Symbols is larger, both disproportionate for ~25 icons.

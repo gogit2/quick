@@ -4,11 +4,10 @@ Prerequisites as in spec 001 ([quickstart](../001-quickflow/quickstart.md)). Des
 
 ## 1. Static checks (fast, no browser)
 ```bash
-(cd frontend && npx ng build)            # production build: no warnings, note "Initial total" raw + transfer size
-scripts/testid-check.sh                  # no data-testid of spec 001 disappeared (baseline in testids.baseline.txt)
-scripts/colour-check.sh                  # no colour literal outside frontend/src/styles/_palette.scss and _tokens.scss
+(cd frontend && npx ng build)            # production build: no warnings; note the "Initial total" raw + transfer size
+grep -rnE '#[0-9a-fA-F]{3,8}\b|rgba?\(|hsla?\(' frontend/src/app frontend/src/styles   # only _palette.scss and _tokens.scss may appear
 ```
-Expected: build green with no warnings; transfer size under 500 kB (about 140 kB today); both scripts print `PASS`.
+Expected: build green with no warnings; transfer size under 500 kB (about 137 kB today); the grep prints only lines from the two token files.
 
 ## 2. Look and feel (Playwright MCP, mock or real stack)
 ```bash

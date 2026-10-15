@@ -16,7 +16,7 @@ Restyle the existing Angular 19 + Material app: one design-token layer on top of
 
 **Storage**: browser `localStorage` for two preferences (`qf.theme`, `qf.nav.collapsed`); no server data
 
-**Testing**: Playwright MCP 0.0.40 scenarios (screenshots, contrast script, scroll-width check, network log), `ng build` size and warnings, two static scripts (`testid-check.sh`, `colour-check.sh`); backend curl and JUnit suites re-run unchanged as a guard
+**Testing**: Playwright MCP 0.0.40 scenarios (screenshots, contrast script, scroll-width check, network log), `ng build` size and warnings, a one-line colour-literal grep; backend curl and JUnit suites re-run unchanged as a guard
 
 **Target Platform**: Chromium 1440x900 and 1024x768 and 390x844 viewports
 
@@ -39,7 +39,7 @@ Restyle the existing Angular 19 + Material app: one design-token layer on top of
 | III Separation | Changes only in `frontend/`; presentational components only, no business rules move; the shared components take inputs and emit events, pages keep their logic. |
 | IV Tests | Playwright scenario per milestone (screenshots, contrast, scroll width, network), full regression in M11; no BE tests added because no BE code changes; the BE suites still run in the verifier. |
 | V Controllable time | `ClockService` and its overrides are untouched; `?reduceMotion=1` follows the same test-flag pattern. |
-| VI Test hooks | Baseline of existing ids in `testids.baseline.txt`, enforced by `scripts/testid-check.sh`; new elements follow `<page>-<element>[-<qualifier>]`. |
+| VI Test hooks | Every template task keeps the existing ids; the re-run scenarios use them, so a lost id fails a scenario; new elements follow `<page>-<element>[-<qualifier>]`. |
 | VII Autonomous loops | Decisions D-19..D-24 settled; remaining choices (exact hues, illustration style) are recorded as assumptions by the loops. |
 
 No violations, so no Complexity Tracking section.
@@ -88,13 +88,13 @@ Only `opacity`, `transform` and `grid-template-rows` transitions, durations from
 Contrast is measured, not assumed: `contrast-check.js` via `browser_evaluate` per page and theme (research R6), plus keyboard tab-through with visible focus ring and `aria-label` on every icon button, `aria-pressed`/`aria-checked` on the theme toggle, `aria-current="page"` on the active nav link, status chips with text and icon (never colour alone).
 
 ### Regression strategy
-1. `scripts/testid-check.sh` fails on any lost `data-testid` (baseline generated before M08).
-2. `scripts/colour-check.sh` fails on colour literals outside the token files.
+1. Template tasks keep every existing `data-testid`; the scenarios that use them fail if one is lost, and the verifier checks `git diff` for removed `data-testid` attributes.
+2. The colour grep (research R9) prints only token-file lines.
 3. Verifier re-runs every `[smoke]` scenario of spec 001 in M08-M10 and **all** E2E-M01..M07 scenarios in M11; BE curl regression and JUnit run unchanged.
 4. Each milestone adds its own scenarios `E2E-M08-xx`.. with screenshots in both themes.
 
 ### Runner note (planning-time change)
-Spec 002 has no `contracts/openapi.yaml`. A file `specs/002-visual-polish/contracts/contract-source.txt` names the contract to use, and `loopctl.py get-contract` resolves it; `mock.sh`, `export-swagger.sh` and the loops' `task.md` use it. The runner also needs `scripts/testid-check.sh`, `scripts/colour-check.sh`, `scripts/bundle-size.sh` (runner-owned, added in the tasks step).
+Spec 002 has no `contracts/openapi.yaml`. A file `specs/002-visual-polish/contracts/contract-source.txt` names the contract to use, and `loopctl.py get-contract` resolves it; `mock.sh`, `export-swagger.sh` and the loops' `task.md` use it. No other runner change is needed.
 
 ## Milestones (FE-only; BE loop finds 0 tasks and finishes at once)
 
@@ -114,7 +114,6 @@ Dependencies: M09 needs M08 tokens and icons; M10 needs M08 and M09; M11 needs a
 specs/002-visual-polish/
 ├── spec.md  plan.md  research.md  data-model.md  quickstart.md
 ├── contracts/README.md  contracts/contract-source.txt     # points to spec 001's contract
-├── testids.baseline.txt                                    # existing data-testid values (generated in the tasks step)
 ├── acceptance.md                                           # E2E-M08..M11 scenarios (after tasks)
 └── tasks.md                                                # speckit-tasks
 ```
@@ -125,7 +124,6 @@ frontend/src/styles/{_palette,_theme,_tokens,_typography,_base,_material,_motion
 frontend/src/styles.scss  frontend/src/index.html  frontend/angular.json  frontend/package.json
 frontend/src/assets/icons/*.svg
 frontend/src/app/{core,layout,shared,features}/...   (as listed above)
-scripts/{testid-check,colour-check,bundle-size}.sh   # runner-owned
 loops/frontend-dev/outputs/e2e/{M08..M11}.md  contrast-check.js
 ```
 
@@ -133,16 +131,16 @@ loops/frontend-dev/outputs/e2e/{M08..M11}.md  contrast-check.js
 
 | Level | What | Where |
 |---|---|---|
-| Static | `ng build` (no warnings, size lines), `testid-check.sh`, `colour-check.sh`, `bundle-size.sh` (transfer size under 500 kB) | scripts, runner gate and verifier |
+| Static | `ng build` (no warnings; initial transfer size under 500 kB) and the colour-literal grep | the milestone tasks and the verifier |
 | Playwright MCP | Per milestone: pages in light/dark/system at 1440/1024/390 px, screenshots, `contrast-check.js` 0 failures, scroll-width check, theme persistence after reload, network all `localhost`, keyboard tab-through | `loops/frontend-dev/outputs/e2e/M08..M11.md` |
 | Regression | All 001 `[smoke]` scenarios every milestone; all E2E-M01..M07 in M11 | verifier |
 | Backend guard | JUnit and curl regression unchanged | verifier |
 
 ## Risks
 1. **Dark-mode contrast** is the likeliest cause of a REJECT; mitigated by measuring from M08 and a fallback palette (`$azure-palette`).
-2. **Test id loss** while restructuring templates; mitigated by the baseline check as a runner gate.
-3. **Bundle growth** from shared components; mitigated by tokens in global CSS, small SVGs and the transfer-size check.
-4. **Haiku restyling many files** may drift from the tokens; mitigated by `colour-check.sh` and the shared components.
+2. **Test id loss** while restructuring templates; mitigated by the re-run scenarios that use the ids and the verifier's diff check.
+3. **Bundle growth** from shared components; mitigated by tokens in global CSS, small SVGs and the build-size line checked in M11.
+4. **Haiku restyling many files** may drift from the tokens; mitigated by the colour grep and the shared components.
 
 ## Complexity Tracking
 
