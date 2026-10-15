@@ -88,7 +88,13 @@ claude_session() {
   if [[ "${QF_DRY_RUN:-0}" == "1" ]]; then
     python3 -I "$QF_ROOT/scripts/fake_claude.py" "$role" "$ms" > "$out" 2>"$err" || true
   else
-    timeout "$SESSION_TIMEOUT" claude -p "$(cat "$prompt_file")" \
+    # Run in the background and watch the wall clock: a suspend (laptop sleep) freezes the session and its
+    # connection, and `timeout` does not count suspended time. A wall-clock jump > 90 s between two polls, or the
+    # session timeout in wall-clock seconds, kills the session; an `.interrupted` marker tells the runner to
+    # repeat the iteration without counting a trial.
+    local limit_s=$(( ${SESSION_TIMEOUT%m} * 60 )) start last now
+    rm -f "$out.interrupted"
+    "${QF_CLAUDE_BIN:-claude}" -p "$(cat "$prompt_file")" \
       --model "$model" \
       --output-format json \
       --settings "$settings" \
@@ -97,7 +103,28 @@ claude_session() {
       --permission-prompts none \
       --mcp-config "$mcp" --strict-mcp-config \
       --max-budget-usd "$max_budget" \
-      > "$out" 2>"$err" || log "claude exited non-zero for $role $ms (see $err)"
+      > "$out" 2>"$err" < /dev/null &
+    local cpid=$!
+    start=$(date +%s); last=$start
+    while kill -0 "$cpid" 2>/dev/null; do
+      sleep "${QF_POLL_SECONDS:-5}"
+      now=$(date +%s)
+      if (( now - last > 90 )); then
+        log "wall clock jumped $((now - last))s (machine suspended?): killing the frozen $role session"
+        echo "suspend" > "$out.interrupted"; break
+      fi
+      if (( now - start > limit_s )); then
+        log "$role session exceeded ${SESSION_TIMEOUT}: killing it"
+        echo "timeout" > "$out.interrupted"; break
+      fi
+      last=$now
+    done
+    if kill -0 "$cpid" 2>/dev/null; then
+      pkill -TERM -P "$cpid" 2>/dev/null || true
+      kill -TERM "$cpid" 2>/dev/null || true; sleep 2
+      kill -KILL "$cpid" 2>/dev/null || true
+    fi
+    wait "$cpid" 2>/dev/null || log "claude exited non-zero for $role $ms (see $err)"
   fi
   echo "$out"
 }

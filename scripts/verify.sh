@@ -78,6 +78,10 @@ EOF
   log "verify $MS round $round: session ($model, budget left \$$left)"
   json="$(claude_session verify "$MS" "$trial" "$round" "$model" "$left" "$prompt" .mcp.json)"
   loopctl record --role verify --ms "$MS" --json "$json" --prompt-file "$prompt" --model "$model" --round "$round" >&2
+  if [[ -f "$json.interrupted" ]]; then
+    log "verify $MS round $round: session interrupted ($(cat "$json.interrupted")) - no verdict"
+    rm -f "$VERDICT"
+  fi
 fi
 stop_stack
 

@@ -128,6 +128,11 @@ EOF
     json="$(claude_session "$ROLE" "$ms" "$trial" "$iter" "$model" "$left" "$prompt" "$([[ $ROLE == frontend-dev ]] && echo .mcp.json || echo loops/_shared/mcp-none.json)")"
     cleanup_role_servers
     loopctl record --role "$ROLE" --ms "$ms" --json "$json" --prompt-file "$prompt" --model "$model" --iteration "$iter" >&2
+    if [[ -f "$json.interrupted" && "$(cat "$json.interrupted")" == "suspend" ]]; then
+      log "$ROLE $ms: iteration $iter interrupted by a machine suspend - repeating it (no trial counted)"
+      loopctl set-status --ms "$ms" --role "$ROLE" --status building >/dev/null
+      continue
+    fi
 
     gate=skip
     res="$(python3 -I -c 'import json,sys; print(json.load(open(sys.argv[1])).get("result",""))' "loops/$ROLE/state/result.json" 2>/dev/null || echo missing)"
