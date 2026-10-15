@@ -1,17 +1,17 @@
 {
   "spec": "specs/001-quickflow",
-  "milestone": "M03",
-  "milestone_title": "Habits",
+  "milestone": "M04",
+  "milestone_title": "Learning",
   "milestone_status": "passed",
   "status": "passed",
-  "trial": 1,
+  "trial": 0,
   "upgraded": false,
   "model": "claude-opus-5-5",
   "iteration": 1,
   "attempt_iterations": 0,
   "attempt_cap": null,
-  "budget_left_usd": 12.0894,
-  "last_session_id": "e85391e2-f87f-418c-a5dd-2822e228dfb7",
+  "budget_left_usd": 12.0867,
+  "last_session_id": "568fca4f-9bcb-46b3-a658-d4ec485abd87",
   "last_result": null,
-  "updated_at": "2026-10-15T03:59:35+03:00"
+  "updated_at": "2026-10-15T04:10:54+03:00"
 }

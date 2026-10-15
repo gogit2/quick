@@ -1,11 +1,13 @@
 {
-  "milestone": "M03",
+  "milestone": "M04",
   "round": 1,
   "verdict": "PASS",
   "checks": { "review": "pass", "swagger": "pass", "unit": "pass", "curl": "pass", "e2e": "pass", "smoke": "pass" },
-  "fixes": [],
+  "fixes": [
+    { "file": "frontend/src/app/features/learning/learning-card-details.component.ts", "summary": "Milestone and note forms used FormGroup.reset(), leaving the form directive submitted so a 'required' error showed after every successful add; now call FormGroupDirective.resetForm(). Re-tested on the real stack, ng build OK.", "lines": 8 }
+  ],
   "fix_tasks": [],
   "contract_issues": [],
   "escalate": false,
-  "notes": "All checks pass on the real stack: swagger PASS, mvnw verify 101/101, curl M01 6/6 M02 14/14 M03 13/13 (fresh db), E2E-M03-01..07 incl. a real 409, deactivate and delete, plus a backend-down state, smoke E2E-M01-01 and E2E-M02-01. No fixes needed. Report loops/verify/outputs/M03-round-1.md."
+  "notes": "mvnw verify 125/125; curl M01-M04 45/45; swagger PASS; E2E-M04-01..07, edit, backend-down error state and smoke M01-01/M02-01/M03-01 pass on the real stack. Backend restarted --fresh on 8090 and left running."
 }

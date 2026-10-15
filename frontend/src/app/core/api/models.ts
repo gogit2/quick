@@ -112,3 +112,60 @@ export interface HabitCompletion {
 export interface HabitCompletionCreate {
   completionDate?: string | null;
 }
+
+// Derived from the milestones when the card has any; set by hand only when it has none.
+export type LearningStatus = 'NOT_STARTED' | 'IN_PROGRESS' | 'COMPLETED';
+
+export interface LearningMilestone {
+  id: number;
+  learningCardId: number;
+  title: string;
+  done: boolean;
+  targetDate?: string | null;
+  completedAt?: string | null;
+}
+
+export interface LearningNote {
+  id: number;
+  learningCardId: number;
+  text: string;
+  createdAt: string;
+}
+
+export interface LearningCard {
+  id: number;
+  title: string;
+  description?: string | null;
+  status: LearningStatus;
+  createdAt: string;
+  milestones: LearningMilestone[];
+  notes: LearningNote[];
+}
+
+export interface LearningCardCreate {
+  title: string;
+  description?: string | null;
+  status?: LearningStatus;
+}
+
+// status is only accepted while the card has no milestones; otherwise the server answers 409.
+export interface LearningCardUpdate {
+  title: string;
+  description?: string | null;
+  status?: LearningStatus;
+}
+
+export interface LearningMilestoneCreate {
+  title: string;
+  targetDate?: string | null;
+}
+
+export interface LearningMilestoneUpdate {
+  title: string;
+  done: boolean;
+  targetDate?: string | null;
+}
+
+export interface LearningNoteCreate {
+  text: string;
+}

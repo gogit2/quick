@@ -1,31 +1,31 @@
 {
   "spec": "specs/001-quickflow",
-  "milestone": "M03",
-  "milestone_title": "Habits",
+  "milestone": "M04",
+  "milestone_title": "Learning",
   "milestone_status": "passed",
   "status": "built",
-  "trial": 1,
+  "trial": 0,
   "upgraded": false,
   "model": "claude-haiku-5-5",
-  "iteration": 5,
-  "attempt_iterations": 5,
+  "iteration": 2,
+  "attempt_iterations": 2,
   "attempt_cap": 5,
-  "budget_left_usd": 12.0894,
-  "last_session_id": "b8489630-2728-46fd-8588-66f6df498647",
+  "budget_left_usd": 12.0867,
+  "last_session_id": "98548a41-6526-4bac-9b4d-6e14caddc0ae",
   "last_result": {
-    "milestone": "M03",
+    "milestone": "M04",
     "result": "built",
     "tasks_done": [
-      "T039",
-      "T040",
-      "T041",
-      "T042",
-      "T043",
-      "T044"
+      "T054",
+      "T055",
+      "T056",
+      "T057",
+      "T058",
+      "T059"
     ],
     "open_tasks": 0,
-    "selfcheck": "npx ng build (frontend/): passes, 500 kB budget warning only. scripts/mock.sh start and scripts/frontend.sh start --api http://localhost:4010 ready. E2E-M03-05 re-run with the Playwright MCP: 409 synthesized in the page for the completion POST, 'Already completed' snackbar, list reloaded, 0 console errors; screenshot run-artifacts/playwright/E2E-M03-05-already-completed.png. E2E-M03-01..06 passed on the mock in iter 4 (no frontend source change since). outputs/evidence/M03/result.json passed: true. E2E-M03-07 real_stack_only. Both servers stopped by script.",
-    "notes": "Iter 5 fixed the FE gate failure (E2E-M03-05 console_errors was 1 from a network 409). No code changed in iter 5. Real-stack checks left to the verifier. Trial 1 iteration 5 is the last allowed iteration."
+    "selfcheck": "npx ng build (frontend/): passes, 500 kB budget warning only. Mock on :4010 and frontend on :4300 started by script. Playwright MCP on the mock: E2E-M04-01..06 passed (requests and UI checked, 0 console errors); E2E-M04-07 real_stack_only. outputs/evidence/M04/result.json passed: true. Servers stopped by script.",
+    "notes": "Screenshots are in run-artifacts/playwright/; copying them into outputs/evidence/M04 was denied by the permission layer. Real-stack checks (persistence, derived status, empty state) are left to the verifier."
   },
-  "updated_at": "2026-10-15T03:59:35+03:00"
+  "updated_at": "2026-10-15T04:10:54+03:00"
 }

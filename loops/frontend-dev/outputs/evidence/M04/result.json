@@ -1,0 +1,14 @@
+{
+  "milestone": "M04",
+  "passed": true,
+  "finished_at": "2026-10-15T04:03:30+03:00",
+  "scenarios": [
+    { "id": "E2E-M04-01", "passed": true, "steps": 7, "screenshot": "run-artifacts/playwright/E2E-M04-01-learning-grid.png", "console_errors": 0, "notes": "Mock: POST /api/learning-cards 201 with title, description, NOT_STARTED; dialog closes; list reloads. Card 1 shows In progress and 1/2 milestones." },
+    { "id": "E2E-M04-02", "passed": true, "steps": 4, "screenshot": "", "console_errors": 0, "notes": "Empty and whitespace-only title: 'Title is required.'; 201 chars: 'Must be at most 200 characters.'; 0 POSTs in all three; cancel sends nothing." },
+    { "id": "E2E-M04-03", "passed": true, "steps": 4, "screenshot": "", "console_errors": 0, "notes": "Empty milestone title blocked ('Milestone title is required.', 0 requests). POST /api/learning-cards/1/milestones body {title, targetDate: 2026-11-01} 201, list reloads." },
+    { "id": "E2E-M04-04", "passed": true, "steps": 2, "screenshot": "", "console_errors": 0, "notes": "Done checkbox on milestone 2: PUT /api/learning-cards/1/milestones/2 body done=true 200, list reloads. Real-stack progress and status check left to verifier." },
+    { "id": "E2E-M04-05", "passed": true, "steps": 4, "screenshot": "", "console_errors": 0, "notes": "Empty note blocked ('Note text is required.', 0 requests). POST /api/learning-cards/1/notes 201; DELETE /api/learning-cards/1/notes/1 204; list reloads after each. Real-stack persistence check left to verifier." },
+    { "id": "E2E-M04-06", "passed": true, "steps": 6, "screenshot": "run-artifacts/playwright/E2E-M04-06-learning-after-remove.png", "console_errors": 0, "notes": "DELETE /api/learning-cards/1/milestones/1 204, reload. Card delete: confirm-cancel sends nothing; confirm-ok sends DELETE /api/learning-cards/1 204, reload. Real-stack removal check left to verifier." }
+  ],
+  "real_stack_only": ["E2E-M04-07"]
+}

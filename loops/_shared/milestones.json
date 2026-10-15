@@ -371,15 +371,15 @@
       ]
     },
     "M04": {
-      "status": "pending",
+      "status": "passed",
       "trial": 0,
       "upgraded": false,
-      "cost_usd": 0.0,
+      "cost_usd": 2.913292,
       "upgrade_cost_usd": 0.0,
-      "verify_rounds": 0,
-      "started_at": null,
-      "ended_at": null,
-      "tag": null,
+      "verify_rounds": 1,
+      "started_at": "2026-10-15T03:59:35+03:00",
+      "ended_at": "2026-10-15T04:10:54+03:00",
+      "tag": "M04",
       "blocked_reason": null,
       "title": "Learning",
       "slug": "learning",
@@ -387,57 +387,111 @@
       "roles": {
         "backend-dev": {
           "tasks": 9,
-          "status": "pending",
-          "iterations": 0,
-          "attempt_iterations": 0,
-          "attempt_cap": null,
-          "started_at": null,
-          "ended_at": null,
-          "tokens_in": 0,
-          "tokens_out": 0,
-          "cache_read": 0,
-          "cache_write": 0,
-          "cost_usd": 0.0,
-          "sessions": [],
-          "models": [],
-          "last_result": null
+          "status": "built",
+          "iterations": 2,
+          "attempt_iterations": 2,
+          "attempt_cap": 5,
+          "started_at": "2026-10-15T03:59:35+03:00",
+          "ended_at": "2026-10-15T04:06:05+03:00",
+          "tokens_in": 112,
+          "tokens_out": 64077,
+          "cache_read": 3735575,
+          "cache_write": 169469,
+          "cost_usd": 0.115266,
+          "sessions": [
+            "9b9b8c9b-a239-4736-af06-7ca94f64acbd",
+            "bf5840f4-7d0c-4ebc-b6db-d99ef5e9cd83"
+          ],
+          "models": [
+            "claude-haiku-5-5"
+          ],
+          "last_result": {
+            "milestone": "M04",
+            "result": "built",
+            "tasks_done": [
+              "T045",
+              "T046",
+              "T047",
+              "T048",
+              "T049",
+              "T050",
+              "T051",
+              "T052",
+              "T053"
+            ],
+            "open_tasks": 0,
+            "selfcheck": "cd backend && ./mvnw -q verify: green, 125 tests, 0 failures. scripts/backend.sh start 8091 --fresh healthy; curl-regression --upto M04: 4 suites, 0 failed (M04.sh 12/12); export-swagger --ms M04: PASS, 28 operations, no diff; server stopped.",
+            "notes": "Iter 2 added T050-T053 and fixed two iter-1 gaps: the missing LearningNoteCreate DTO and null milestone/note ids before flush. Evidence: outputs/evidence/M04/selfcheck-t050-t053.md."
+          },
+          "last_gate": "pass"
         },
         "frontend-dev": {
           "tasks": 6,
-          "status": "pending",
-          "iterations": 0,
-          "attempt_iterations": 0,
-          "attempt_cap": null,
-          "started_at": null,
-          "ended_at": null,
-          "tokens_in": 0,
-          "tokens_out": 0,
-          "cache_read": 0,
-          "cache_write": 0,
-          "cost_usd": 0.0,
-          "sessions": [],
-          "models": [],
-          "last_result": null
+          "status": "built",
+          "iterations": 2,
+          "attempt_iterations": 2,
+          "attempt_cap": 5,
+          "started_at": "2026-10-15T03:59:35+03:00",
+          "ended_at": "2026-10-15T04:04:18+03:00",
+          "tokens_in": 92,
+          "tokens_out": 47332,
+          "cache_read": 3141471,
+          "cache_write": 161233,
+          "cost_usd": 0.087337,
+          "sessions": [
+            "d4d79dd7-fecf-4209-9e6c-7d56923b0588",
+            "98548a41-6526-4bac-9b4d-6e14caddc0ae"
+          ],
+          "models": [
+            "claude-haiku-5-5"
+          ],
+          "last_result": {
+            "milestone": "M04",
+            "result": "built",
+            "tasks_done": [
+              "T054",
+              "T055",
+              "T056",
+              "T057",
+              "T058",
+              "T059"
+            ],
+            "open_tasks": 0,
+            "selfcheck": "npx ng build (frontend/): passes, 500 kB budget warning only. Mock on :4010 and frontend on :4300 started by script. Playwright MCP on the mock: E2E-M04-01..06 passed (requests and UI checked, 0 console errors); E2E-M04-07 real_stack_only. outputs/evidence/M04/result.json passed: true. Servers stopped by script.",
+            "notes": "Screenshots are in run-artifacts/playwright/; copying them into outputs/evidence/M04 was denied by the permission layer. Real-stack checks (persistence, derived status, empty state) are left to the verifier."
+          },
+          "last_gate": "pass"
         },
         "verify": {
           "tasks": 0,
-          "status": "pending",
-          "iterations": 0,
+          "status": "passed",
+          "iterations": 1,
           "attempt_iterations": 0,
           "attempt_cap": null,
-          "started_at": null,
-          "ended_at": null,
-          "tokens_in": 0,
-          "tokens_out": 0,
-          "cache_read": 0,
-          "cache_write": 0,
-          "cost_usd": 0.0,
-          "sessions": [],
-          "models": [],
+          "started_at": "2026-10-15T04:06:05+03:00",
+          "ended_at": "2026-10-15T04:10:54+03:00",
+          "tokens_in": 118,
+          "tokens_out": 19589,
+          "cache_read": 5765503,
+          "cache_write": 145667,
+          "cost_usd": 2.710689,
+          "sessions": [
+            "568fca4f-9bcb-46b3-a658-d4ec485abd87"
+          ],
+          "models": [
+            "claude-opus-5-5"
+          ],
           "last_result": null
         }
       },
-      "events": []
+      "events": [
+        {
+          "at": "2026-10-15T04:10:54+03:00",
+          "type": "verdict",
+          "role": "verify",
+          "detail": "round 1: PASS (1 small fixes)"
+        }
+      ]
     },
     "M05": {
       "status": "pending",
