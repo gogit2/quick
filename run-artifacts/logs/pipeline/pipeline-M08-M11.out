@@ -1,0 +1,5 @@
+[12:18:58] ===== M08 Design foundation
+[12:18:58] M08: backend-dev started (pid 338528, log run-artifacts/logs/pipeline/M08-backend-dev.log)
+[12:18:58] M08: frontend-dev started (pid 338530, log run-artifacts/logs/pipeline/M08-frontend-dev.log)
+[12:29:01] M08: both loops built - verifying
+[12:36:20] M08: verify -> pass

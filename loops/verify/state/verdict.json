@@ -1,11 +1,13 @@
 {
-  "milestone": "M07",
+  "milestone": "M08",
   "round": 1,
   "verdict": "PASS",
   "checks": { "review": "pass", "swagger": "pass", "unit": "pass", "curl": "pass", "e2e": "pass", "smoke": "pass" },
-  "fixes": [ { "file": "frontend/src/styles.scss", "summary": "Visible 2px focus outline on Material buttons (.mat-mdc-button-base:focus-visible); MDC set outline:none so keyboard focus was only a faint tint (T096, E2E-M07-04)", "lines": 6 } ],
+  "fixes": [
+    { "file": "frontend/src/styles/_tokens.scss", "summary": "F1: --qf-shadow-1/-2 used light-dark() on whole box-shadow values (invalid, light-dark only accepts colours); now fixed shadow layers with light-dark() colours and a --qf-shadow-ring for the dark outline", "lines": 5 }
+  ],
   "fix_tasks": [],
   "contract_issues": [],
   "escalate": false,
-  "notes": "mvnw verify 188/188, swagger 35 ops PASS, curl M01..M07 73/73 on a fresh db, E2E-M07-01 full journey on the real clock, E2E-M07-03 backend down on all 6 pages with retry recovery, E2E-M07-04 keyboard, smoke M01-01..M06-01 all pass; no console errors or 5xx with the backend up. Non-blocking: Settings Save stays enabled after a load failure."
+  "notes": "T101-T111 present; colour grep clean; no lost test ids; ng build no warnings, one Inter woff2; mvnw 188/188; curl M01-M07 73/73; E2E-M08-01..07 and smoke M01-01..M06-01 pass on the real stack, contrast 0 failures on all six pages light+dark, localhost-only network. E2E-M08-04 dark-OS branch by review only. Non-blocking notes in the report."
 }

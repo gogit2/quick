@@ -13,9 +13,9 @@
 }
 
 .saved {
-  color: #2e7d32;
+  color: var(--qf-success);
 }
 
 .error {
-  color: #c62828;
+  color: var(--qf-danger);
 }

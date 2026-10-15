@@ -104,7 +104,7 @@ import { LearningCardDialogComponent, LearningCardDialogData } from './learning-
     }
 
     .notice {
-      color: #b00020;
+      color: var(--qf-danger);
       margin: 16px 0;
     }
 
@@ -136,7 +136,7 @@ import { LearningCardDialogComponent, LearningCardDialogData } from './learning-
     .chip {
       padding: 2px 8px;
       border-radius: 12px;
-      background: rgba(0, 0, 0, 0.08);
+      background: var(--qf-surface-raised);
     }
   `,
 })

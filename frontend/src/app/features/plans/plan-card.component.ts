@@ -97,11 +97,11 @@ import { restSecondsAt } from './plan-clock';
     .chip {
       padding: 2px 8px;
       border-radius: 12px;
-      background: rgba(0, 0, 0, 0.08);
+      background: var(--qf-surface-raised);
     }
 
     .warning {
-      color: #8a5a00;
+      color: var(--qf-warning);
       font-size: 13px;
     }
 
@@ -133,7 +133,7 @@ import { restSecondsAt } from './plan-clock';
     }
 
     .plan-highlight {
-      outline: 2px solid #3f51b5;
+      outline: 2px solid var(--qf-focus-ring);
       border-radius: 4px;
     }
   `,

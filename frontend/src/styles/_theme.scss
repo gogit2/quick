@@ -1,0 +1,18 @@
+@use '@angular/material' as mat;
+
+// Material 3 theme: teal (cyan) primary, indigo-violet tertiary, light and dark
+// through light-dark(). Overrides go through --mat-* variables in _material.scss.
+html {
+  @include mat.theme((
+    color: (
+      primary: mat.$cyan-palette,
+      tertiary: mat.$violet-palette,
+      theme-type: color-scheme,
+    ),
+    typography: (
+      plain-family: 'Inter Variable, Inter Fallback, system-ui, -apple-system, Segoe UI, Roboto, sans-serif',
+      brand-family: 'Inter Variable, Inter Fallback, system-ui, sans-serif',
+    ),
+    density: 0,
+  ));
+}

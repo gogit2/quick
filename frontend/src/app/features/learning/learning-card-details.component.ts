@@ -166,7 +166,7 @@ interface NoteForm {
     }
 
     .muted {
-      color: rgba(0, 0, 0, 0.6);
+      color: var(--qf-text-muted);
       font-size: 13px;
     }
   `,

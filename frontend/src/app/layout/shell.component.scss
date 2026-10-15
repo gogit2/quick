@@ -16,8 +16,8 @@
   justify-content: space-between;
   gap: 16px;
   padding: 8px 16px;
-  background: #fff8e1;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  background: var(--qf-warning-bg);
+  border-bottom: 1px solid var(--qf-outline);
 }
 
 .container {
@@ -33,6 +33,6 @@
 }
 
 a.active {
-  background: rgba(0, 0, 0, 0.08);
+  background: var(--qf-accent-soft);
   font-weight: 500;
 }

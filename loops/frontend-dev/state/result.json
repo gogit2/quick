@@ -1,8 +1,8 @@
 {
-  "milestone": "M07",
+  "milestone": "M08",
   "result": "built",
-  "tasks_done": ["T099", "T100"],
+  "tasks_done": ["T101", "T102", "T103", "T104", "T105", "T106", "T107", "T108", "T109", "T110", "T111"],
   "open_tasks": 0,
-  "selfcheck": "npx ng build: passes with zero warnings (initial budget raised to 600 kB; bundle 553.77 kB). Playwright on mock (4010) + dev server (4300): E2E-M07-02 smoke passed (M01-01 nav, M02-01, M03-01, M04-01, M05-01, M06-01), console no errors, no 5xx. E2E-M07-04 keyboard passed: Tab/Enter to nav, add dialogs open with focus and close with Escape restoring focus (tasks, habits, learning, plans, dashboard quick-add task); nav focus ring fixed in styles.scss. E2E-M07-03 written, real-stack-only. Both servers stopped by script.",
-  "notes": "E2E-M07-01 is run by the verifier on the real stack. E2E-M07-03 (error and retry per page) is real-stack-only. Keyboard gaps: Habits, Learning, Plans reached by click; other quick-add buttons not keyboard-opened. Details in outputs/e2e/M07.md and outputs/evidence/M07/result.json."
+  "selfcheck": "npx ng build: passes. Grep over frontend/src/app: no colour literals. Playwright on mock 4010 and dev server 4300: E2E-M08-01..07 all PASS (E2E-M08-04 by comparison only), 0 console errors, network localhost only, all 26 icon URLs 200. Contrast script on Settings, Tasks, Dashboard in light and dark: 0 failures. Evidence: outputs/evidence/M08/result.json (passed: true). Servers stopped.",
+  "notes": "This iteration took T106-T111. Deviations: settings.svg 785 B and light_mode.svg 932 B exceed the 0.5 kB rule. Screenshots are in run-artifacts/playwright/ (the shell could not move them into evidence/M08/). Verifier to check E2E-M08-04 dark-OS branch on the real stack."
 }

@@ -1,0 +1,78 @@
+@use 'sass:color';
+@use 'sass:map';
+@use 'palette';
+
+// Design tokens (--qf-*). Colour roles alias the Material 3 system variables
+// and use light-dark(), so they follow the theme set on <html data-theme>.
+// This file and _palette.scss are the only places where colour, spacing,
+// radius, shadow or duration literals may appear.
+:root {
+  // Surfaces and text
+  --qf-bg: var(--mat-sys-background);
+  --qf-surface: var(--mat-sys-surface-container-low);
+  --qf-surface-raised: var(--mat-sys-surface-container);
+  --qf-text: var(--mat-sys-on-surface);
+  --qf-text-muted: var(--mat-sys-on-surface-variant);
+  --qf-outline: var(--mat-sys-outline-variant);
+
+  // Accent and focus
+  --qf-accent: var(--mat-sys-primary);
+  --qf-on-accent: var(--mat-sys-on-primary);
+  --qf-accent-soft: var(--mat-sys-primary-container);
+  --qf-focus-ring: var(--mat-sys-primary);
+
+  // Status colours (light/dark pairs from _palette.scss) and their soft backgrounds
+  @each $name, $pair in (success: palette.$success, warning: palette.$warning, danger: palette.$danger, info: palette.$info) {
+    --qf-#{$name}: light-dark(#{map.get($pair, light)}, #{map.get($pair, dark)});
+    --qf-#{$name}-bg: light-dark(
+      #{color.change(map.get($pair, light), $alpha: 0.12)},
+      #{color.change(map.get($pair, dark), $alpha: 0.16)}
+    );
+  }
+
+  // Spacing (4 px base)
+  --qf-space-1: 4px;
+  --qf-space-2: 8px;
+  --qf-space-3: 12px;
+  --qf-space-4: 16px;
+  --qf-space-5: 24px;
+  --qf-space-6: 32px;
+  --qf-space-7: 48px;
+
+  // Radius
+  --qf-radius-sm: 8px;
+  --qf-radius-md: 12px;
+  --qf-radius-lg: 20px;
+  --qf-radius-pill: 999px;
+
+  // Elevation: soft shadows in light, a 1px outline in dark. light-dark() only
+  // accepts colours, so it switches the colour of each shadow layer.
+  --qf-shadow-ring: light-dark(transparent, var(--mat-sys-outline-variant));
+  --qf-shadow-1: 0 1px 2px light-dark(rgba(0, 0, 0, 0.08), transparent), 0 0 0 1px var(--qf-shadow-ring);
+  --qf-shadow-2: 0 4px 12px light-dark(rgba(0, 0, 0, 0.12), transparent), 0 0 0 1px var(--qf-shadow-ring);
+
+  // Type scale: font shorthand without the family (set by the .qf-* classes)
+  --qf-font-family: var(--mat-sys-body-large-font, 'Inter Variable', sans-serif);
+  --qf-text-display: 600 28px/36px var(--qf-font-family);
+  --qf-text-title: 600 20px/28px var(--qf-font-family);
+  --qf-text-body: 400 15px/24px var(--qf-font-family);
+  --qf-text-label: 500 13px/20px var(--qf-font-family);
+  --qf-text-caption: 400 12px/16px var(--qf-font-family);
+
+  // Motion
+  --qf-motion-fast: 120ms;
+  --qf-motion-base: 200ms;
+  --qf-motion-slow: 280ms;
+  --qf-ease: cubic-bezier(0.2, 0, 0, 1);
+
+  // Layout
+  --qf-sidenav-width: 240px;
+  --qf-sidenav-rail: 72px;
+  --qf-toolbar-height: 64px;
+}
+
+.qf-display { font: var(--qf-text-display); }
+.qf-title { font: var(--qf-text-title); }
+.qf-body { font: var(--qf-text-body); }
+.qf-label { font: var(--qf-text-label); }
+.qf-caption { font: var(--qf-text-caption); }

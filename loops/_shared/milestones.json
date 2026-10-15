@@ -852,15 +852,15 @@
       ]
     },
     "M08": {
-      "status": "pending",
+      "status": "passed",
       "trial": 0,
       "upgraded": false,
-      "cost_usd": 0.0,
+      "cost_usd": 3.267717,
       "upgrade_cost_usd": 0.0,
-      "verify_rounds": 0,
-      "started_at": null,
-      "ended_at": null,
-      "tag": null,
+      "verify_rounds": 1,
+      "started_at": "2026-10-15T12:18:58+03:00",
+      "ended_at": "2026-10-15T12:36:21+03:00",
+      "tag": "M08",
       "blocked_reason": null,
       "title": "Design foundation",
       "slug": "design-foundation",
@@ -868,12 +868,12 @@
       "roles": {
         "backend-dev": {
           "tasks": 0,
-          "status": "pending",
+          "status": "built",
           "iterations": 0,
           "attempt_iterations": 0,
           "attempt_cap": null,
           "started_at": null,
-          "ended_at": null,
+          "ended_at": "2026-10-15T12:18:58+03:00",
           "tokens_in": 0,
           "tokens_out": 0,
           "cache_read": 0,
@@ -885,40 +885,82 @@
         },
         "frontend-dev": {
           "tasks": 11,
-          "status": "pending",
-          "iterations": 0,
-          "attempt_iterations": 0,
-          "attempt_cap": null,
-          "started_at": null,
-          "ended_at": null,
-          "tokens_in": 0,
-          "tokens_out": 0,
-          "cache_read": 0,
-          "cache_write": 0,
-          "cost_usd": 0.0,
-          "sessions": [],
-          "models": [],
-          "last_result": null
+          "status": "built",
+          "iterations": 2,
+          "attempt_iterations": 2,
+          "attempt_cap": 6,
+          "started_at": "2026-10-15T12:18:58+03:00",
+          "ended_at": "2026-10-15T12:29:01+03:00",
+          "tokens_in": 160,
+          "tokens_out": 107888,
+          "cache_read": 7038054,
+          "cache_write": 260450,
+          "cost_usd": 0.459292,
+          "sessions": [
+            "4515dcfa-0049-49c3-8a38-3bf9eaf94441",
+            "58ae77bd-fd12-4afd-9bf5-bd4122ae493d"
+          ],
+          "models": [
+            "claude-haiku-5-5"
+          ],
+          "last_result": {
+            "milestone": "M08",
+            "result": "built",
+            "tasks_done": [
+              "T101",
+              "T102",
+              "T103",
+              "T104",
+              "T105",
+              "T106",
+              "T107",
+              "T108",
+              "T109",
+              "T110",
+              "T111"
+            ],
+            "open_tasks": 0,
+            "selfcheck": "npx ng build: passes. Grep over frontend/src/app: no colour literals. Playwright on mock 4010 and dev server 4300: E2E-M08-01..07 all PASS (E2E-M08-04 by comparison only), 0 console errors, network localhost only, all 26 icon URLs 200. Contrast script on Settings, Tasks, Dashboard in light and dark: 0 failures. Evidence: outputs/evidence/M08/result.json (passed: true). Servers stopped.",
+            "notes": "This iteration took T106-T111. Deviations: settings.svg 785 B and light_mode.svg 932 B exceed the 0.5 kB rule. Screenshots are in run-artifacts/playwright/ (the shell could not move them into evidence/M08/). Verifier to check E2E-M08-04 dark-OS branch on the real stack."
+          },
+          "last_gate": "pass"
         },
         "verify": {
           "tasks": 0,
-          "status": "pending",
-          "iterations": 0,
+          "status": "passed",
+          "iterations": 1,
           "attempt_iterations": 0,
           "attempt_cap": null,
-          "started_at": null,
-          "ended_at": null,
-          "tokens_in": 0,
-          "tokens_out": 0,
-          "cache_read": 0,
-          "cache_write": 0,
-          "cost_usd": 0.0,
-          "sessions": [],
-          "models": [],
+          "started_at": "2026-10-15T12:29:01+03:00",
+          "ended_at": "2026-10-15T12:36:20+03:00",
+          "tokens_in": 98,
+          "tokens_out": 30373,
+          "cache_read": 4713225,
+          "cache_write": 157241,
+          "cost_usd": 2.808425,
+          "sessions": [
+            "8fc70025-e646-4d16-a9c5-adeef4d1e115"
+          ],
+          "models": [
+            "claude-opus-5-5"
+          ],
           "last_result": null
         }
       },
-      "events": []
+      "events": [
+        {
+          "at": "2026-10-15T12:18:58+03:00",
+          "type": "info",
+          "role": "backend-dev",
+          "detail": "no tasks for this role in this milestone"
+        },
+        {
+          "at": "2026-10-15T12:36:20+03:00",
+          "type": "verdict",
+          "role": "verify",
+          "detail": "round 1: PASS (1 small fixes)"
+        }
+      ]
     },
     "M09": {
       "status": "pending",

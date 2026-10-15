@@ -217,17 +217,17 @@ function windowOrder(group: AbstractControl): ValidationErrors | null {
     }
 
     .muted {
-      color: rgba(0, 0, 0, 0.6);
+      color: var(--qf-text-muted);
       margin: 4px 0;
     }
 
     .error {
-      color: #b00020;
+      color: var(--qf-danger);
       margin: 4px 0;
     }
 
     .warning {
-      color: #8a5a00;
+      color: var(--qf-warning);
       margin: 4px 0;
     }
   `,

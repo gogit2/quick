@@ -36,7 +36,7 @@ import { MatButtonModule } from '@angular/material/button';
     }
 
     p {
-      color: rgba(0, 0, 0, 0.6);
+      color: var(--qf-text-muted);
       margin: 8px 0 24px;
     }
   `,

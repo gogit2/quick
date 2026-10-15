@@ -17,7 +17,7 @@
 }
 
 .notice {
-  color: #b00020;
+  color: var(--qf-danger);
   margin: 16px 0;
 }
 
@@ -70,15 +70,15 @@
 .chip {
   padding: 2px 8px;
   border-radius: 12px;
-  background: rgba(0, 0, 0, 0.08);
+  background: var(--qf-surface-raised);
   font-size: 13px;
 }
 
 .overdue-marker {
   padding: 2px 8px;
   border-radius: 12px;
-  background: #fde7e9;
-  color: #b00020;
+  background: var(--qf-danger-bg);
+  color: var(--qf-danger);
   font-size: 13px;
 }
 

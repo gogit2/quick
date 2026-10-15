@@ -108,7 +108,7 @@ interface TaskForm {
     }
 
     .error {
-      color: #b00020;
+      color: var(--qf-danger);
     }
   `,
 })

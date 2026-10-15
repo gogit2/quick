@@ -6,6 +6,27 @@
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <meta name="color-scheme" content="light dark">
+  <!-- Neutral page background before the app styles load (values are not theme tokens). -->
+  <style>
+    html { background: #fcfcfd; }
+    @media (prefers-color-scheme: dark) { html { background: #121214; } }
+    html[data-theme='light'] { background: #fcfcfd; }
+    html[data-theme='dark'] { background: #121214; }
+  </style>
+  <!-- Sets the saved theme before first paint, so a dark user never sees a light flash. -->
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem('qf.theme');
+        if (stored === 'light' || stored === 'dark' || stored === 'system') {
+          document.documentElement.dataset.theme = stored;
+        }
+      } catch (e) {
+        // Storage is blocked: keep following the system theme.
+      }
+    })();
+  </script>
 </head>
 <body>
   <app-root></app-root>

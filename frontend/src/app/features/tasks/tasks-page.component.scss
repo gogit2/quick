@@ -18,7 +18,7 @@
 }
 
 .notice {
-  color: rgba(0, 0, 0, 0.6);
+  color: var(--qf-text-muted);
   margin: 16px 0;
 }
 
@@ -34,7 +34,7 @@
   justify-content: space-between;
   gap: 16px;
   padding: 12px 0;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  border-bottom: 1px solid var(--qf-outline);
 }
 
 .task-main {
@@ -60,15 +60,15 @@
 .chip {
   padding: 2px 8px;
   border-radius: 12px;
-  background: rgba(0, 0, 0, 0.08);
+  background: var(--qf-surface-raised);
 }
 
 .due {
-  color: rgba(0, 0, 0, 0.6);
+  color: var(--qf-text-muted);
 }
 
 .overdue {
-  color: #b00020;
+  color: var(--qf-danger);
   font-weight: 500;
 }
 

@@ -86,7 +86,7 @@ const RELOAD_INTERVAL_MS = 30_000;
     }
 
     .notice {
-      color: #b00020;
+      color: var(--qf-danger);
       margin: 16px 0;
     }
 

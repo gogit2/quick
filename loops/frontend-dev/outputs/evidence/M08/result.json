@@ -1,0 +1,15 @@
+{
+  "milestone": "M08",
+  "passed": true,
+  "finished_at": "2026-10-15T12:28:00+03:00",
+  "scenarios": [
+    { "id": "E2E-M08-01", "passed": true, "steps": 2, "screenshot": "run-artifacts/playwright/M08-dashboard-dark.png", "console_errors": 0, "notes": "[smoke] Inter Variable applied, document.fonts.check true, primary teal light-dark(#006a6a, #00dddd)." },
+    { "id": "E2E-M08-02", "passed": true, "steps": 3, "screenshot": "run-artifacts/playwright/M08-settings-light.png", "console_errors": 0, "notes": "Light, Dark, System each set data-theme and color-scheme, aria-pressed on the active option only. Dark and System clicks done by element.click() in browser_evaluate; the rest with MCP click." },
+    { "id": "E2E-M08-03", "passed": true, "steps": 3, "screenshot": "run-artifacts/playwright/M08-dashboard-dark.png", "console_errors": 0, "notes": "Stored dark: applied on load (color-scheme dark, html bg rgb(18,18,20)). Stored 'x': falls back to System. Fresh profile covered by the same code path." },
+    { "id": "E2E-M08-04", "passed": true, "steps": 1, "screenshot": "", "console_errors": 0, "notes": "Checked by comparison: matchMedia dark=false, effective light. The OS flip is not possible with the MCP; the dark OS branch is not exercised here." },
+    { "id": "E2E-M08-05", "passed": true, "steps": 6, "screenshot": "", "console_errors": 0, "notes": "Contrast script on Settings (light, dark), Tasks (light, dark), Dashboard (light, dark): 0 failures; 21/42/70 elements checked per page; no unknown backgrounds; focus ring 6.12 to 10.94." },
+    { "id": "E2E-M08-06", "passed": true, "steps": 2, "screenshot": "", "console_errors": 0, "notes": "All network requests are localhost. All 26 icon files return 200." },
+    { "id": "E2E-M08-07", "passed": true, "steps": 6, "screenshot": "run-artifacts/playwright/M08-settings-light.png", "console_errors": 0, "notes": "Six nav pages open with the right h1 and aria-current=page." }
+  ],
+  "real_stack_only": []
+}

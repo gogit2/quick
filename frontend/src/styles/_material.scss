@@ -1,0 +1,19 @@
+// Material token overrides, only through --mat-* variables on html.
+html {
+  // Pill buttons and chips
+  --mat-button-filled-container-shape: var(--qf-radius-pill);
+  --mat-button-text-container-shape: var(--qf-radius-pill);
+  --mat-button-outlined-container-shape: var(--qf-radius-pill);
+  --mat-chip-container-shape: var(--qf-radius-pill);
+
+  // Surfaces
+  --mat-dialog-container-shape: var(--qf-radius-lg);
+  --mat-sidenav-container-shape: 0;
+  --mat-card-elevated-container-shape: var(--qf-radius-md);
+
+  // Snackbar
+  --mat-snack-bar-container-shape: var(--qf-radius-md);
+  --mat-snack-bar-container-color: var(--mat-sys-inverse-surface);
+  --mat-snack-bar-supporting-text-color: var(--mat-sys-inverse-on-surface);
+  --mat-snack-bar-button-color: var(--mat-sys-inverse-primary);
+}

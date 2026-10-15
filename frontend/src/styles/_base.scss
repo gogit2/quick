@@ -1,0 +1,42 @@
+// Base element styles, all colours through --qf-* tokens.
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: var(--mat-sys-body-large-font, 'Inter Variable', sans-serif);
+  background: var(--qf-bg);
+  color: var(--qf-text);
+}
+
+// Angular Material only emits light-dark() colour values; it does not set the
+// CSS color-scheme property. Without these rules the app always renders light.
+html[data-theme='light'] { color-scheme: light; }
+html[data-theme='dark'] { color-scheme: dark; }
+html[data-theme='system'], html:not([data-theme]) { color-scheme: light dark; }
+
+// Keyboard users always see where the focus is.
+:focus-visible {
+  outline: 2px solid var(--qf-focus-ring);
+  outline-offset: 2px;
+}
+
+// Material buttons also remove the outline; keep the ring on them.
+.mat-mdc-button-base:focus-visible {
+  outline: 2px solid var(--qf-focus-ring);
+  outline-offset: 2px;
+}
+
+// Material list items remove the outline; keep the ring on navigation links.
+a.mat-mdc-list-item:focus-visible {
+  outline: 2px solid var(--qf-focus-ring);
+  outline-offset: -2px;
+}
+
+// Load failure with a retry button, shared by every page.
+.error-state {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin: 16px 0;
+  color: var(--qf-danger);
+}

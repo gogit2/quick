@@ -1,0 +1,6 @@
+// The only colour literals outside _tokens.scss. Status colours as light/dark
+// pairs, chosen for WCAG AA (4.5:1 text) on the light and dark surfaces.
+$success: (light: #1b6e3a, dark: #7fd99a);
+$warning: (light: #7a4f00, dark: #f5c35b);
+$danger: (light: #b3261e, dark: #ffb4ab);
+$info: (light: #0b5d8a, dark: #8fd0ff);

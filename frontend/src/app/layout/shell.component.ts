@@ -6,6 +6,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
 import { NotificationService } from '../core/notification.service';
+import { ThemeToggleComponent } from './theme-toggle.component';
 
 interface NavItem {
   label: string;
@@ -25,6 +26,7 @@ interface NavItem {
     MatListModule,
     MatSidenavModule,
     MatToolbarModule,
+    ThemeToggleComponent,
   ],
   templateUrl: './shell.component.html',
   styleUrl: './shell.component.scss',
