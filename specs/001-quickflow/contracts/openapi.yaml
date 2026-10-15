@@ -509,7 +509,7 @@ paths:
           type: integer
           format: int64
       requestBody:
-        required: true
+        required: false
         content:
           application/json:
             schema:
@@ -2048,7 +2048,7 @@ components:
         priorityOrder: 1
         status: IN_PROGRESS
         createdAt: '2026-10-14T21:00:00Z'
-        startNotified: true
+        startNotified: false
         durationExceedsWindow: false
         totalItems: 3
         doneItems: 1
@@ -2080,7 +2080,7 @@ components:
         priorityOrder: 1
         status: IN_PROGRESS
         createdAt: '2026-10-14T21:00:00Z'
-        startNotified: true
+        startNotified: false
         durationExceedsWindow: false
         totalItems: 3
         doneItems: 1
@@ -2183,7 +2183,7 @@ components:
             priorityOrder: 1
             status: IN_PROGRESS
             createdAt: '2026-10-14T21:00:00Z'
-            startNotified: true
+            startNotified: false
             durationExceedsWindow: false
             totalItems: 3
             doneItems: 1

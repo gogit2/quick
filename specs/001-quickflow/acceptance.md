@@ -73,7 +73,7 @@ Test ids: `tasks-add-button tasks-row-<id> tasks-status-<id> tasks-priority-<id>
 ### Curl
 | Id | Case | Proves |
 |---|---|---|
-| AC-M03-01 | create a DAILY habit -> 201, `active=true`, streak 0 | US-HAB-01, US-HAB-02, FR-03 |
+| AC-M03-01 | create a DAILY habit -> 201, `active=true`, streak 0; `GET /api/habits/{id}` returns it, unknown id 404 | US-HAB-01, US-HAB-02, FR-03 |
 | AC-M03-02 | create a WEEKLY habit | US-HAB-02 |
 | AC-M03-03 | blank name -> 400; 151-char name -> 400 | BR6 |
 | AC-M03-04 | complete for today -> 201; habit `doneForCurrentPeriod=true`, `totalCompletions=1` | US-HAB-03, US-HAB-04, FR-04 |
@@ -107,7 +107,7 @@ Test ids: `habits-add-button habits-card-<id> habits-frequency-<id> habits-strea
 ### Curl
 | Id | Case | Proves |
 |---|---|---|
-| AC-M04-01 | create card -> 201, status NOT_STARTED, empty milestones/notes | US-LRN-01, FR-05 |
+| AC-M04-01 | create card -> 201, status NOT_STARTED, empty milestones/notes; `GET /api/learning-cards/{id}` returns it, unknown id 404 | US-LRN-01, FR-05 |
 | AC-M04-02 | blank title -> 400 | BR8 |
 | AC-M04-03 | add two milestones; both belong to the card | US-LRN-03, BR9, FR-06 |
 | AC-M04-04 | complete one milestone -> card IN_PROGRESS, `completedAt` set | US-LRN-04, D-7 |
@@ -140,7 +140,7 @@ Test ids: `learning-add-button learning-card-<id> learning-status-<id> learning-
 ### Curl (plan times are computed from `date -u` inside the script)
 | Id | Case | Proves |
 |---|---|---|
-| AC-M05-01 | create task + habit + card, then a plan with all three starting in the future -> 201, NOT_STARTED, 3 items with resolved titles | US-PLN-01, FR-07 |
+| AC-M05-01 | create task + habit + card, then a plan with all three starting in the future -> 201, NOT_STARTED, 3 items with resolved titles; `GET /api/plans/{id}` returns it, unknown id 404; plans in the past are accepted (BR11 only needs end after start) | US-PLN-01, FR-07 |
 | AC-M05-02 | plan with no items -> 400 | BR10 |
 | AC-M05-03 | `endDateTime` before/equal `startDateTime` -> 400 | BR11 |
 | AC-M05-04 | unknown source id -> 400 | FR-07 |
@@ -165,8 +165,8 @@ Test ids: `learning-add-button learning-card-<id> learning-status-<id> learning-
 | E2E-M05-03 | Duration longer than the window shows `plans-duration-warning-<id>` but saves | D-9 |
 | E2E-M05-04 | Active/upcoming and completed groups; the IN_PROGRESS plan shows rest time and 33% | US-PLN-08..10 |
 | E2E-M05-05 | Tick an item: PUT sent; real: progress, task state and dashboard follow | US-PLN-05, FR-08 |
-| E2E-M05-06 | Rest time text changes over time (clock override `?clockOffsetMs=`); real: plan starting about 1 minute ahead goes Not Started -> In Progress and counts down | US-PLN-08, FR-08, SC-004 |
-| E2E-M05-07 | Start banner appears once for a plan with `startNotified=false`, `acknowledge-start` called once; with notifications off, no banner | US-PLN-07, D-8, SC-008 |
+| E2E-M05-06 | Rest time text changes over time (mock: set the app clock to 2026-10-15T09:30:00Z with `?clockOffsetMs=` or `window.__qfClock.setNow`, inside the example plan window); real: plan starting about 1 minute ahead goes Not Started -> In Progress and counts down | US-PLN-08, FR-08, SC-004 |
+| E2E-M05-07 | Start banner appears once for a started plan with `startNotified=false` (the mock example has it), `acknowledge-start` called once; with notifications off, no banner | US-PLN-07, D-8, SC-008 |
 | E2E-M05-08 | Remove a plan with confirm | US-PLN-06 |
 | E2E-M05-09 **[real-stack-only]** | Fresh db: `plans-empty-state` guides to create | US-NAV-02 |
 
@@ -194,7 +194,7 @@ Test ids: `plans-create-button plans-group-active plans-group-completed plans-ca
 | E2E-M06-02 | Completion percent equals the numbers shown (mock data); real: equals the tasks page | US-DSH-04, SC-005 |
 | E2E-M06-03 | Quick-add buttons open the matching dialogs and refresh the dashboard | PRD section 8 |
 | E2E-M06-04 | Habit toggle and plan item toggle send the right requests; dashboard reloads | US-DSH-03, US-DSH-05 |
-| E2E-M06-05 | Rest time of the active plan changes with the clock override | US-DSH-05, SC-004 |
+| E2E-M06-05 | Rest time of the active plan changes with the clock override (mock: clock set to 2026-10-15T09:30:00Z) | US-DSH-05, SC-004 |
 
 Test ids: `dashboard-greeting dashboard-loading dashboard-metric-tasks dashboard-metric-habits dashboard-metric-plans dashboard-metric-learning dashboard-completion-percent dashboard-today-tasks dashboard-task-<id> dashboard-task-complete-<id> dashboard-overdue-tasks dashboard-today-empty dashboard-overdue-empty dashboard-habits dashboard-habit-<id> dashboard-habit-toggle-<id> dashboard-habits-empty dashboard-plans dashboard-plan-<id> dashboard-plan-progress-<id> dashboard-plan-rest-<id> dashboard-plan-item-toggle-<itemId> dashboard-plans-empty dashboard-learning dashboard-recent-milestone-<id> dashboard-quick-add-task dashboard-quick-add-habit dashboard-quick-add-learning dashboard-quick-add-plan`.
 
